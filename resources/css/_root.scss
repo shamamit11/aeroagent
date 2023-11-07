@@ -1,0 +1,91 @@
+// root variables
+:root {
+    // colors
+    --white: #ffffff;
+    --light: #f9f9f9;
+    --primary: #009ef7;
+    --secondary: #e1e3ea;
+    --success: #50cd89;
+    --info: #7239ea;
+    --warning: #ffc700;
+    --danger: #f1416c;
+    --dark: #181c32;
+    --primary-active: #0095e8;
+    --secondary-active: #b5b5c3;
+    --light-active: #f4f4f4;
+    --success-active: #47be7d;
+    --info-active: #5014d0;
+    --warning-active: #f1bc00;
+    --danger-active: #d9214e;
+    --dark-active: #131628;
+    --primary-light: #f1faff;
+    --secondary-light: #f9f9f9;
+    --success-light: #e8fff3;
+    --info-light: #f8f5ff;
+    --warning-light: #fff8dd;
+    --danger-light: #fff5f8;
+    --dark-light: #f4f4f4;
+    --primary-inverse: #ffffff;
+    --secondary-inverse: #3f4254;
+    --light-inverse: #7e8299;
+    --success-inverse: #ffffff;
+    --info-inverse: #ffffff;
+    --warning-inverse: #ffffff;
+    --danger-inverse: #ffffff;
+    --dark-inverse: #ffffff;
+    --white-rgb: 255, 255, 255;
+    --light-rgb: 249, 249, 249;
+    --primary-rgb: 0, 158, 247;
+    --secondary-rgb: 225, 227, 234;
+    --success-rgb: 80, 205, 137;
+    --info-rgb: 114, 57, 234;
+    --warning-rgb: 255, 199, 0;
+    --danger-rgb: 241, 65, 108;
+    --dark-rgb: 24, 28, 50;
+    --text-white: #ffffff;
+    --text-primary: #009ef7;
+    --text-secondary: #e1e3ea;
+    --text-light: #f9f9f9;
+    --text-success: #50cd89;
+    --text-info: #7239ea;
+    --text-warning: #ffc700;
+    --text-danger: #f1416c;
+    --text-dark: #181c32;
+    --text-muted: #a1a5b7;
+    --text-gray-100: #f9f9f9;
+    --text-gray-200: #f4f4f4;
+    --text-gray-300: #e1e3ea;
+    --text-gray-400: #b5b5c3;
+    --text-gray-500: #a1a5b7;
+    --text-gray-600: #7e8299;
+    --text-gray-700: #5e6278;
+    --text-gray-800: #3f4254;
+    --text-gray-900: #181c32;
+    --body-bg: #e1e3ea;
+    --body-bg-rgb: 255, 255, 255;
+    --body-color: #181c32;
+    --link-color: #009ef7;
+    --link-hover-color: #0095e8;
+    --border-color: #f4f4f4;
+    --border-dashed-color: #e1e3ea;
+    --component-active-color: #ffffff;
+    --component-active-bg: #009ef7;
+    --component-hover-color: #009ef7;
+    --component-hover-bg: #f4f6fa;
+    --component-checked-color: #ffffff;
+    --component-checked-bg: #009ef7;
+  
+    // theme
+    --primary-color: #243876;
+    --primary-color-hover: #1c378a;
+  
+    // fonts
+    --default-font-family: "Quicksand", sans-serif;
+    --default-font-size: "14px";
+    --default-line-height: "16px";
+    --font-light: 300;
+    --font-regular: 400;
+    --font-medium: 500;
+    --font-semi-bold: 600;
+    --font-bold: 700;
+  }

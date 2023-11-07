@@ -1,0 +1,47 @@
+.ant-btn {
+    // height: 40px;
+    margin: 0;
+    font-weight: var(--font-medium);
+  
+    &.ant-btn-default {
+      &:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+    }
+  
+    &.ant-btn-primary {
+      background: var(--primary-color);
+  
+      &:hover {
+        background-color: var(--primary-color-hover) !important;
+      }
+    }
+
+    &.ant-btn-sm {
+      font-size: 12px;
+    }
+  
+    &:disabled,
+    &[disabled] {
+      opacity: 0.6;
+      color: inherit;
+      pointer-events: none;
+  
+      &:hover {
+        border-color: #d9d9d9;
+        color: rgba(0, 0, 0, 0.25);
+        background-color: rgba(0, 0, 0, 0.04);
+        box-shadow: none;
+      }
+    }
+  }
+  
+  a {
+    color: var(--primary-color);
+    font-weight: var(--font-medium);
+  
+    &:hover {
+      color: var(--primary-color-hover);
+    }
+  }

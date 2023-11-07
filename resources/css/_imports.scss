@@ -1,0 +1,43 @@
+// import ant design css
+@import "antd/dist/reset.css";
+
+// fonts import
+// @import url("https://fonts.googleapis.com/css2?family=Quicksand:ital,wght@300;400;500;600;700&display=swap");
+
+// overwrite defaults
+[class^="ant-typography"],
+[class*=" ant-typography"],
+[class^="ant-layout"],
+[class*=" ant-layout"],
+[class^="ant-btn"],
+[class*=" ant-btn"],
+[class^="ant-alert"],
+[class*=" ant-alert"],
+[class^="ant-form"],
+[class*=" ant-form"],
+[class^="ant-space"],
+[class*=" ant-space"],
+[class^="ant-dropdown"],
+[class*=" ant-dropdown"],
+[class^="ant-checkbox"],
+[class*=" ant-checkbox"],
+[class^="ant-menu"],
+[class*=" ant-menu"],
+[class^="ant-modal"],
+[class*=" ant-modal"],
+[class^="ant-input"],
+[class*=" ant-input"],
+[class^="ant-select"],
+[class*=" ant-select"],
+[class^="ant-card"],
+[class*=" ant-card"],
+[class^="ant-col"],
+[class*=" ant-col"],
+[class^="ant-tabs"],
+[class*=" ant-tabs"],
+[class^="ant-table"],
+[class*=" ant-table"] {
+  font-family: var(--default-font-family);
+  font-weight: var(--font-regular);
+  font-size: var(--default-font-size);
+}
