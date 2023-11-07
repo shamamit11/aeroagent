@@ -57,7 +57,7 @@ class SellerService
                 'location_id' => $res->location_id,
                 'location' => $res->location->name,
                 'property' => $res->property->name,
-                'property_type' => $res->propertyType->name,
+                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
                 'building_name' => $res->building_name,
                 'status' => $res->status,
                 'status_color' => $res->status_color,

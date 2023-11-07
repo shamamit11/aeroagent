@@ -32,7 +32,7 @@ if (!function_exists('get_active_statuses')) {
 
         if($customer_status == 'Prospect') {
             unset($return_result[0]);
-            if($customer_type == 'seller') {
+            if($customer_type == 'seller' || $customer_type == 'leaser' || $customer_type == 'tenant') {
                 unset($return_result[1]);
             }
         }

@@ -56,7 +56,7 @@ class LeaserService
                 'location_id' => $res->location_id,
                 'location' => $res->location->name,
                 'property' => $res->property->name,
-                'property_type' => $res->propertyType->name,
+                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
                 'building_name' => $res->building_name,
                 'status' => $res->status,
                 'status_color' => $res->status_color,
@@ -81,6 +81,7 @@ class LeaserService
                 $leaser->view_label = ucwords(str_replace('_', '  ', strtolower($leaser->view_style)));
                 $leaser->commission_label = ucwords($leaser->commission_type);
                 $leaser->noc_label = $leaser->noc_status ? "Yes" : "No";
+                $leaser->furnished_label = $leaser->is_furnished ? "Yes" : "No";
 
                 $current_arr_value = isset($leaser->property_amenities) ? $leaser->property_amenities : [];
                 if (!empty($current_arr_value)) {

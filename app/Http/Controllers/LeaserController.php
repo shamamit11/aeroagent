@@ -2,35 +2,34 @@
 
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SellerRequest;
+use App\Http\Requests\LeaserRequest;
 use App\Models\Amenity;
 use App\Models\Customer;
 use App\Models\CustomerActivity;
 use App\Models\CustomerStatus;
 use App\Models\Location;
-use App\Models\Project;
 use App\Models\Property;
 use App\Models\PropertyType;
 use App\Models\Status;
 use Auth;
 use Illuminate\Http\Request;
-use App\Services\SellerService;
+use App\Services\LeaserService;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class SellerController extends Controller
+class LeaserController extends Controller
 {
     protected $service;
 
-    public function __construct(SellerService $SellerService)
+    public function __construct(LeaserService $LeaserService)
     {
-        $this->service = $SellerService;
+        $this->service = $LeaserService;
     }
 
     public function index(Request $request): Response
     {
         $result = $this->service->index();
-        return Inertia::render('Seller/Index', $result);
+        return Inertia::render('Leaser/Index', $result);
     }
     public function list(Request $request): Response
     {
@@ -38,24 +37,23 @@ class SellerController extends Controller
         $result = $this->service->list($location_id);
         $locationObj = Location::where('id', $location_id)->first();
         $result['location_name'] = $locationObj->name;
-        return Inertia::render('Seller/List', $result);
+        return Inertia::render('Leaser/List', $result);
     }
 
     public function addEdit(Request $request): Response
     {
         $id = ($request->id) ? $request->id : 0;
-        $data['title'] = ($id == 0) ? "Add Seller Data" : "Edit Seller Data";
+        $data['title'] = ($id == 0) ? "Add Leaser Data" : "Edit Leaser Data";
         $data['row'] = $this->service->show($id);
         $data['customers'] = Customer::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
         $data['locations'] = Location::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
         $data['properties'] = Property::get();
         $data['propertyTypes'] = PropertyType::get();
         $data['amenities'] = Amenity::get();
-        $data['projects'] = Project::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
-        return Inertia::render('Seller/AddEdit', $data);
+        return Inertia::render('Leaser/AddEdit', $data);
     }
 
-    public function addAction(SellerRequest $request)
+    public function addAction(LeaserRequest $request)
     {
         return $this->service->store($request->validated());
     }
@@ -68,13 +66,13 @@ class SellerController extends Controller
     public function detail(Request $request): Response
     {
         $id = ($request->id) ? $request->id : 0;
-        $data['title'] = "Seller Details";
+        $data['title'] = "Leaser Details";
 
-        $data['row'] = $seller = $this->service->show($id);
+        $data['row'] = $leaser = $this->service->show($id);
 
         $data['activities'] = CustomerActivity::where([
                 ['user_id', Auth::user()->id], 
-                ['customer_type', 'seller'],
+                ['customer_type', 'leaser'],
                 ['source_id', $id]
             ])->orderBy('created_at', 'desc')->get()
             ->transform(fn ($item) => [
@@ -85,16 +83,16 @@ class SellerController extends Controller
 
         $data['status'] = CustomerStatus::where([
             ['user_id', Auth::user()->id], 
-            ['customer_type', 'seller'],
+            ['customer_type', 'leaser'],
             ['source_id', $id]
         ])->first();
 
         $customer_status = $data['status']->status;
-        $data['statuses'] = get_active_statuses($seller->customer_id, "seller", $id, $customer_status);
+        $data['statuses'] = get_active_statuses($leaser->customer_id, "leaser", $id, $customer_status);
 
-        $data['activityTypes'] = get_active_activities($seller->customer_id, "seller", $id);
+        $data['activityTypes'] = get_active_activities($leaser->customer_id, "leaser", $id);
 
-        return Inertia::render('Seller/Detail', $data);
+        return Inertia::render('Leaser/Detail', $data);
     }
 
     public function import(Request $request): Response
@@ -103,8 +101,7 @@ class SellerController extends Controller
         $data['locations'] = Location::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
         $data['properties'] = Property::get();
         $data['propertyTypes'] = PropertyType::get();
-        $data['projects'] = Project::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
-        return Inertia::render('Seller/Import', $data);
+        return Inertia::render('Leaser/Import', $data);
     }
 
     public function importAction(Request $request)
@@ -124,18 +121,17 @@ class SellerController extends Controller
 
         if($statusObj) {
             $data['status'] = $statusObj->name;
-            $data['title'] = "Update Seller Data";
+            $data['title'] = "Update Leaser Data";
             $data['row'] = $this->service->show($id);
             $data['customers'] = Customer::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
             $data['locations'] = Location::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
             $data['properties'] = Property::get();
             $data['propertyTypes'] = PropertyType::get();
             $data['amenities'] = Amenity::get();
-            $data['projects'] = Project::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
-            return Inertia::render('Seller/AddEdit', $data);
+            return Inertia::render('Leaser/AddEdit', $data);
         } 
         else {
-            return Inertia::location('/seller');
+            return Inertia::location('/leaser');
         }
        
     }

@@ -29,7 +29,7 @@ class LeaserRequest extends FormRequest
             'is_furnished' => '',
             'commission_type' => '',
             'commission' => '',
-            'ad_link' => '',
+            'ad_link' => 'nullable',
             'note' => '',
             'status' => '',
         ];

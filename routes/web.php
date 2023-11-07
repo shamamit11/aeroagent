@@ -28,6 +28,20 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/seller/updateStatus', 'updateStatus')->name('seller.updateStatus');
     });
 
+    Route::controller('LeaserController')->group(function () {
+        Route::get('/leaser', 'index')->name('leaser');
+        Route::get('/leaser/list', 'list')->name('leaser.list');
+        Route::get('/leaser/addEdit', 'addEdit')->name('leaser.addEdit');
+        Route::post('/leaser/addAction', 'addAction')->name('leaser.addAction');
+        Route::post('/leaser/delete', 'delete')->name('leaser.delete');
+        Route::get('/leaser/detail', 'detail')->name('leaser.detail');
+        Route::get('/leaser/import', 'import')->name('leaser.import');
+        Route::post('/leaser/importAction', 'importAction')->name('leaser.importAction');
+        Route::post('/leaser/activityAction', 'activityAction')->name('leaser.activityAction');
+        Route::get('/leaser/editData', 'editData')->name('leaser.editData');
+        Route::post('/leaser/updateStatus', 'updateStatus')->name('leaser.updateStatus');
+    });
+
     Route::controller('DeveloperController')->group(function () {
         Route::get('/developer', 'index')->name('developer');
         Route::get('/developer/addEdit', 'addEdit')->name('developer.addEdit');
