@@ -29,7 +29,7 @@ const items = [
     {
         key: 'log',
         label: (
-            <Link href='/dashboard'>
+            <Link href='/activity-log'>
                 Activity Log
             </Link>
         ),

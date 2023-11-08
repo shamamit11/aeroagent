@@ -216,7 +216,7 @@ const Detail = () => {
                                             <span style={{ fontWeight: 600 }}>Property Size:</span>
                                             <span>{rowData?.property_size} Sq. ft</span>
                                         </Space>
-                                        <Divider/>
+                                        <Divider />
                                     </Col>
                                 </Row>
                                 <Divider />

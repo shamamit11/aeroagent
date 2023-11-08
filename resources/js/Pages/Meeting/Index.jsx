@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm, Modal, message, Form, Select } from 'antd';
-import { EditOutlined, SearchOutlined, EyeOutlined, DeleteOutlined  } from '@ant-design/icons';
+import { EditOutlined, SearchOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 import "./style.scss";
@@ -45,21 +45,21 @@ const Index = () => {
     };
 
     const handleModalOpen = (row_id) => {
-        setData({ id: row_id});
+        setData({ id: row_id });
         setIsModalOpen(true);
     }
 
     const handleDetail = (customer_type, source_id) => {
-        if(customer_type == "Seller") {
+        if (customer_type == "Seller") {
             router.get(`/seller/detail?id=${source_id}`)
         }
-        if(customer_type == "Buyer") {
+        if (customer_type == "Buyer") {
             router.get(`/buyer/detail?id=${source_id}`)
         }
-        if(customer_type == "Leaser") {
+        if (customer_type == "Leaser") {
             router.get(`/leaser/detail?id=${source_id}`)
         }
-        if(customer_type == "Tenant") {
+        if (customer_type == "Tenant") {
             router.get(`/tenant/detail?id=${source_id}`)
         }
     }
@@ -204,10 +204,10 @@ const Index = () => {
             ...getColumnSearchProps('status'),
             render: (_, record) => (
                 <>
-                    { record.status_color && (
+                    {record.status_color && (
                         <Badge color={record.status_color} count={record.status} />
                     )}
-                    { !record.status_color && (
+                    {!record.status_color && (
                         <span>{record.status}</span>
                     )}
                 </>
@@ -230,10 +230,10 @@ const Index = () => {
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.customer_type, record.source_id)} />
                     </Tooltip>
 
-                    { !record.status_id && (
-                    <Tooltip title="Update Status" color="orange">
-                        <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleModalOpen(record.id)} />
-                    </Tooltip>
+                    {!record.status_id && (
+                        <Tooltip title="Update Status" color="orange">
+                            <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleModalOpen(record.id)} />
+                        </Tooltip>
                     )}
 
                     <Popconfirm
@@ -257,7 +257,7 @@ const Index = () => {
         <>
             <Head title="Meetings" />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
+                <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
                         <span className='page-title'>Meetings</span>
                     </Col>

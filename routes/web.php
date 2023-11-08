@@ -120,6 +120,11 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/location/delete', 'delete')->name('location.delete');
     });
 
+    Route::controller('ActivityLogController')->group(function () {
+        Route::get('/activity-log', 'index')->name('activity-log');
+        Route::post('/activity-log/view', 'view')->name('activitylog.view');
+    });
+
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () { 
