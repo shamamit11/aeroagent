@@ -44,7 +44,6 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
 
     Route::controller('TenantController')->group(function () {
         Route::get('/tenant', 'index')->name('tenant');
-        Route::get('/tenant/list', 'list')->name('tenant.list');
         Route::get('/tenant/addEdit', 'addEdit')->name('tenant.addEdit');
         Route::post('/tenant/addAction', 'addAction')->name('tenant.addAction');
         Route::post('/tenant/delete', 'delete')->name('tenant.delete');
@@ -54,6 +53,19 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/tenant/activityAction', 'activityAction')->name('tenant.activityAction');
         Route::get('/tenant/editData', 'editData')->name('tenant.editData');
         Route::post('/tenant/updateStatus', 'updateStatus')->name('tenant.updateStatus');
+    });
+
+    Route::controller('BuyerController')->group(function () {
+        Route::get('/buyer', 'index')->name('buyer');
+        Route::get('/buyer/addEdit', 'addEdit')->name('buyer.addEdit');
+        Route::post('/buyer/addAction', 'addAction')->name('buyer.addAction');
+        Route::post('/buyer/delete', 'delete')->name('buyer.delete');
+        Route::get('/buyer/detail', 'detail')->name('buyer.detail');
+        Route::get('/buyer/import', 'import')->name('buyer.import');
+        Route::post('/buyer/importAction', 'importAction')->name('buyer.importAction');
+        Route::post('/buyer/activityAction', 'activityAction')->name('buyer.activityAction');
+        Route::get('/buyer/editData', 'editData')->name('buyer.editData');
+        Route::post('/buyer/updateStatus', 'updateStatus')->name('buyer.updateStatus');
     });
 
     Route::controller('DeveloperController')->group(function () {

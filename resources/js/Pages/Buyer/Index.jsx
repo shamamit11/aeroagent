@@ -33,31 +33,31 @@ const Index = () => {
     };
 
     const handleAdd = () => {
-        router.get('/tenant/addEdit')
+        router.get('/buyer/addEdit')
     }
 
     const handleImport = () => {
-        router.get('/tenant/import')
+        router.get('/buyer/import')
     }
 
     const handleDetail = (id) => {
-        router.get(`/tenant/detail?id=${id}`)
+        router.get(`/buyer/detail?id=${id}`)
     }
 
     const handleEdit = (id) => {
-        router.get(`/tenant/addEdit?id=${id}`)
+        router.get(`/buyer/addEdit?id=${id}`)
     }
 
     const handleDelete = (id) => {
         const formData = {
             id: id
         };
-        router.post('/tenant/delete', formData, {
+        router.post('/buyer/delete', formData, {
             onSuccess: () => {
                 message.success('Data Deleted Successfully !');
             },
             onFinish: () => {
-                router.get(`/tenant`)
+                router.get(`/buyer`)
             }
         })
     };
@@ -148,14 +148,14 @@ const Index = () => {
             title: 'Mobile',
             dataIndex: 'customer_mobile',
             key: 'customer_mobile',
-            width: '18%',
+            width: '15%',
             ...getColumnSearchProps('customer_mobile'),
         },
         {
             title: 'Property',
             dataIndex: 'property',
             key: 'property',
-            width: '15%',
+            width: '13%',
             ...getColumnSearchProps('property'),
         },
         {
@@ -166,14 +166,21 @@ const Index = () => {
             ...getColumnSearchProps('property_type'),
         },
         {
+            title: 'Project',
+            dataIndex: 'project_name',
+            key: 'project_name',
+            width: '15%',
+            ...getColumnSearchProps('project_name'),
+        },
+        {
             title: 'Status',
             key: 'status',
-            width: '12%',
+            width: '10%',
             align: 'center',
-            ...getColumnSearchProps('status'),
+            ...getColumnSearchProps('project_name'),
             render: (_, record) => (
                 <Badge color={record.status_color} count={record.status} />
-            ),
+            )
         },
         {
             title: '',
@@ -207,16 +214,16 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Tenants" />
+            <Head title="Buyers" />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>Tenants</span>
+                        <span className='page-title'>Buyers</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>
                             <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<PlusOutlined />} size={"middle"} onClick={handleAdd} />
-                            {/* <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleImport}> Import Data</Button> */}
+                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleImport}> Import Data</Button>
                         </Space>
                     </Col>
                 </Row>
