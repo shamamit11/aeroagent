@@ -42,6 +42,20 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/leaser/updateStatus', 'updateStatus')->name('leaser.updateStatus');
     });
 
+    Route::controller('TenantController')->group(function () {
+        Route::get('/tenant', 'index')->name('tenant');
+        Route::get('/tenant/list', 'list')->name('tenant.list');
+        Route::get('/tenant/addEdit', 'addEdit')->name('tenant.addEdit');
+        Route::post('/tenant/addAction', 'addAction')->name('tenant.addAction');
+        Route::post('/tenant/delete', 'delete')->name('tenant.delete');
+        Route::get('/tenant/detail', 'detail')->name('tenant.detail');
+        Route::get('/tenant/import', 'import')->name('tenant.import');
+        Route::post('/tenant/importAction', 'importAction')->name('tenant.importAction');
+        Route::post('/tenant/activityAction', 'activityAction')->name('tenant.activityAction');
+        Route::get('/tenant/editData', 'editData')->name('tenant.editData');
+        Route::post('/tenant/updateStatus', 'updateStatus')->name('tenant.updateStatus');
+    });
+
     Route::controller('DeveloperController')->group(function () {
         Route::get('/developer', 'index')->name('developer');
         Route::get('/developer/addEdit', 'addEdit')->name('developer.addEdit');
