@@ -15,22 +15,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class TenantService
 {
-    // function index() { 
-    //     try {
-    //         $locations = Location::where([["user_id", Auth::user()->id]])->whereNull('deleted_at')->get();
-    //         foreach ($locations as $location) {
-    //             $tenants = Tenant::where([["location_id", $location->id], ["user_id", Auth::user()->id]])->whereNull('deleted_at')->get();
-    //             $location->count = count($tenants);
-    //         }
-
-    //         return [
-    //             "results" => $locations
-    //         ];
-    //     }
-    //     catch (\Exception$e) {
-    //         return $e->getMessage();
-    //     }
-    // }
     function index() {
         try {
             $user_id = Auth::user()->id;

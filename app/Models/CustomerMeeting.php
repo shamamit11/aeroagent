@@ -20,6 +20,10 @@ class CustomerMeeting extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function status() {
+        return $this->belongsTo(Status::class);
+    }
+
     public function getActivityLogOptions(): LogOptions
     {
         return LogOptions::defaults()->logOnly(['*']);

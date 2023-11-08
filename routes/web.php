@@ -68,6 +68,22 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/buyer/updateStatus', 'updateStatus')->name('buyer.updateStatus');
     });
 
+    Route::controller('FollowupController')->group(function () {
+        Route::get('/followup', 'index')->name('followup');
+        Route::post('/followup/delete', 'delete')->name('followup.delete');
+    });
+
+    Route::controller('ViewingController')->group(function () {
+        Route::get('/viewing', 'index')->name('viewing');
+        Route::post('/viewing/delete', 'delete')->name('viewing.delete');
+    });
+
+    Route::controller('MeetingController')->group(function () {
+        Route::get('/meeting', 'index')->name('meeting');
+        Route::post('/meeting/updateStatus', 'updateStatus')->name('meeting.updateStatus');
+        Route::post('/meeting/delete', 'delete')->name('meeting.delete');
+    });
+
     Route::controller('DeveloperController')->group(function () {
         Route::get('/developer', 'index')->name('developer');
         Route::get('/developer/addEdit', 'addEdit')->name('developer.addEdit');

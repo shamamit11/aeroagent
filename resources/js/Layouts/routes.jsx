@@ -154,19 +154,19 @@ const agentNavItems = [
     {
         key: 'followup',
         icon: <PhoneOutlined />,
-        label: <Link href={route('dashboard')}>Follow ups</Link>,
+        label: <Link href='/followup'>Follow ups</Link>,
     },
 
     {
         key: 'meeting',
         icon: <UsergroupAddOutlined />,
-        label: <Link href={route('dashboard')}>Meetings</Link>,
+        label: <Link href='/meeting'>Meetings</Link>,
     },
 
     {
         key: 'viewing',
         icon: <EyeOutlined />,
-        label: <Link href={route('dashboard')}>Viewings</Link>,
+        label: <Link href='/viewing'>Viewings</Link>,
     },
 
     getItem('Project Management', 'projectmanagement', null, [], 'group'),
