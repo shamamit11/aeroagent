@@ -5,7 +5,8 @@ import {
     UserOutlined,
     LogoutOutlined,
     CaretDownOutlined,
-    LineChartOutlined
+    LineChartOutlined,
+    SettingOutlined
 } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } from 'antd';
 import { Link, usePage } from '@inertiajs/react';
@@ -18,16 +19,16 @@ const { Header, Sider, Content, Footer } = Layout;
 
 const items = [
     {
-        key: 'profile',
+        key: 'settings',
         label: (
-            <Link href='/dashboard'>
-                Profile Settings
+            <Link href='/settings'>
+                Settings
             </Link>
         ),
-        icon: <UserOutlined />,
+        icon: <SettingOutlined />,
     },
     {
-        key: 'log',
+        key: 'logs',
         label: (
             <Link href='/activity-log'>
                 Activity Log
@@ -117,7 +118,12 @@ const Authenticated = ({ children }) => {
                                     <a onClick={(e) => e.preventDefault()}>
                                         <Typography.Text className='auth-dropdown'>
                                             <Space size={12}>
-                                                <Avatar size={36} icon={<UserOutlined />} />
+                                                { !auth.user_image && (
+                                                   <Avatar size={36} icon={<UserOutlined />} /> 
+                                                )}
+                                                { auth.user_image && (
+                                                   <Avatar size={36} src={auth.user_image} /> 
+                                                )}
                                                 <div>
                                                     <div>
                                                         <Typography.Text strong>{auth.user.first_name} {auth.user.last_name}</Typography.Text>

@@ -22,8 +22,6 @@ const AddEdit = () => {
     }, []);
 
     const submit = () => {
-        console.log(data);
-
         post('/status/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {

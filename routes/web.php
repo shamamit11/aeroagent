@@ -125,6 +125,13 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/activity-log/view', 'view')->name('activitylog.view');
     });
 
+    Route::controller('SettingController')->group(function () {
+        Route::get('/settings', 'index')->name('settings');
+        Route::post('/settings/updateProfile', 'updateProfile')->name('settings.updateProfile');
+        Route::post('/settings/updatePassword', 'updatePassword')->name('settings.updatePassword');
+        Route::post('/settings/updateBank', 'updateBank')->name('settings.updateBank');
+    });
+
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () { 
