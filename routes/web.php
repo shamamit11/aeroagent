@@ -2,10 +2,35 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:admin,agent,affiliate'])->group(function () {
     Route::controller('DashboardController')->group(function () {
         Route::get('/', 'index')->name('dashboard');
     });
+
+    Route::controller('WalletController')->group(function () {
+        Route::get('/wallet', 'index')->name('wallet');
+        Route::get('/wallet/payout', 'payout')->name('wallet.payout');
+        Route::get('/wallet/renewal', 'renewal')->name('wallet.renewal');
+    });
+
+    Route::controller('ReferralController')->group(function () {
+        Route::get('/referral', 'index')->name('referral');
+    });
+
+    Route::controller('SettingController')->group(function () {
+        Route::get('/settings', 'index')->name('settings');
+        Route::post('/settings/updateProfile', 'updateProfile')->name('settings.updateProfile');
+        Route::post('/settings/updatePassword', 'updatePassword')->name('settings.updatePassword');
+        Route::post('/settings/updateBank', 'updateBank')->name('settings.updateBank');
+    });
+
+    Route::controller('ActivityLogController')->group(function () {
+        Route::get('/activity-log', 'index')->name('activity-log');
+        Route::post('/activity-log/view', 'view')->name('activitylog.view');
+    });
+});
+
+Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
 
     Route::controller('CustomerController')->group(function () {
         Route::get('/customer', 'index')->name('customer');
@@ -119,29 +144,6 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/location/addAction', 'addAction')->name('location.addAction');
         Route::post('/location/delete', 'delete')->name('location.delete');
     });
-
-    Route::controller('ActivityLogController')->group(function () {
-        Route::get('/activity-log', 'index')->name('activity-log');
-        Route::post('/activity-log/view', 'view')->name('activitylog.view');
-    });
-
-    Route::controller('SettingController')->group(function () {
-        Route::get('/settings', 'index')->name('settings');
-        Route::post('/settings/updateProfile', 'updateProfile')->name('settings.updateProfile');
-        Route::post('/settings/updatePassword', 'updatePassword')->name('settings.updatePassword');
-        Route::post('/settings/updateBank', 'updateBank')->name('settings.updateBank');
-    });
-
-    Route::controller('WalletController')->group(function () {
-        Route::get('/wallet', 'index')->name('wallet');
-        Route::get('/wallet/payout', 'payout')->name('wallet.payout');
-        Route::get('/wallet/renewal', 'renewal')->name('wallet.renewal');
-    });
-
-    Route::controller('ReferralController')->group(function () {
-        Route::get('/referral', 'index')->name('referral');
-    });
-
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () { 

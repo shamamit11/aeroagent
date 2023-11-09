@@ -21,6 +21,7 @@ class DashboardController extends Controller
 
         $user_id = Auth::user()->id;
         $subscriptionObj = UserSubscription::where('user_id', $user_id)->first();
+
         $result['nextRenewalDate'] = time_remaining_string($subscriptionObj->next_renewal_date);
         
         return Inertia::render('Dashboard/Index', $result);

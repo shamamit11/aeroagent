@@ -1,68 +1,73 @@
 import React, { useEffect } from 'react';
-import { Head, useForm, Link } from "@inertiajs/react";
-import { Button, Divider, Form, Input } from "antd";
-import { LockOutlined, MailOutlined } from "@ant-design/icons";
+import { Head, useForm, Link, router } from "@inertiajs/react";
+import { Button, Divider, Form, Input, message } from "antd";
+import { MailOutlined } from "@ant-design/icons";
 
 import Logo from "../../../../public/favicon.svg";
 
 import "./style.scss";
 
-const Login = () => {
+const ResetPassword = ({ token, email }) => {
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
+        token: token,
+        email: email,
         password: '',
-        remember: false,
+        password_confirmation: '',
     });
 
     useEffect(() => {
         return () => {
-            reset('password');
+            reset('password', 'password_confirmation');
         };
     }, []);
 
-    const submit = () => {
-        post('/login');
-    };
+    const [form] = Form.useForm();
 
-    const passwordRules = [
-        {
-            required: true,
-            message: "Please input your password!",
-        },
-        {
-            max: 50,
-            message: "Password should not exceed 50 characters",
-        },
-    ];
+    const submit = () => {
+        post('/reset-password', {
+            onSuccess: () => {
+                message.success('Password has been reset successfully !')
+            },
+            onError: () => {
+                message.error('There was an error processing your request. Please try again !')
+            },
+            onFinish: () => {
+                router.get(`/login`)
+            }
+        });
+    };
 
     return (
         <div className="login-page" id="loginPage">
-            <Head title="Login" />
+            <Head title="Reset Password" />
 
             <div className="login-form">
                 <div className="login-form-header">
                     <img src={Logo} />
                 </div>
 
-                <Form
-                    name="login"
-                    layout='vertical'
+                <Form 
+                    form={form} 
+                    name="resetpassword" 
+                    layout="vertical" 
+                    onFinish={submit}
+                    autoComplete="off"
                     initialValues={data}
                     onFieldsChange={(changedFields) => {
                         changedFields.forEach(item => {
                             setData(item.name[0], item.value);
                         })
                     }}
-                    onFinish={submit}
-                    autoComplete="off"
                 >
+
                     <div className='login-text-holder'>
-                        <h1>Sign-In</h1>
-                        <p>Access the Aero RSP Panel using your Email and Password.</p>
+                        <h1>Reset Password</h1>
+                        <p>Choose a New Password</p>
                     </div>
 
                     <Form.Item
+                        label="Email"
                         name="email"
                         rules={[
                             {
@@ -91,33 +96,44 @@ const Login = () => {
                     </Form.Item>
 
                     <Form.Item
+                        label="Password"
                         name="password"
-                        rules={passwordRules}
+                        rules={[
+                            {
+                                required: true,
+                                message: "This field is required",
+                            }
+                        ]}
                         validateStatus={errors.password && 'error'}
                         help={errors.password}
                     >
-                        <Input.Password
-                            size="large"
-                            prefix={<LockOutlined className="site-form-item-icon" />}
-                            disabled={processing}
-                            placeholder={"Password"}
-                            autoComplete="current-password"
-                        />
+                        <Input.Password autoComplete="new-password" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Confirm Password"
+                        name="password_confirmation"
+                        rules={[
+                            {
+                                required: true,
+                                message: "This field is required",
+                            }
+                        ]}
+                        validateStatus={errors.password_confirmation && 'error'}
+                        help={errors.password_confirmation}
+                    >
+                        <Input.Password />
                     </Form.Item>
 
                     <Form.Item className="form-actions">
                         <Button type="primary" htmlType="submit" className="login-form-button" loading={processing} block>
-                            {processing ? "Please Wait" : "Log in"}
+                            {processing ? "Please Wait" : "Reset Password"}
                         </Button>
                     </Form.Item>
 
-                    <div className="form-forgot-password">
-                        <Link href='/forgot-password'>Forgot Password?</Link>
-                    </div>
-
                     <div className="form-register">
                         <Divider>{"or"}</Divider>
-                        <Link href='/register'>Create A New Account</Link>
+                        <Link href='/login'>Back to Login</Link>
                     </div>
                 </Form>
             </div>
@@ -125,4 +141,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default ResetPassword;

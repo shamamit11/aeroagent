@@ -15,6 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('user_code', 10)->unique();
             $table->string('role', 10);
+            $table->string('profession', 100)->nullable();
             $table->string('first_name', 25);
             $table->string('last_name', 25);
             $table->string('mobile', 25)->nullable();

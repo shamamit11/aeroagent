@@ -192,4 +192,12 @@ const agentNavItems = [
     }
 ]
 
-export { adminNavItems, agentNavItems };
+const affiliateNavItems = [
+    {
+        key: 'dashboard',
+        icon: <DashboardOutlined />,
+        label: <Link href='/'>Dashboard</Link>,
+    }
+];
+
+export { adminNavItems, agentNavItems, affiliateNavItems };

@@ -31,7 +31,6 @@ const SettingProfile = () => {
             forceFormData: true,
             onSuccess: () => {
                 message.success('Profile Updated Successfully !')
-                router.get('/settings')
             },
             onError: () => {
                 message.error('There was an error processing your request. Please try again !')

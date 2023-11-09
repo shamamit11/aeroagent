@@ -1,6 +1,56 @@
 <?php
 use Illuminate\Support\Facades\DB;
 
+if (!function_exists('generateInitial')) {
+    function generateInitial(string $name): string
+    {
+        $words = explode(' ', $name);
+        if (count($words) >= 2) {
+            return mb_strtoupper(
+                mb_substr($words[0], 0, 1, 'UTF-8') .
+                mb_substr(end($words), 0, 1, 'UTF-8'),
+                'UTF-8'
+            );
+        }
+        return makeInitialsFromSingleWord($name);
+    }
+}
+
+if (!function_exists('makeInitialsFromSingleWord')) {
+    function makeInitialsFromSingleWord(string $name): string
+    {
+        preg_match_all('#([A-Z]+)#', $name, $capitals);
+        if (count($capitals[1]) >= 2) {
+            return mb_substr(implode('', $capitals[1]), 0, 2, 'UTF-8');
+        }
+        return mb_strtoupper(mb_substr($name, 0, 2, 'UTF-8'), 'UTF-8');
+    }
+}
+
+if (!function_exists('initials')) {
+    function initials($str) : string
+    {
+        $ret = '';
+        foreach (explode(' ', $str) as $word)
+            $ret .= strtoupper($word[0]);
+        return $ret;
+    }
+}
+
+if (!function_exists('generateUserCode')) {
+    function generateUserCode(string $initial) {
+        $six_digit_random_number = random_int(100000, 999999);
+        $concatCode = $initial . $six_digit_random_number;
+        $exists = DB::table('users')->where('user_code', $concatCode)->exists();
+        if($exists) {
+            generateUserCode($initial);
+        } 
+        else {
+            return $concatCode;
+        }
+    }
+}
+
 if (!function_exists('get_active_statuses')) {
     function get_active_statuses($customer_id, $customer_type, $source_id, $customer_status)
     {
@@ -156,10 +206,10 @@ if (!function_exists('time_remaining_string')) {
         $next = new DateTime($datetime);
         $diff = $now->diff($next);
 
-        if ($diff->d > 1) {
-            return $diff->d . ' days';
+        if ($diff->days > 1) {
+            return $diff->days . ' days';
         } else {
-            return $diff->d . ' day';
+            return $diff->days . ' day';
         }
     }
 }

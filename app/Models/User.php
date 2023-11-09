@@ -2,32 +2,20 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    // protected $fillable = [
-    //     'user_code',
-    //     'first_name',
-    //     'last_name',
-    //     'mobile',
-    //     'image_path',
-    //     'email',
-    //     'password',
-    // ];
-
+    protected $fillable = [
+        'user_code', 'role', 'profession', 'first_name', 'last_name', 'mobile', 'email', 'password', 'image', 'status', 'cc_transaction_id'
+    ];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -56,10 +44,5 @@ class User extends Authenticatable
     public function referral()
     {
         return $this->hasMany(UserReferral::class);
-    }
-
-    public function locations()
-    {
-        return $this->hasMany(Location::class);
     }
 }

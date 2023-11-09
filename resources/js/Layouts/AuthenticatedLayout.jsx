@@ -13,7 +13,7 @@ import { Link, usePage } from '@inertiajs/react';
 
 import "./style.scss";
 
-import { adminNavItems, agentNavItems } from './routes';
+import { adminNavItems, agentNavItems, affiliateNavItems } from './routes';
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -92,6 +92,15 @@ const Authenticated = ({ children }) => {
                         mode="inline"
                         defaultSelectedKeys={[route().current()]}
                         items={agentNavItems}
+                    />
+                )}
+
+                {userRole == 'affiliate' && (
+                    <Menu
+                        theme="dark"
+                        mode="inline"
+                        defaultSelectedKeys={[route().current()]}
+                        items={affiliateNavItems}
                     />
                 )}
 
