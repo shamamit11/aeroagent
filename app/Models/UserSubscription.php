@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class UserReferral extends Model
+class UserSubscription extends Model
 {
     use HasFactory;
     use LogsActivity;

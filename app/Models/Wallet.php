@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 
-class UserReferral extends Model
+class Wallet extends Model
 {
     use HasFactory;
     use LogsActivity;
+
     public function user() {
         return $this->belongsTo(User::class);
     }

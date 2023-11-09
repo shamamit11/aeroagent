@@ -132,6 +132,16 @@ Route::middleware(['auth', 'verified', 'role:admin,agent'])->group(function () {
         Route::post('/settings/updateBank', 'updateBank')->name('settings.updateBank');
     });
 
+    Route::controller('WalletController')->group(function () {
+        Route::get('/wallet', 'index')->name('wallet');
+        Route::get('/wallet/payout', 'payout')->name('wallet.payout');
+        Route::get('/wallet/renewal', 'renewal')->name('wallet.renewal');
+    });
+
+    Route::controller('ReferralController')->group(function () {
+        Route::get('/referral', 'index')->name('referral');
+    });
+
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () { 

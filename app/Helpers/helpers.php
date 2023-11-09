@@ -17,8 +17,7 @@ if (!function_exists('get_active_statuses')) {
                     'disabled' => true
                 ];
             }
-        }
-        else {
+        } else {
             foreach ($list_statuses as $index => $temp) {
                 $return_result[$index] = (object) [
                     'key' => $temp->id,
@@ -30,22 +29,19 @@ if (!function_exists('get_active_statuses')) {
             }
         }
 
-        if($customer_status == 'Prospect') {
+        if ($customer_status == 'Prospect') {
             unset($return_result[0]);
-            if($customer_type == 'seller' || $customer_type == 'leaser' || $customer_type == 'tenant') {
+            if ($customer_type == 'seller' || $customer_type == 'leaser' || $customer_type == 'tenant') {
                 unset($return_result[1]);
             }
-        }
-        else if($customer_status == 'Potential') {
+        } else if ($customer_status == 'Potential') {
             unset($return_result[0]);
             unset($return_result[1]);
-        }
-        else if($customer_status == 'Deal') {
+        } else if ($customer_status == 'Deal') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[2]);
-        }
-        else if($customer_status == 'No Deal') {
+        } else if ($customer_status == 'No Deal') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[3]);
@@ -80,8 +76,7 @@ if (!function_exists('get_active_activities')) {
                     ];
                 }
             }
-        } 
-        else {
+        } else {
             foreach ($list_activities as $index => $temp) {
                 if ($temp->id == 1) {
                     $return_result[$index] = (object) [
@@ -151,5 +146,20 @@ if (!function_exists('time_elapsed_string')) {
             $string = array_slice($string, 0, 1);
         }
         return $string ? implode(', ', $string) . ' ago' : 'just now';
+    }
+}
+
+if (!function_exists('time_remaining_string')) {
+    function time_remaining_string($datetime, $full = false)
+    {
+        $now = new DateTime;
+        $next = new DateTime($datetime);
+        $diff = $now->diff($next);
+
+        if ($diff->d > 1) {
+            return $diff->d . ' days';
+        } else {
+            return $diff->d . ' day';
+        }
     }
 }
