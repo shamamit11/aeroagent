@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import AgentLayout from '@/Layouts/AgentLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, usePage, router } from "@inertiajs/react";
 import { Button, Col, Input, Row, Space, Table, Popconfirm, message, Badge } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
@@ -185,6 +185,6 @@ const Index = () => {
     );
 };
 
-Index.layout = page => <AgentLayout children={page} />
+Index.layout = page => <AdminLayout children={page} />
 
 export default Index;

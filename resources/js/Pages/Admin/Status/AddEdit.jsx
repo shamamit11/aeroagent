@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AgentLayout from '@/Layouts/AgentLayout';
+import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Select } from "antd";
 
@@ -147,6 +147,6 @@ const AddEdit = () => {
     );
 };
 
-AddEdit.layout = page => <AgentLayout children={page} />
+AddEdit.layout = page => <AdminLayout children={page} />
 
 export default AddEdit;
