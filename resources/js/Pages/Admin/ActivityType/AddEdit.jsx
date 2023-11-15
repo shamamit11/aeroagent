@@ -20,7 +20,7 @@ const AddEdit = () => {
     }, []);
 
     const submit = () => {
-        post('/activityType/addAction', {
+        post('/admin/activityType/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
                     message.success('Data Added Successfully !')
@@ -33,13 +33,13 @@ const AddEdit = () => {
                 message.error('There was an error processing your request. Please try again !')
             },
             onFinish: () => {
-                router.get('/activityType')
+                router.get('/admin/activityType')
             }
         });
     };
 
     const handleCancel = () => {
-        router.get('/activityType')
+        router.get('/admin/activityType')
     }
 
     return (

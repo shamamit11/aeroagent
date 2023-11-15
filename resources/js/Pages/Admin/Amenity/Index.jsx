@@ -33,23 +33,23 @@ const Index = () => {
     };
 
     const handleAdd = () => {
-        router.get('/amenity/addEdit')
+        router.get('/admin/amenity/addEdit')
     }
 
     const handleEdit = (id) => {
-        router.get(`/amenity/addEdit/?id=${id}`)
+        router.get(`/admin/amenity/addEdit/?id=${id}`)
     }
 
     const handleDelete = (id) => {
         const formData = {
             id: id
         };
-        router.post('/amenity/delete', formData, {
+        router.post('/admin/amenity/delete', formData, {
             onSuccess: () => {
                 message.success('Data Deleted Successfully !');
             },
             onFinish: () => {
-                router.get('/amenity')
+                router.get('/admin/amenity')
             }
         })
       };

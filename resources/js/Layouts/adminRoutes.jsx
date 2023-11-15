@@ -22,7 +22,21 @@ const adminNavItems = [
     {
         key: 'dashboard',
         icon: <DashboardOutlined />,
-        label: <Link href='/'>Dashboard</Link>,
+        label: <Link href='/admin/dashboard'>Dashboard</Link>,
+    },
+
+    getItem('Users Management', 'usermanagement', null, [], 'group'),
+    
+    {
+        key: 'user',
+        icon: <BgColorsOutlined />,
+        label: <Link href='/admin/user'>Users</Link>,
+    },
+
+    {
+        key: 'payout',
+        icon: <BgColorsOutlined />,
+        label: <Link href='/admin/payout'>Payout</Link>,
     },
 
     getItem('System Configurations', 'systemconfig', null, [], 'group'),
@@ -30,31 +44,31 @@ const adminNavItems = [
     {
         key: 'status',
         icon: <BgColorsOutlined />,
-        label: <Link href='/status'>Statuses</Link>,
+        label: <Link href='/admin/status'>Statuses</Link>,
     },
 
     {
         key: 'amenity',
         icon: <ApartmentOutlined />,
-        label: <Link href='/amenity'>Amenities</Link>,
+        label: <Link href='/admin/amenity'>Amenities</Link>,
     },
 
     {
         key: 'activityType',
         icon: <GoldOutlined />,
-        label: <Link href='activityType'>Activity Types</Link>,
+        label: <Link href='/admin/activityType'>Activity Types</Link>,
     },
 
     {
         key: 'property',
         icon: <HomeOutlined />,
-        label: <Link href='/property'>Properties</Link>,
+        label: <Link href='/admin/property'>Properties</Link>,
     },
 
     {
         key: 'propertyType',
         icon: <SwitcherOutlined />,
-        label: <Link href='/propertyType'>Property Type</Link>,
+        label: <Link href='/admin/propertyType'>Property Type</Link>,
     }
 ];
 

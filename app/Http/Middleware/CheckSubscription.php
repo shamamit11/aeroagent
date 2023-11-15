@@ -30,8 +30,8 @@ class CheckSubscription
                 $now = Carbon::now()->toDate();
                 $diff = $renewal_date->diffInDays($now);
     
-                if($diff < 0){
-                    return redirect()->route('payment.page');
+                if($diff < 1){
+                    return redirect()->route('renew-subscription');
                 }
             }
         }

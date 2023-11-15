@@ -13,7 +13,7 @@ import { Link, usePage } from '@inertiajs/react';
 
 import "./style.scss";
 
-import { agentNavItems, affiliateNavItems } from './agentRoutes';
+import { affiliateNavItems } from './affiliateRoutes';
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -26,15 +26,6 @@ const items = [
             </Link>
         ),
         icon: <SettingOutlined />,
-    },
-    {
-        key: 'logs',
-        label: (
-            <Link href='/activity-log'>
-                Activity Log
-            </Link>
-        ),
-        icon: <LineChartOutlined />,
     },
     {
         type: 'divider',
@@ -63,7 +54,7 @@ const AffiliateLayout = ({ children }) => {
         setCollapsed(updated)
         localStorage.setItem('sidebarCollapsed', JSON.stringify(updated))
     };
-    
+
     return (
         <Layout className="app-layout">
             <Sider
@@ -77,32 +68,12 @@ const AffiliateLayout = ({ children }) => {
 
                 <div className="demo-logo-vertical" />
 
-                {userRole == 'admin' && (
-                    <Menu
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[route().current()]}
-                        items={adminNavItems}
-                    />
-                )}
-
-                {userRole == 'agent' && (
-                    <Menu
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[route().current()]}
-                        items={agentNavItems}
-                    />
-                )}
-
-                {userRole == 'affiliate' && (
-                    <Menu
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[route().current()]}
-                        items={affiliateNavItems}
-                    />
-                )}
+                <Menu
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={[route().current()]}
+                    items={affiliateNavItems}
+                />
 
             </Sider>
 
@@ -127,11 +98,11 @@ const AffiliateLayout = ({ children }) => {
                                     <a onClick={(e) => e.preventDefault()}>
                                         <Typography.Text className='auth-dropdown'>
                                             <Space size={12}>
-                                                { !auth.user_image && (
-                                                   <Avatar size={36} icon={<UserOutlined />} /> 
+                                                {!auth.user_image && (
+                                                    <Avatar size={36} icon={<UserOutlined />} />
                                                 )}
-                                                { auth.user_image && (
-                                                   <Avatar size={36} src={auth.user_image} /> 
+                                                {auth.user_image && (
+                                                    <Avatar size={36} src={auth.user_image} />
                                                 )}
                                                 <div>
                                                     <div>

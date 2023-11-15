@@ -95,8 +95,8 @@ const Register = () => {
                                     label: 'Real Estate Specialist',
                                 },
                                 {
-                                    value: 'Other',
-                                    label: 'Other',
+                                    value: 'Affiliate',
+                                    label: 'Affiliate Marketing',
                                 }
                             ]}
                         />

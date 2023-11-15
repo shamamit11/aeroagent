@@ -7,7 +7,7 @@ import "./style.scss";
 
 
 const Dashboard = (props) => {
-   //console.log(props)
+   console.log(props)
 
     const viewWallet = () => {
         router.get('/wallet')
@@ -29,7 +29,7 @@ const Dashboard = (props) => {
     return (
         <>
             <Head title="Dashboard" />
-            <Card title={`Welcome, ${props.auth.user.first_name}`}>
+            <Card title={`Your Referral Code is: ${props.auth.user.user_code}`}>
 
                 <Row gutter={24}>
                     <Col span={6}>

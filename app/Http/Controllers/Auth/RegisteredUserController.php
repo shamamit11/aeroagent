@@ -82,7 +82,7 @@ class RegisteredUserController extends Controller
 
         $profession = $request->profession;
 
-        if($profession == 'Other') {
+        if($profession == 'Affiliate') {
             $role = 'affiliate';
         } else {
             $role = 'agent';
@@ -121,7 +121,6 @@ class RegisteredUserController extends Controller
             $wallet->save();
         }
 
-        $now = Carbon::now();
         $subscription = new UserSubscription;
         $subscription->user_id = $user->id;
         $subscription->subscription_date = Carbon::now()->toDate();

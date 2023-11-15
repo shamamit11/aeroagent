@@ -114,7 +114,7 @@ const Payout = () => {
             title: 'Transaction#',
             dataIndex: 'transaction_id',
             key: 'transaction_id',
-            width: '15%',
+            width: '25%',
             ...getColumnSearchProps('transaction_id')
         },
         {

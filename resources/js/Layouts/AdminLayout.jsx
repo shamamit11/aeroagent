@@ -21,7 +21,7 @@ const items = [
     {
         key: 'settings',
         label: (
-            <Link href='/settings'>
+            <Link href='/admin/settings'>
                 Settings
             </Link>
         ),
@@ -30,7 +30,7 @@ const items = [
     {
         key: 'logs',
         label: (
-            <Link href='/activity-log'>
+            <Link href='/admin/activity-log'>
                 Activity Log
             </Link>
         ),

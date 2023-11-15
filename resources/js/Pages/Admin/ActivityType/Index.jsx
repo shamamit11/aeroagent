@@ -33,23 +33,23 @@ const Index = () => {
     };
 
     const handleAdd = () => {
-        router.get('/activityType/addEdit')
+        router.get('/admin/activityType/addEdit')
     }
 
     const handleEdit = (id) => {
-        router.get(`/activityType/addEdit/?id=${id}`)
+        router.get(`/admin/activityType/addEdit/?id=${id}`)
     }
 
     const handleDelete = (id) => {
         const formData = {
             id: id
         };
-        router.post('/activityType/delete', formData, {
+        router.post('/admin/activityType/delete', formData, {
             onSuccess: () => {
                 message.success('Data Deleted Successfully !');
             },
             onFinish: () => {
-                router.get('/activityType')
+                router.get('/admin/activityType')
             }
         })
       };

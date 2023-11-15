@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Agent;
 use App\Http\Controllers\Controller;
+use Auth;
 use Illuminate\Http\Request;
 use App\Services\Agent\WalletService;
 use Inertia\Inertia;
@@ -22,18 +23,41 @@ class WalletController extends Controller
         $result['totalReferral'] = $this->service->totalReferral();
         $result['totalPayout'] = $this->service->totalPayout();
         $result['totalRenewal'] = $this->service->totalRenewal();
-        return Inertia::render('Agent/Wallet/Index', $result);
+
+        $user = Auth::user();
+        if($user->role == "affiliate") {
+            return Inertia::render('Affiliate/Wallet/Index', $result);
+        }
+        else{
+            return Inertia::render('Agent/Wallet/Index', $result);
+        }
+        
     }
 
     public function payout(Request $request): Response
     {
         $result = $this->service->payout();
-        return Inertia::render('Agent/Wallet/Payout', $result);
+
+        $user = Auth::user();
+        if($user->role == "affiliate") {
+            return Inertia::render('Affiliate/Wallet/Payout', $result);
+        }
+        else{
+            return Inertia::render('Agent/Wallet/Payout', $result);
+        }
+        
     }
 
     public function renewal(Request $request): Response
     {
         $result = $this->service->renewal();
-        return Inertia::render('Agent/Wallet/Renewal', $result);
+
+        $user = Auth::user();
+        if($user->role == "affiliate") {
+            return Inertia::render('Affiliate/Wallet/Renewal', $result);
+        }
+        else{
+            return Inertia::render('Agent/Wallet/Renewal', $result);
+        }
     }
 }

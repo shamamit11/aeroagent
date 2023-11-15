@@ -33,23 +33,23 @@ const Index = () => {
     };
 
     const handleAdd = () => {
-        router.get('/property/addEdit')
+        router.get('/admin/property/addEdit')
     }
 
     const handleEdit = (id) => {
-        router.get(`/property/addEdit/?id=${id}`)
+        router.get(`/admin/property/addEdit/?id=${id}`)
     }
 
     const handleDelete = (id) => {
         const formData = {
             id: id
         };
-        router.post('/property/delete', formData, {
+        router.post('/admin/property/delete', formData, {
             onSuccess: () => {
                 message.success('Data Deleted Successfully !');
             },
             onFinish: () => {
-                router.get('/property')
+                router.get('/admin/property')
             }
         })
       };

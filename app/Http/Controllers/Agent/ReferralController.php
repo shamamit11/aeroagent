@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Agent;
 use App\Http\Controllers\Controller;
+use Auth;
 use Illuminate\Http\Request;
 use App\Services\Agent\ReferralService;
 use Inertia\Inertia;
@@ -22,6 +23,13 @@ class ReferralController extends Controller
         $result['lastThirtyDaysReferrals'] = $this->service->lastThirtyDaysReferrals();
         $result['totalEarnings'] = $this->service->totalReferralEarning();
         $result['lastThirtyDaysEarning'] = $this->service->lastThirtyDaysEarning();
-        return Inertia::render('Agent/Referral/Index', $result);
+        
+        $user = Auth::user();
+        if($user->role == "affiliate") {
+            return Inertia::render('Affiliate/Referral/Index', $result);
+        }
+        else{
+            return Inertia::render('Agent/Referral/Index', $result);
+        }
     }
 }

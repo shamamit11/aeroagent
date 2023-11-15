@@ -11,7 +11,7 @@ use App\Traits\StoreImageTrait;
 class SettingService
 {
     use StoreImageTrait;
-    function profile()
+    public function profile()
     {
         try {
             $user = Auth::user();
@@ -26,7 +26,7 @@ class SettingService
         }
     }
 
-    function updateProfile($request)
+    public function updateProfile($request)
     {
         try {
 
@@ -67,7 +67,7 @@ class SettingService
         }
     }
 
-    function bank()
+    public function bank()
     {
         try {
             $user = Auth::user();

@@ -20,7 +20,7 @@ const AddEdit = () => {
     }, []);
 
     const submit = () => {
-        post('/amenity/addAction', {
+        post('/admin/amenity/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
                     message.success('Data Added Successfully !')
@@ -33,13 +33,13 @@ const AddEdit = () => {
                 message.error('There was an error processing your request. Please try again !')
             },
             onFinish: () => {
-                router.get('/amenity')
+                router.get('/admin/amenity')
             }
         });
     };
 
     const handleCancel = () => {
-        router.get('/amenity')
+        router.get('/admin/amenity')
     }
 
     return (

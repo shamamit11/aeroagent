@@ -20,7 +20,7 @@ const AddEdit = () => {
     }, []);
 
     const submit = () => {
-        post('/property/addAction', {
+        post('/admin/property/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
                     message.success('Data Added Successfully !')
@@ -33,13 +33,13 @@ const AddEdit = () => {
                 message.error('There was an error processing your request. Please try again !')
             },
             onFinish: () => {
-                router.get('/property')
+                router.get('/admin/property')
             }
         });
     };
 
     const handleCancel = () => {
-        router.get('/property')
+        router.get('/admin/property')
     }
 
     return (

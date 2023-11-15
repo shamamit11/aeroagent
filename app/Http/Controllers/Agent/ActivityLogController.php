@@ -18,6 +18,6 @@ class ActivityLogController extends Controller
     public function index(Request $request): Response
     {
         $result = $this->service->index();
-        return Inertia::render('ActivityLog/Index', $result);
+        return Inertia::render('Agent/ActivityLog/Index', $result);
     }
 }

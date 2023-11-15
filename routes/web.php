@@ -2,16 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'verified', 'role:admin,agent,affiliate', 'check.subscription'])->group(function () {
-    Route::controller('DashboardController')->group(function () {
-        Route::get('/', 'index')->name('dashboard');
+//Common Controller
+Route::middleware(['auth', 'verified', 'role:admin,agent,affiliate'])->group(function () {
+    Route::controller('CommonController')->group(function () {
+        Route::get('/', 'index')->name('/');
     });
 });
 
 
 //Agent & Affiliate Routes
-
 Route::middleware(['auth', 'verified', 'role:agent,affiliate', 'check.subscription'])->group(function () {
+
+    Route::controller('Agent\AgentDashboardController')->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+    });
+
     Route::controller('Agent\WalletController')->group(function () {
         Route::get('/wallet', 'index')->name('wallet');
         Route::get('/wallet/payout', 'payout')->name('wallet.payout');
@@ -28,15 +33,19 @@ Route::middleware(['auth', 'verified', 'role:agent,affiliate', 'check.subscripti
         Route::post('/settings/updatePassword', 'updatePassword')->name('settings.updatePassword');
         Route::post('/settings/updateBank', 'updateBank')->name('settings.updateBank');
     });
+});
 
-    Route::controller('Agent\ActivityLogController')->group(function () {
-        Route::get('/activity-log', 'index')->name('activity-log');
-        Route::post('/activity-log/view', 'view')->name('activitylog.view');
+//Payment Page
+Route::middleware(['auth', 'verified', 'role:agent,affiliate'])->group(function () {
+    Route::controller('Agent\PaymentController')->group(function () {
+        Route::get('/renew-subscription', 'index')->name('renew-subscription');
+        Route::post('/pay-through-wallet', 'payThroughWallet')->name('pay-through-wallet');
+        Route::post('/generate-stripe-session', 'generateStripeSession')->name('generate-stripe-session');
+        Route::get('/payment-confirmation', 'paymentConfirmation')->name('payment-confirmation');
     });
 });
 
 //Agent Only Routes
-
 Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->group(function () {
 
     Route::controller('Agent\CustomerController')->group(function () {
@@ -151,44 +160,72 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::post('/location/addAction', 'addAction')->name('location.addAction');
         Route::post('/location/delete', 'delete')->name('location.delete');
     });
+
+    Route::controller('Agent\ActivityLogController')->group(function () {
+        Route::get('/activity-log', 'index')->name('activity-log');
+        Route::post('/activity-log/view', 'view')->name('activitylog.view');
+    });
 });
 
-//Admin Routes
 
+//Admin Only Routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    Route::controller('Admin\AdminDashboardController')->group(function () {
+        Route::get('/admin/dashboard', 'index')->name('admin.dashboard');
+    });
+
+    Route::controller('Admin\UserController')->group(function () {
+        Route::get('/admin/user', 'index')->name('admin.user');
+        Route::get('/admin/user/addEdit', 'addEdit')->name('admin.user.addEdit');
+        Route::post('/admin/user/addAction', 'addAction')->name('admin.user.addAction');
+        Route::post('/admin/user/delete', 'delete')->name('admin.user.delete');
+    });
+
     Route::controller('Admin\AmenityController')->group(function () {
-        Route::get('/amenity', 'index')->name('amenity');
-        Route::get('/amenity/addEdit', 'addEdit')->name('amenity.addEdit');
-        Route::post('/amenity/addAction', 'addAction')->name('amenity.addAction');
-        Route::post('/amenity/delete', 'delete')->name('amenity.delete');
+        Route::get('/admin/amenity', 'index')->name('admin.amenity');
+        Route::get('/admin/amenity/addEdit', 'addEdit')->name('admin.amenity.addEdit');
+        Route::post('/admin/amenity/addAction', 'addAction')->name('admin.amenity.addAction');
+        Route::post('/admin/amenity/delete', 'delete')->name('admin.amenity.delete');
     });
 
     Route::controller('Admin\StatusController')->group(function () {
-        Route::get('/status', 'index')->name('status');
-        Route::get('/status/addEdit', 'addEdit')->name('status.addEdit');
-        Route::post('/status/addAction', 'addAction')->name('status.addAction');
-        Route::post('/status/delete', 'delete')->name('status.delete');
+        Route::get('/admin/status', 'index')->name('admin.status');
+        Route::get('/admin/status/addEdit', 'addEdit')->name('admin.status.addEdit');
+        Route::post('/admin/status/addAction', 'addAction')->name('admin.status.addAction');
+        Route::post('/admin/status/delete', 'delete')->name('admin.status.delete');
     });
 
     Route::controller('Admin\ActivityTypeController')->group(function () {
-        Route::get('/activityType', 'index')->name('activityType');
-        Route::get('/activityType/addEdit', 'addEdit')->name('activityType.addEdit');
-        Route::post('/activityType/addAction', 'addAction')->name('activityType.addAction');
-        Route::post('/activityType/delete', 'delete')->name('activityType.delete');
+        Route::get('/admin/activityType', 'index')->name('admin.activityType');
+        Route::get('/admin/activityType/addEdit', 'addEdit')->name('admin.activityType.addEdit');
+        Route::post('/admin/activityType/addAction', 'addAction')->name('admin.activityType.addAction');
+        Route::post('/admin/activityType/delete', 'delete')->name('admin.activityType.delete');
     });
 
     Route::controller('Admin\PropertyController')->group(function () {
-        Route::get('/property', 'index')->name('property');
-        Route::get('/property/addEdit', 'addEdit')->name('property.addEdit');
-        Route::post('/property/addAction', 'addAction')->name('property.addAction');
-        Route::post('/property/delete', 'delete')->name('property.delete');
+        Route::get('/admin/property', 'index')->name('admin.property');
+        Route::get('/admin/property/addEdit', 'addEdit')->name('admin.property.addEdit');
+        Route::post('/admin/property/addAction', 'addAction')->name('admin.property.addAction');
+        Route::post('/admin/property/delete', 'delete')->name('admin.property.delete');
     });
 
     Route::controller('Admin\PropertyTypeController')->group(function () {
-        Route::get('/propertyType', 'index')->name('propertyType');
-        Route::get('/propertyType/addEdit', 'addEdit')->name('propertyType.addEdit');
-        Route::post('/propertyType/addAction', 'addAction')->name('propertyType.addAction');
-        Route::post('/propertyType/delete', 'delete')->name('propertyType.delete');
+        Route::get('/admin/propertyType', 'index')->name('admin.propertyType');
+        Route::get('/admin/propertyType/addEdit', 'addEdit')->name('admin.propertyType.addEdit');
+        Route::post('/admin/propertyType/addAction', 'addAction')->name('admin.propertyType.addAction');
+        Route::post('/admin/propertyType/delete', 'delete')->name('admin.propertyType.delete');
+    });
+
+    Route::controller('Admin\SettingController')->group(function () {
+        Route::get('/admin/settings', 'index')->name('admin.settings');
+        Route::post('/admin/settings/updateProfile', 'updateProfile')->name('admin.settings.updateProfile');
+        Route::post('/admin/settings/updatePassword', 'updatePassword')->name('admin.settings.updatePassword');
+    });
+
+    Route::controller('Admin\ActivityLogController')->group(function () {
+        Route::get('/admin/activity-log', 'index')->name('admin.activity-log');
+        Route::post('/admin/activity-log/view', 'view')->name('admin.activitylog.view');
     });
 });
 
