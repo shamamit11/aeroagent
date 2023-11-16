@@ -3,7 +3,7 @@ import { Head, useForm, Link, router } from "@inertiajs/react";
 import { Button, Divider, Form, Input, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 
-import Logo from "../../../../public/favicon.svg";
+import Logo from "../../../../public/light-logo.png";
 
 import "./style.scss";
 

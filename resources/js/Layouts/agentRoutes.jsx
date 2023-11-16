@@ -24,7 +24,13 @@ const agentNavItems = [
     {
         key: 'dashboard',
         icon: <DashboardOutlined />,
-        label: <Link href='/'>Dashboard</Link>,
+        label: <Link href='/dashboard'>Dashboard</Link>,
+    },
+
+    {
+        key: 'wallet',
+        icon: <DashboardOutlined />,
+        label: <Link href='/wallet-dashboard'>Wallet</Link>,
     },
 
     getItem('Data Management', 'customermanagement', null, [], 'group'),

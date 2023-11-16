@@ -8,55 +8,55 @@ body {
     margin: 0;
     position: relative;
     height: 100%;
-  
+
     .filter-card {
-      .ant-form-item {
-        margin: 0;
-        font-size: 12px;
-  
-        .ant-form-item-label {
-          padding: 0 0 3px;
-  
-          label {
+        .ant-form-item {
+            margin: 0;
             font-size: 12px;
-            opacity: 0.75;
-          }
+
+            .ant-form-item-label {
+                padding: 0 0 3px;
+
+                label {
+                    font-size: 12px;
+                    opacity: 0.75;
+                }
+            }
+
+            .ant-input {
+                font-size: 13px;
+            }
         }
-  
-        .ant-input {
-          font-size: 13px;
-        }
-      }
     }
 
     .ant-table-column-title {
-      font-weight: 700 !important;
+        font-weight: 700 !important;
     }
 
     .ant-table-cell {
-      font-weight: 500;
-      color: #747474;
+        font-weight: 500;
+        color: #747474;
     }
 
     .page-title {
-      font-size: 25px;
-      font-weight: 600;
+        font-size: 25px;
+        font-weight: 600;
     }
 
     .table-holder {
-      margin-top: 15px;
-      max-height: 100vh;
-      overflow: scroll;
+        margin-top: 15px;
+        max-height: 100vh;
+        overflow: scroll;
     }
 
     .ant-space-item {
-      font-weight: 500;
-      color: #747474;
+        font-weight: 500;
+        color: #747474;
     }
 
     .ant-table-thead {
-      .ant-table-cell {
-        font-weight: 700 !important;
-      }
+        .ant-table-cell {
+            font-weight: 700 !important;
+        }
     }
-  }
+}

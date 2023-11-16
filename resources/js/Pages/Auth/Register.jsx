@@ -1,9 +1,9 @@
 import React from 'react';
-import { Head, useForm, Link, router } from "@inertiajs/react";
-import { Button, Divider, Form, Input, Select, Checkbox, Radio } from "antd";
+import { Head, useForm, Link } from "@inertiajs/react";
+import { Button, Divider, Form, Input, Select, Radio } from "antd";
 import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined, CodeOutlined } from "@ant-design/icons";
 
-import Logo from "../../../../public/favicon.svg";
+import Logo from "../../../../public/light-logo.png";
 
 import "./style.scss";
 
@@ -226,6 +226,12 @@ const Register = () => {
                         name="referral_code"
                         validateStatus={errors.referral_code && 'error'}
                         help={errors.referral_code}
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please Enter the Referral Code!",
+                            }
+                        ]}
                     >
                         <Input
                             size="large"
@@ -235,8 +241,8 @@ const Register = () => {
                         />
                     </Form.Item>
 
-                    <Form.Item 
-                        name="terms" 
+                    <Form.Item
+                        name="terms"
                         valuePropName="checked"
                         validateStatus={errors.terms && 'error'}
                         help={errors.terms}

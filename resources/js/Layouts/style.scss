@@ -26,8 +26,23 @@
         }
     }
 
+    .ant-layout-sider {
+        background-color: var(--dark-green);
+    }
+
+    .sidebar-logo {
+        text-align: center;
+        img {  
+            width: 150px
+        }
+    }
+
     .ant-menu {
-        margin-top: 60px;
+        margin-top: 0px;
+
+        &.ant-menu-dark {
+            background-color: var(--dark-green);
+        }
 
         .ant-menu-item {
             font-size: 15px;
@@ -36,7 +51,7 @@
 
         .ant-menu-item-selected {
             background-color: transparent !important;
-            color: #4f8ed2;
+            color: #e8ffee;
             font-weight: 700 !important;
         }
 
@@ -44,7 +59,7 @@
             font-size: 11px;
             font-weight: 500;
             text-transform: uppercase;
-            color: #5c778e;
+            color: #35cc5e;
             margin-top: 20px;
         }
     }

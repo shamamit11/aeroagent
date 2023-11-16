@@ -3,7 +3,7 @@
     // colors
     --white: #ffffff;
     --light: #f9f9f9;
-    --primary: #009ef7;
+    --primary: #066c20;
     --secondary: #e1e3ea;
     --success: #50cd89;
     --info: #7239ea;
@@ -43,7 +43,7 @@
     --danger-rgb: 241, 65, 108;
     --dark-rgb: 24, 28, 50;
     --text-white: #ffffff;
-    --text-primary: #009ef7;
+    --text-primary: #066c20;
     --text-secondary: #e1e3ea;
     --text-light: #f9f9f9;
     --text-success: #50cd89;
@@ -74,10 +74,13 @@
     --component-hover-bg: #f4f6fa;
     --component-checked-color: #ffffff;
     --component-checked-bg: #009ef7;
+    --dark-green: #013e12;
   
     // theme
-    --primary-color: #243876;
-    --primary-color-hover: #1c378a;
+    // --primary-color: #243876;
+    // --primary-color-hover: #1c378a;
+    --primary-color: #066c20;
+    --primary-color-hover: #013e12;
   
     // fonts
     --default-font-family: "Quicksand", sans-serif;

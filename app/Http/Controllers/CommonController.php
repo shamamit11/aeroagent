@@ -13,8 +13,11 @@ class CommonController extends Controller
         if ($user->role == "admin") {
             return redirect()->route("admin.dashboard");
         }
-        else {
+        else if ($user->role == "agent") {
             return redirect()->route("dashboard");
+        }
+        else {
+            return redirect()->route("wallet.dashboard");
         }
     }
 }

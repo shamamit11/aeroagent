@@ -14,7 +14,7 @@ Route::middleware(['auth', 'verified', 'role:admin,agent,affiliate'])->group(fun
 Route::middleware(['auth', 'verified', 'role:agent,affiliate', 'check.subscription'])->group(function () {
 
     Route::controller('Agent\AgentDashboardController')->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard');
+        Route::get('/wallet-dashboard', 'wallet')->name('wallet.dashboard');
     });
 
     Route::controller('Agent\WalletController')->group(function () {
@@ -48,6 +48,10 @@ Route::middleware(['auth', 'verified', 'role:agent,affiliate'])->group(function 
 //Agent Only Routes
 Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->group(function () {
 
+    Route::controller('Agent\AgentDashboardController')->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard');
+    });
+    
     Route::controller('Agent\CustomerController')->group(function () {
         Route::get('/customer', 'index')->name('customer');
         Route::get('/customer/addEdit', 'addEdit')->name('customer.addEdit');

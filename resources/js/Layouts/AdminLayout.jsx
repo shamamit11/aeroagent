@@ -11,9 +11,11 @@ import {
 import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } from 'antd';
 import { Link, usePage } from '@inertiajs/react';
 
+import { adminNavItems } from './adminRoutes';
+
 import "./style.scss";
 
-import { adminNavItems } from './adminRoutes';
+import Logo from "/public/light-logo.png";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -75,7 +77,9 @@ const AdminLayout = ({ children }) => {
                 }}
             >
 
-                <div className="demo-logo-vertical" />
+                <div className="sidebar-logo">
+                    <img src={Logo} />
+                </div>
 
                 <Menu
                     theme="dark"

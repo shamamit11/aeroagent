@@ -1,4 +1,4 @@
-import AffiliateLayout from '@/Layouts/AffiliateLayout';
+import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, router } from "@inertiajs/react";
 import { Card, Col, Row, Statistic, Button } from 'antd';
 import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
@@ -7,7 +7,7 @@ import "./style.scss";
 
 
 const Dashboard = (props) => {
-   //console.log(props)
+   console.log(props)
 
     const viewWallet = () => {
         router.get('/wallet')
@@ -124,6 +124,6 @@ const Dashboard = (props) => {
     );
 };
 
-Dashboard.layout = page => <AffiliateLayout children={page} />
+Dashboard.layout = page => <AgentLayout children={page} />
 
 export default Dashboard;

@@ -2,7 +2,7 @@ import React from 'react';
 import { Head, useForm, Link, router } from "@inertiajs/react";
 import { Button, Divider, Form, message, Alert } from "antd";
 
-import Logo from "../../../../public/favicon.svg";
+import Logo from "../../../../public/light-logo.png";
 
 import "./style.scss";
 

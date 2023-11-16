@@ -5,9 +5,9 @@ import { Link } from '@inertiajs/react';
 
 const affiliateNavItems = [
     {
-        key: 'dashboard',
+        key: 'wallet',
         icon: <DashboardOutlined />,
-        label: <Link href='/'>Dashboard</Link>,
+        label: <Link href='/wallet-dashboard'>Wallet</Link>,
     }
 ];
 

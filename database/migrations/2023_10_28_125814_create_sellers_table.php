@@ -32,6 +32,8 @@ return new class extends Migration
             $table->decimal('commission', 10, 2)->nullable();
             $table->text('ad_link')->nullable();
             $table->text('note')->nullable();
+            $table->string('request_type')->nullable();
+            $table->bigInteger('source_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users');
