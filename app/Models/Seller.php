@@ -32,7 +32,9 @@ class Seller extends Model
         'commission_type',
         'commission',
         'ad_link',
-        'note'
+        'note',
+        'request_type',
+        'source_id'
     ];
 
     public function user() {

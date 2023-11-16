@@ -34,9 +34,28 @@ class TenantController extends Controller
     public function addEdit(Request $request): Response
     {
         $id = ($request->id) ? $request->id : 0;
-        $data['title'] = ($id == 0) ? "Add Tenant Data" : "Edit Tenant Data";
-        $data['row'] = $this->service->show($id);
-        $data['customers'] = Customer::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
+        $data['row'] = $res = $this->service->show($id);
+
+        if ($request->has('request_type')){ 
+            $data['title'] =  "Add Tenant Request";
+            $data['request_type'] = $request->request_type;
+            $data['source_id'] = (int)$request->source_id;
+            $data['customer_id'] = (int)$request->customer_id;
+        } 
+        else {
+            $data['title'] = ($id == 0) ? "Add Tenant Data" : "Edit Tenant Data";
+            $data['request_type'] = $res->request_type ? $res->request_type : null;
+            $data['source_id'] = $res->source_id ? $res->source_id : 0;
+            $data['customer_id'] = $res->customer_id ? $res->customer_id : null;
+        }
+
+        if ($request->has('customer_id')){ 
+            $data['customers'] = Customer::where([['user_id', Auth::user()->id], ['id', $request->customer_id]])->whereNull('deleted_at')->get();
+        } 
+        else {
+            $data['customers'] = Customer::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
+        }
+        
         $data['properties'] = Property::get();
         $data['propertyTypes'] = PropertyType::get();
         $data['amenities'] = Amenity::get();

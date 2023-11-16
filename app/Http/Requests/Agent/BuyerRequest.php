@@ -27,6 +27,8 @@ class BuyerRequest extends FormRequest
             'time_to_close' => '',
             'note' => '',
             'status' => '',
+            'request_type' => '',
+            'source_id' => ''
         ];
     }
 }

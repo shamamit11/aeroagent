@@ -12,8 +12,6 @@ const Detail = () => {
     const props = usePage().props;
     const rowData = props.row;
 
-    console.log(rowData);
-
     const activities = props.activities;
     const activityTypes = props.activityTypes;
     const statuses = props.statuses;
@@ -23,9 +21,15 @@ const Detail = () => {
     const [hideDateField, setHideDateField] = useState(true);
     const [requiredField, setRequiredField] = useState(false);
 
-    const items = statuses;
+    const statusItems = statuses;
 
-    const onMenuClick = (e) => {
+    const requestItems = [
+        { key: 'seller', label: 'Seller', name: 'Seller' },
+        { key: 'buyer', label: 'Buyer', name: 'Buyer' },
+        { key: 'tenant', label: 'Tenant', name: 'Tenant' }
+    ];
+
+    const onStatusMenuClick = (e) => {
         if (e.key == 2 || e.key == 3) {
             router.get(`/leaser/editData?id=${rowData.id}&status=${e.key}`)
         }
@@ -50,6 +54,18 @@ const Detail = () => {
             });
         }
     };
+
+    const onRequestMenuClick = (e) => {
+        if (e.key == "seller") {
+            router.get(`/seller/addEdit?id=0&customer_id=${rowData.customer_id}&request_type=leaser&source_id=${rowData.id}`)
+        }
+        if (e.key == "buyer") {
+            router.get(`/buyer/addEdit?id=0&customer_id=${rowData.customer_id}&request_type=leaser&source_id=${rowData.id}`)
+        }
+        if (e.key == "tenant") {
+            router.get(`/tenant/addEdit?id=0&customer_id=${rowData.customer_id}&request_type=leaser&source_id=${rowData.id}`)
+        }
+    }
 
     useEffect(() => {
         setTitle(props.title);
@@ -185,19 +201,36 @@ const Detail = () => {
                                     <Button size={"large"} onClick={showModal}>Add Activity</Button>
                                 </Col>
                                 <Col>
-                                    <Dropdown
-                                        menu={{
-                                            items,
-                                            onClick: onMenuClick,
-                                        }}
-                                    >
-                                        <Button size='large' style={{ borderColor: "red" }}>
-                                            <Space>
-                                                <span style={{ color: "red" }}>Update Status</span>
-                                                <DownOutlined style={{ color: "red" }} />
-                                            </Space>
-                                        </Button>
-                                    </Dropdown>
+                                    <Space size={'middle'}>
+                                        <Dropdown
+                                            menu={{
+                                                items: statusItems,
+                                                onClick: onStatusMenuClick,
+                                            }}
+                                        >
+                                            <Button size='large' style={{ borderColor: "red" }}>
+                                                <Space>
+                                                    <span style={{ color: "red" }}>Update Status</span>
+                                                    <DownOutlined style={{ color: "red" }} />
+                                                </Space>
+                                            </Button>
+                                        </Dropdown>
+
+                                        <Dropdown
+                                            menu={{
+                                                items: requestItems,
+                                                onClick: onRequestMenuClick,
+                                            }}
+                                        >
+                                            <Button size='large' style={{ borderColor: "green" }}>
+                                                <Space>
+                                                    <span style={{ color: "green" }}>Create New Request as:</span>
+                                                    <DownOutlined style={{ color: "green" }} />
+                                                </Space>
+                                            </Button>
+                                        </Dropdown>
+                                    </Space>
+
                                 </Col>
                             </Row>
                         </Card>

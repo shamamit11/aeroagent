@@ -18,7 +18,7 @@ class TenantService
     function index() {
         try {
             $user_id = Auth::user()->id;
-            $tenants = Tenant::where([['user_id', $user_id]])->whereNull('deleted_at')->get();
+            $tenants = Tenant::where([['user_id', $user_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
 
             foreach($tenants as $tenant) {
                 $customer_status = DB::table('customer_statuses')->where([
@@ -116,6 +116,8 @@ class TenantService
             $tenant->budget = $request['budget'];
             $tenant->time_to_close = $request['time_to_close'];
             $tenant->note = $request['note'];
+            $tenant->request_type = $request['request_type'];
+            $tenant->source_id = $request['source_id'];
             $tenant->save();
 
             if(!$request['id']) {

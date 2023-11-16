@@ -9,6 +9,7 @@ const { TextArea } = Input;
 
 const AddEdit = () => {
     const props = usePage().props;
+
     const rowData = props.row;
     const [title, setTitle] = useState('');
 
@@ -33,10 +34,10 @@ const AddEdit = () => {
 
     const { data, setData, post, processing, errors } = useForm({
         id: (rowData?.id) ? rowData?.id : 0,
-        customer_id: rowData?.customer_id,
+        customer_id: (rowData?.customer_id) ? rowData?.customer_id : props.customer_id,
         interest: rowData?.interest,
         market: rowData?.market,
-        project_id: rowData?.project_id,
+        project_id: (rowData?.project_id) ? rowData?.project_id : null,
         property_id: selectedProperty,
         property_type_id: selectedPropertyType,
         property_amenities: amenitiesArray,
@@ -44,7 +45,9 @@ const AddEdit = () => {
         budget: rowData?.budget,
         time_to_close: rowData?.time_to_close,
         note: (rowData?.note) ? rowData?.note : "",
-        status: status_name
+        status: status_name,
+        request_type: props.request_type,
+        source_id: props.source_id,
     });
 
     useEffect(() => {
@@ -52,13 +55,15 @@ const AddEdit = () => {
 
         if (rowData?.property_id == 1 || rowData?.property_id == 2 || rowData?.property_id == 3 || rowData?.property_id == 4) {
             setMarketDisabled(false);
-        } else {
+        } 
+        else {
             setMarketDisabled(true);
         }
 
         if (rowData?.market == 'offplan') {
             setProjectDisabled(false);
-        } else {
+        } 
+        else {
             setProjectDisabled(true);
         }
     }, []);
@@ -200,6 +205,8 @@ const AddEdit = () => {
                                         value={selectedPropertyType}
                                         onChange={(val) => {
                                             setSelectedPropertyType(val)
+                                            form.setFieldValue('market', undefined);
+                                            form.setFieldValue('project_id', undefined);
                                         }}
                                         options={filteredPropertyTypes.map((item) => ({
                                             label: item.name,

@@ -7,6 +7,8 @@ import {
     UsergroupAddOutlined,
     ShopOutlined,
     AppstoreOutlined,
+    PullRequestOutlined,
+    WalletOutlined
 } from '@ant-design/icons';
 import { Link } from '@inertiajs/react';
 
@@ -29,7 +31,7 @@ const agentNavItems = [
 
     {
         key: 'wallet',
-        icon: <DashboardOutlined />,
+        icon: <WalletOutlined />,
         label: <Link href='/wallet-dashboard'>Wallet</Link>,
     },
 
@@ -64,6 +66,13 @@ const agentNavItems = [
         icon: <UserOutlined />,
         label: <Link href='/tenant'>Tenants</Link>,
     },
+
+    {
+        key: 'request',
+        icon: <PullRequestOutlined />,
+        label: <Link href='/request'>Requests</Link>,
+    },
+
     getItem('Customer Activities', 'customeractivity', null, [], 'group'),
 
     {

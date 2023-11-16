@@ -15,26 +15,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class BuyerService
 {
-    // function index() { 
-    //     try {
-    //         $locations = Location::where([["user_id", Auth::user()->id]])->whereNull('deleted_at')->get();
-    //         foreach ($locations as $location) {
-    //             $buyers = Buyer::where([["location_id", $location->id], ["user_id", Auth::user()->id]])->whereNull('deleted_at')->get();
-    //             $location->count = count($buyers);
-    //         }
-
-    //         return [
-    //             "results" => $locations
-    //         ];
-    //     }
-    //     catch (\Exception$e) {
-    //         return $e->getMessage();
-    //     }
-    // }
     function index() {
         try {
             $user_id = Auth::user()->id;
-            $buyers = Buyer::where([['user_id', $user_id]])->whereNull('deleted_at')->get();
+            $buyers = Buyer::where([['user_id', $user_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
 
             foreach($buyers as $buyer) {
                 $customer_status = DB::table('customer_statuses')->where([
@@ -130,7 +114,11 @@ class BuyerService
             }
             $buyer->interest = $request['interest'];
             $buyer->market = $request['market'];
-            $buyer->project_id = $request['project_id'];
+
+            if($request['market'] == "offplan") {
+                $buyer->project_id = $request['project_id'];
+            }
+
             $buyer->property_id = $request['property_id'];
             $buyer->property_type_id = $request['property_type_id'];
 
@@ -142,6 +130,10 @@ class BuyerService
             $buyer->budget = $request['budget'];
             $buyer->time_to_close = $request['time_to_close'];
             $buyer->note = $request['note'];
+
+            $buyer->request_type = $request['request_type'];
+            $buyer->source_id = $request['source_id'];
+        
             $buyer->save();
 
             if(!$request['id']) {

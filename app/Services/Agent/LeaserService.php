@@ -35,7 +35,7 @@ class LeaserService
     function list($location_id) {
         try {
             $user_id = Auth::user()->id;
-            $leasers = Leaser::where([['user_id', $user_id], ['location_id', $location_id]])->whereNull('deleted_at')->get();
+            $leasers = Leaser::where([['user_id', $user_id], ['location_id', $location_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
 
             foreach($leasers as $leaser) {
                 $customer_status = DB::table('customer_statuses')->where([
@@ -149,6 +149,8 @@ class LeaserService
             $leaser->commission = $request['commission'];
             $leaser->ad_link = $request['ad_link'];
             $leaser->note = $request['note'];
+            $leaser->request_type = $request['request_type'];
+            $leaser->source_id = $request['source_id'];
             $leaser->save();
 
             if(!$request['id']) {

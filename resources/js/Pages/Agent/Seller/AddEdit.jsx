@@ -35,7 +35,7 @@ const AddEdit = () => {
 
     const { data, setData, post, processing, errors } = useForm({
         id: (rowData?.id) ? rowData?.id : 0,
-        customer_id: rowData?.customer_id,
+        customer_id: (rowData?.customer_id) ? rowData?.customer_id : props.customer_id,
         market: rowData?.market,
         project_id: rowData?.project_id,
         location_id: rowData?.location_id,
@@ -53,7 +53,9 @@ const AddEdit = () => {
         commission: rowData?.commission,
         ad_link: (rowData?.ad_link) ? rowData?.ad_link : "",
         note: (rowData?.note) ? rowData?.note : "",
-        status: status_name
+        status: status_name,
+        request_type: props.request_type,
+        source_id: props.source_id,
     });
 
     useEffect(() => {

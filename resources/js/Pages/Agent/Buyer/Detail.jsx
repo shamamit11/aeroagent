@@ -21,9 +21,15 @@ const Detail = () => {
     const [hideDateField, setHideDateField] = useState(true);
     const [requiredField, setRequiredField] = useState(false);
 
-    const items = statuses;
+    const statusItems = statuses;
 
-    const onMenuClick = (e) => {
+    const requestItems = [
+        { key: 'seller', label: 'Seller', name: 'Seller' },
+        { key: 'leaser', label: 'Leaser', name: 'Leaser' },
+        { key: 'tenant', label: 'Tenant', name: 'Tenant' }
+    ];
+
+    const onStatusMenuClick = (e) => {
         if (e.key == 2 || e.key == 3) {
             router.get(`/buyer/editData?id=${rowData.id}&status=${e.key}`)
         }
@@ -48,6 +54,18 @@ const Detail = () => {
             });
         }
     };
+
+    const onRequestMenuClick = (e) => {
+        if (e.key == "seller") {
+            router.get(`/seller/addEdit?id=0&customer_id=${rowData.customer_id}&request_type=buyer&source_id=${rowData.id}`)
+        }
+        if (e.key == "leaser") {
+            router.get(`/leaser/addEdit?id=0&customer_id=${rowData.customer_id}&request_type=buyer&source_id=${rowData.id}`)
+        }
+        if (e.key == "tenant") {
+            router.get(`/tenant/addEdit?id=0&customer_id=${rowData.customer_id}&request_type=buyer&source_id=${rowData.id}`)
+        }
+    }
 
     useEffect(() => {
         setTitle(props.title);
@@ -167,19 +185,36 @@ const Detail = () => {
                                     <Button size={"large"} onClick={showModal}>Add Activity</Button>
                                 </Col>
                                 <Col>
-                                    <Dropdown
-                                        menu={{
-                                            items,
-                                            onClick: onMenuClick,
-                                        }}
-                                    >
-                                        <Button size='large' style={{ borderColor: "red" }}>
-                                            <Space>
-                                                <span style={{ color: "red" }}>Update Status</span>
-                                                <DownOutlined style={{ color: "red" }} />
-                                            </Space>
-                                        </Button>
-                                    </Dropdown>
+                                    <Space size={'middle'}>
+                                        <Dropdown
+                                            menu={{
+                                                items: statusItems,
+                                                onClick: onStatusMenuClick,
+                                            }}
+                                        >
+                                            <Button size='large' style={{ borderColor: "red" }}>
+                                                <Space>
+                                                    <span style={{ color: "red" }}>Update Status</span>
+                                                    <DownOutlined style={{ color: "red" }} />
+                                                </Space>
+                                            </Button>
+                                        </Dropdown>
+
+                                        <Dropdown
+                                            menu={{
+                                                items: requestItems,
+                                                onClick: onRequestMenuClick,
+                                            }}
+                                        >
+                                            <Button size='large' style={{ borderColor: "green" }}>
+                                                <Space>
+                                                    <span style={{ color: "green" }}>Create New Request as:</span>
+                                                    <DownOutlined style={{ color: "green" }} />
+                                                </Space>
+                                            </Button>
+                                        </Dropdown>
+                                    </Space>
+
                                 </Col>
                             </Row>
                         </Card>
@@ -224,12 +259,12 @@ const Detail = () => {
                                             <span style={{ fontWeight: 600 }}>Property Size:</span>
                                             <span>{rowData?.property_size} Sq. ft</span>
                                         </Space>
-                                        <Divider/>
+                                        <Divider />
                                         <Space size={"small"}>
                                             <span style={{ fontWeight: 600 }}>Interest:</span>
                                             <span>{rowData?.interest_label}</span>
                                         </Space>
-                                        <Divider/>
+                                        <Divider />
                                     </Col>
                                 </Row>
                                 <Divider />

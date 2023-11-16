@@ -32,6 +32,8 @@ class LeaserRequest extends FormRequest
             'ad_link' => 'nullable',
             'note' => '',
             'status' => '',
+            'request_type' => '',
+            'source_id' => ''
         ];
     }
 }

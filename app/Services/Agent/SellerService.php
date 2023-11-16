@@ -35,7 +35,7 @@ class SellerService
     function list($location_id) {
         try {
             $user_id = Auth::user()->id;
-            $sellers = Seller::where([['user_id', $user_id], ['location_id', $location_id]])->whereNull('deleted_at')->get();
+            $sellers = Seller::where([['user_id', $user_id], ['location_id', $location_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
 
             foreach($sellers as $seller) {
                 $customer_status = DB::table('customer_statuses')->where([
@@ -153,6 +153,8 @@ class SellerService
             $seller->commission = $request['commission'];
             $seller->ad_link = $request['ad_link'];
             $seller->note = $request['note'];
+            $seller->request_type = $request['request_type'];
+            $seller->source_id = $request['source_id'];
             $seller->save();
 
             if(!$request['id']) {

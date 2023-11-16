@@ -34,6 +34,8 @@ class SellerRequest extends FormRequest
             'ad_link' => '',
             'note' => '',
             'status' => '',
+            'request_type' => '',
+            'source_id' => ''
         ];
     }
 }

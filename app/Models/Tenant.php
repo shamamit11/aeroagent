@@ -22,7 +22,9 @@ class Tenant extends Model
         'property_size',
         'budget',
         'time_to_close',
-        'note'
+        'note',
+        'request_type',
+        'source_id'
     ];
 
     public function user() {

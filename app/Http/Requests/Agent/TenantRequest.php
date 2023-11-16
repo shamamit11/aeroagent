@@ -24,6 +24,8 @@ class TenantRequest extends FormRequest
             'time_to_close' => 'nullable',
             'note' => '',
             'status' => '',
+            'request_type' => '',
+            'source_id' => ''
         ];
     }
 }
