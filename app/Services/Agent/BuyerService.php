@@ -43,6 +43,49 @@ class BuyerService
                 'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
                 'status' => $res->status,
                 'status_color' => $res->status_color,
+                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'source_id'=> $res->source_id ? $res->source_id : "",
+            ]);
+
+            return [
+                "results" => $buyers
+            ];
+        } 
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
+
+    function requestList() {
+        try {
+            $user_id = Auth::user()->id;
+            $buyers = Buyer::where([['user_id', $user_id]])->whereNotNull('request_type')->whereNull('deleted_at')->get();
+
+            foreach($buyers as $buyer) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_id', $buyer->customer_id], 
+                    ['customer_type', 'buyer'],
+                    ['source_id', $buyer->id]
+                ])->first();
+                $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                $buyer->status = $status_obj->name;
+                $buyer->status_color = $status_obj->color;
+            }
+
+            $buyers->transform(fn ($res) => [
+                'id'=> $res->id,
+                'customer_id' => $res->customer_id,
+                'customer_name'=> $res->customer->name,
+                'customer_mobile'=> $res->customer->mobile,
+                'interest'=> ucwords($res->interest),
+                'market'=> ucwords($res->market),
+                'project_name' => ($res->project_id) ? $res->project->name : "-",
+                'property' => $res->property->name,
+                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'status' => $res->status,
+                'status_color' => $res->status_color,
+                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
             return [

@@ -71,6 +71,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::post('/seller/activityAction', 'activityAction')->name('seller.activityAction');
         Route::get('/seller/editData', 'editData')->name('seller.editData');
         Route::post('/seller/updateStatus', 'updateStatus')->name('seller.updateStatus');
+        Route::get('/request-seller', 'requestList')->name('seller.request');
     });
 
     Route::controller('Agent\LeaserController')->group(function () {
@@ -85,6 +86,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::post('/leaser/activityAction', 'activityAction')->name('leaser.activityAction');
         Route::get('/leaser/editData', 'editData')->name('leaser.editData');
         Route::post('/leaser/updateStatus', 'updateStatus')->name('leaser.updateStatus');
+        Route::get('/request-leaser', 'requestList')->name('leaser.request');
     });
 
     Route::controller('Agent\TenantController')->group(function () {
@@ -98,6 +100,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::post('/tenant/activityAction', 'activityAction')->name('tenant.activityAction');
         Route::get('/tenant/editData', 'editData')->name('tenant.editData');
         Route::post('/tenant/updateStatus', 'updateStatus')->name('tenant.updateStatus');
+        Route::get('/request-tenant', 'requestList')->name('tenant.request');
     });
 
     Route::controller('Agent\BuyerController')->group(function () {
@@ -111,6 +114,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::post('/buyer/activityAction', 'activityAction')->name('buyer.activityAction');
         Route::get('/buyer/editData', 'editData')->name('buyer.editData');
         Route::post('/buyer/updateStatus', 'updateStatus')->name('buyer.updateStatus');
+        Route::get('/request-buyer', 'requestList')->name('buyer.request');
     });
 
     Route::controller('Agent\FollowupController')->group(function () {

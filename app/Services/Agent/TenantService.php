@@ -40,6 +40,46 @@ class TenantService
                 'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
                 'status' => $res->status,
                 'status_color' => $res->status_color,
+                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'source_id'=> $res->source_id ? $res->source_id : "",
+            ]);
+
+            return [
+                "results" => $tenants
+            ];
+        } 
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
+
+    function requestList() {
+        try {
+            $user_id = Auth::user()->id;
+            $tenants = Tenant::where([['user_id', $user_id]])->whereNotNull('request_type')->whereNull('deleted_at')->get();
+
+            foreach($tenants as $tenant) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_id', $tenant->customer_id], 
+                    ['customer_type', 'tenant'],
+                    ['source_id', $tenant->id]
+                ])->first();
+                $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                $tenant->status = $status_obj->name;
+                $tenant->status_color = $status_obj->color;
+            }
+
+            $tenants->transform(fn ($res) => [
+                'id'=> $res->id,
+                'customer_id' => $res->customer_id,
+                'customer_name'=> $res->customer->name,
+                'customer_mobile'=> $res->customer->mobile,
+                'property' => $res->property->name,
+                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'status' => $res->status,
+                'status_color' => $res->status_color,
+                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
             return [

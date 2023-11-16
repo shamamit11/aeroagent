@@ -31,6 +31,12 @@ class TenantController extends Controller
         return Inertia::render('Agent/Tenant/Index', $result);
     }
 
+    public function requestList(Request $request): Response
+    {
+        $result = $this->service->requestList();
+        return Inertia::render('Agent/Tenant/Request', $result);
+    }
+
     public function addEdit(Request $request): Response
     {
         $id = ($request->id) ? $request->id : 0;

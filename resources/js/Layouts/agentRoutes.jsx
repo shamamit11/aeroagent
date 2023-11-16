@@ -67,10 +67,30 @@ const agentNavItems = [
         label: <Link href='/tenant'>Tenants</Link>,
     },
 
+    getItem('Requests Management', 'requestmanagement', null, [], 'group'),
+
     {
-        key: 'request',
+        key: 'sellerrequest',
         icon: <PullRequestOutlined />,
-        label: <Link href='/request'>Requests</Link>,
+        label: <Link href='/request-seller'>Seller Requests</Link>,
+    },
+    
+    {
+        key: 'buyerrequest',
+        icon: <PullRequestOutlined />,
+        label: <Link href='/request-buyer'>Buyer Requests</Link>,
+    },
+
+    {
+        key: 'leaserrequest',
+        icon: <PullRequestOutlined />,
+        label: <Link href='/request-leaser'>Leaser Requests</Link>,
+    },
+
+    {
+        key: 'tenantrequest',
+        icon: <PullRequestOutlined />,
+        label: <Link href='/request-tenant'>Tenant Requests</Link>,
     },
 
     getItem('Customer Activities', 'customeractivity', null, [], 'group'),

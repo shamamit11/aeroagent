@@ -41,6 +41,12 @@ class SellerController extends Controller
         return Inertia::render('Agent/Seller/List', $result);
     }
 
+    public function requestList(Request $request): Response
+    {
+        $result = $this->service->requestList();
+        return Inertia::render('Agent/Seller/Request', $result);
+    }
+
     public function addEdit(Request $request): Response
     {
         $id = ($request->id) ? $request->id : 0;

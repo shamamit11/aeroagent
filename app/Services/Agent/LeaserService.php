@@ -60,6 +60,49 @@ class LeaserService
                 'building_name' => $res->building_name,
                 'status' => $res->status,
                 'status_color' => $res->status_color,
+                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'source_id'=> $res->source_id ? $res->source_id : "",
+            ]);
+
+            return [
+                "results" => $leasers
+            ];
+        } 
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
+
+    function requestList() {
+        try {
+            $user_id = Auth::user()->id;
+            $leasers = Leaser::where([['user_id', $user_id]])->whereNotNull('request_type')->whereNull('deleted_at')->get();
+
+            foreach($leasers as $leaser) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_id', $leaser->customer_id], 
+                    ['customer_type', 'leaser'],
+                    ['source_id', $leaser->id]
+                ])->first();
+                $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                $leaser->status = $status_obj->name;
+                $leaser->status_color = $status_obj->color;
+            }
+
+            $leasers->transform(fn ($res) => [
+                'id'=> $res->id,
+                'customer_id' => $res->customer_id,
+                'customer_name'=> $res->customer->name,
+                'customer_mobile'=> $res->customer->mobile,
+                'location_id' => $res->location_id,
+                'location' => $res->location->name,
+                'property' => $res->property->name,
+                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'building_name' => $res->building_name,
+                'status' => $res->status,
+                'status_color' => $res->status_color,
+                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
             return [
