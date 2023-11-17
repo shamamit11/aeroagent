@@ -4,8 +4,8 @@ import { A as AgentLayout } from "./AgentLayout-7e278773.js";
 import { Head } from "@inertiajs/react";
 import { Card, Row, Col, Divider, Tabs } from "antd";
 import { UserOutlined, LockOutlined, BankOutlined } from "@ant-design/icons";
-import SettingProfile from "./Profile-d1348e58.js";
-import SettingPassword from "./Password-0435e0f3.js";
+import SettingProfile from "./Profile-7d7d0351.js";
+import SettingPassword from "./Password-b53f6fe1.js";
 import SettingBank from "./Bank-8099bc60.js";
 /* empty css                *//* empty css                */import "./light-logo-3220573e.js";
 const tabItems = [

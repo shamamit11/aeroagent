@@ -5,7 +5,7 @@ import { Card, Row, Col, Statistic, Button } from "antd";
 /* empty css                */import "react";
 import "@ant-design/icons";
 /* empty css                */import "./light-logo-3220573e.js";
-const Dashboard = (props) => {
+const WalletDashboard = (props) => {
   console.log(props);
   const viewWallet = () => {
     router.get("/wallet");
@@ -123,7 +123,7 @@ const Dashboard = (props) => {
     ] }) })
   ] });
 };
-Dashboard.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
+WalletDashboard.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
 export {
-  Dashboard as default
+  WalletDashboard as default
 };

@@ -2,11 +2,11 @@ import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
 import { A as AgentLayout } from "./AgentLayout-7e278773.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Card, Row, Col, Table, Badge, Space, Tooltip, Button, Popconfirm, Input } from "antd";
-import { EyeOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { Card, Row, Col, Space, Button, Table, Badge, Tooltip, Popconfirm, Input } from "antd";
+import { PlusOutlined, EyeOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Request = () => {
+const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -25,6 +25,12 @@ const Request = () => {
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
+  };
+  const handleAdd = () => {
+    router.get("/buyer/addEdit");
+  };
+  const handleImport = () => {
+    router.get("/buyer/import");
   };
   const handleDetail = (id) => {
     router.get(`/buyer/detail?id=${id}`);
@@ -138,11 +144,11 @@ const Request = () => {
       ...getColumnSearchProps("customer_name")
     },
     {
-      title: "Request Type",
-      dataIndex: "request_type",
-      key: "request_type",
+      title: "Mobile",
+      dataIndex: "customer_mobile",
+      key: "customer_mobile",
       width: "15%",
-      ...getColumnSearchProps("request_type")
+      ...getColumnSearchProps("customer_mobile")
     },
     {
       title: "Property",
@@ -170,7 +176,7 @@ const Request = () => {
       key: "status",
       width: "10%",
       align: "center",
-      ...getColumnSearchProps("project_name"),
+      ...getColumnSearchProps("status"),
       render: (_, record) => /* @__PURE__ */ jsx(Badge, { color: record.status_color, count: record.status })
     },
     {
@@ -197,14 +203,20 @@ const Request = () => {
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Buyer Requests" }),
+    /* @__PURE__ */ jsx(Head, { title: "Buyers" }),
     /* @__PURE__ */ jsxs(Card, { bordered: false, style: { width: "100%", borderRadius: 0, paddingBottom: 20 }, children: [
-      /* @__PURE__ */ jsx(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Buyer Requests" }) }) }),
+      /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: [
+        /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Buyers" }) }),
+        /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
+          /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "middle", onClick: handleAdd }),
+          /* @__PURE__ */ jsx(Button, { style: { color: "green", borderColor: "green" }, size: "middle", onClick: handleImport, children: " Import Data" })
+        ] }) })
+      ] }),
       /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
     ] })
   ] });
 };
-Request.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
+Index.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
 export {
-  Request as default
+  Index as default
 };

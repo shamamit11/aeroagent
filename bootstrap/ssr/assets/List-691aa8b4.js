@@ -6,14 +6,13 @@ import { Card, Row, Col, Button, Table, Badge, Space, Tooltip, Popconfirm, Input
 import { ArrowLeftOutlined, EyeOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const ListPage = () => {
+const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [data, setData] = useState();
   const { location_name, results } = usePage().props;
-  console.log(usePage().props);
   useEffect(() => {
     setData(results);
     setLoading(false);
@@ -28,21 +27,21 @@ const ListPage = () => {
     setSearchText("");
   };
   const handleDetail = (id) => {
-    router.get(`/leaser/detail?id=${id}`);
+    router.get(`/seller/detail?id=${id}`);
   };
   const handleEdit = (id) => {
-    router.get(`/leaser/addEdit?id=${id}`);
+    router.get(`/seller/addEdit?id=${id}`);
   };
   const handleDelete = (id, lid) => {
     const formData = {
       id
     };
-    router.post("/leaser/delete", formData, {
+    router.post("/seller/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get(`/leaser/list?lid=${lid}`);
+        router.get(`/seller/list?lid=${lid}`);
       }
     });
   };
@@ -50,7 +49,7 @@ const ListPage = () => {
     message.error("Operation Cancelled !");
   };
   const handleBack = () => {
-    router.get("/leaser");
+    router.get("/seller");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -152,19 +151,22 @@ const ListPage = () => {
       title: "Property",
       dataIndex: "property",
       key: "property",
-      width: "15%"
+      width: "15%",
+      ...getColumnSearchProps("property")
     },
     {
       title: "Property Type",
       dataIndex: "property_type",
       key: "property_type",
-      width: "10%"
+      width: "13%",
+      ...getColumnSearchProps("property_type")
     },
     {
       title: "Status",
       key: "status",
       width: "10%",
       align: "center",
+      ...getColumnSearchProps("status"),
       render: (_, record) => /* @__PURE__ */ jsx(Badge, { color: record.status_color, count: record.status })
     },
     {
@@ -191,11 +193,11 @@ const ListPage = () => {
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Leasers" }),
+    /* @__PURE__ */ jsx(Head, { title: "Sellers" }),
     /* @__PURE__ */ jsxs(Card, { bordered: false, style: { width: "100%", borderRadius: 0, paddingBottom: 20 }, children: [
       /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: [
         /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs("span", { className: "page-title", children: [
-          "Leasers - ",
+          "Sellers - ",
           location_name
         ] }) }),
         /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { shape: "circle", icon: /* @__PURE__ */ jsx(ArrowLeftOutlined, {}), size: "middle", onClick: handleBack }) })
@@ -204,7 +206,7 @@ const ListPage = () => {
     ] })
   ] });
 };
-ListPage.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
+Index.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
 export {
-  ListPage as default
+  Index as default
 };

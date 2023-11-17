@@ -2,17 +2,18 @@ import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
 import { A as AgentLayout } from "./AgentLayout-7e278773.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Card, Row, Col, Table, Badge, Space, Tooltip, Button, Popconfirm, Input } from "antd";
-import { EyeOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { Card, Row, Col, Button, Table, Badge, Space, Tooltip, Popconfirm, Input } from "antd";
+import { ArrowLeftOutlined, EyeOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Request = () => {
+const ListPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [data, setData] = useState();
-  const { results } = usePage().props;
+  const { location_name, results } = usePage().props;
+  console.log(usePage().props);
   useEffect(() => {
     setData(results);
     setLoading(false);
@@ -27,26 +28,29 @@ const Request = () => {
     setSearchText("");
   };
   const handleDetail = (id) => {
-    router.get(`/seller/detail?id=${id}`);
+    router.get(`/leaser/detail?id=${id}`);
   };
   const handleEdit = (id) => {
-    router.get(`/seller/addEdit?id=${id}`);
+    router.get(`/leaser/addEdit?id=${id}`);
   };
   const handleDelete = (id, lid) => {
     const formData = {
       id
     };
-    router.post("/seller/delete", formData, {
+    router.post("/leaser/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get(`/seller/list?lid=${lid}`);
+        router.get(`/leaser/list?lid=${lid}`);
       }
     });
   };
   const handleCancel = () => {
     message.error("Operation Cancelled !");
+  };
+  const handleBack = () => {
+    router.get("/leaser");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -138,29 +142,32 @@ const Request = () => {
       ...getColumnSearchProps("customer_name")
     },
     {
-      title: "Request Type",
-      dataIndex: "request_type",
-      key: "request_type",
-      width: "15%",
-      ...getColumnSearchProps("request_type")
+      title: "Mobile",
+      dataIndex: "customer_mobile",
+      key: "customer_mobile",
+      width: "18%",
+      ...getColumnSearchProps("customer_mobile")
     },
     {
       title: "Property",
       dataIndex: "property",
       key: "property",
-      width: "15%"
+      width: "15%",
+      ...getColumnSearchProps("property")
     },
     {
       title: "Property Type",
       dataIndex: "property_type",
       key: "property_type",
-      width: "10%"
+      width: "13%",
+      ...getColumnSearchProps("property_type")
     },
     {
       title: "Status",
       key: "status",
       width: "10%",
       align: "center",
+      ...getColumnSearchProps("status"),
       render: (_, record) => /* @__PURE__ */ jsx(Badge, { color: record.status_color, count: record.status })
     },
     {
@@ -187,14 +194,20 @@ const Request = () => {
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Seller Requests" }),
+    /* @__PURE__ */ jsx(Head, { title: "Leasers" }),
     /* @__PURE__ */ jsxs(Card, { bordered: false, style: { width: "100%", borderRadius: 0, paddingBottom: 20 }, children: [
-      /* @__PURE__ */ jsx(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Seller Requests" }) }) }),
+      /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: [
+        /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs("span", { className: "page-title", children: [
+          "Leasers - ",
+          location_name
+        ] }) }),
+        /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { shape: "circle", icon: /* @__PURE__ */ jsx(ArrowLeftOutlined, {}), size: "middle", onClick: handleBack }) })
+      ] }),
       /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
     ] })
   ] });
 };
-Request.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
+ListPage.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
 export {
-  Request as default
+  ListPage as default
 };
