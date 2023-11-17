@@ -1,20 +1,17 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-d3b93070.js";
-import { usePage, Head } from "@inertiajs/react";
-import { Card, Row, Col, Table, Modal, Space, Divider, Tooltip, Button, Input } from "antd";
-import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
+import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { usePage, Head, router } from "@inertiajs/react";
+import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                */import "./light-logo-3220573e.js";
-const style = "";
+/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
 const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [data, setData] = useState();
-  const [detail, setDetail] = useState({});
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { results } = usePage().props;
   useEffect(() => {
     setData(results);
@@ -29,13 +26,27 @@ const Index = () => {
     clearFilters();
     setSearchText("");
   };
-  const handleDetail = (record) => {
-    console.log(record);
-    setDetail(record);
-    setIsModalOpen(true);
+  const handleAdd = () => {
+    router.get("/admin/activityType/addEdit");
   };
-  const handleModalCancel = () => {
-    setIsModalOpen(false);
+  const handleEdit = (id) => {
+    router.get(`/admin/activityType/addEdit/?id=${id}`);
+  };
+  const handleDelete = (id) => {
+    const formData = {
+      id
+    };
+    router.post("/admin/activityType/delete", formData, {
+      onSuccess: () => {
+        message.success("Data Deleted Successfully !");
+      },
+      onFinish: () => {
+        router.get("/admin/activityType");
+      }
+    });
+  };
+  const handleCancel = () => {
+    message.error("Operation Cancelled !");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -120,60 +131,40 @@ const Index = () => {
   });
   const columns = [
     {
-      title: "Date",
-      dataIndex: "updated_at",
-      key: "updated_at",
-      width: "18%",
-      ...getColumnSearchProps("updated_at")
-    },
-    {
-      title: "Event",
-      dataIndex: "event",
-      key: "event",
-      width: "15%",
-      ...getColumnSearchProps("event")
-    },
-    {
-      title: "Properties",
-      dataIndex: "properties",
-      key: "properties",
-      width: "auto"
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      width: "auto",
+      ...getColumnSearchProps("name")
     },
     {
       title: "",
       key: "action",
-      width: "10%",
-      align: "center",
-      render: (_, record) => /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "View Detail", color: "blue", children: /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(EyeOutlined, {}), onClick: () => handleDetail(record) }) }) })
+      width: "12%",
+      render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
+        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
+        /* @__PURE__ */ jsx(
+          Popconfirm,
+          {
+            title: "Delete",
+            description: "Are you sure to delete?",
+            onConfirm: () => handleDelete(record.id),
+            onCancel: handleCancel,
+            okText: "Yes",
+            cancelText: "No",
+            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
+          }
+        )
+      ] })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Activity Logs" }),
-    /* @__PURE__ */ jsxs(Card, { bordered: false, style: { width: "100%", borderRadius: 0, paddingBottom: 20 }, children: [
-      /* @__PURE__ */ jsx(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Activity Logs" }) }) }),
-      /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
+    /* @__PURE__ */ jsx(Head, { title: "Activity Types" }),
+    /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Activity Types" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
     ] }),
-    /* @__PURE__ */ jsxs(Modal, { title: "View Detail", open: isModalOpen, onCancel: handleModalCancel, footer: null, width: 900, children: [
-      /* @__PURE__ */ jsxs(Space, { size: "small", children: [
-        /* @__PURE__ */ jsx("span", { style: { fontWeight: 600 }, children: "Created At:" }),
-        /* @__PURE__ */ jsx("span", { children: detail.created_at })
-      ] }),
-      /* @__PURE__ */ jsx(Divider, {}),
-      /* @__PURE__ */ jsxs(Space, { size: "small", children: [
-        /* @__PURE__ */ jsx("span", { style: { fontWeight: 600 }, children: "Updated At:" }),
-        /* @__PURE__ */ jsx("span", { children: detail.updated_at })
-      ] }),
-      /* @__PURE__ */ jsx(Divider, {}),
-      /* @__PURE__ */ jsxs(Space, { size: "small", children: [
-        /* @__PURE__ */ jsx("span", { style: { fontWeight: 600 }, children: "Event:" }),
-        /* @__PURE__ */ jsx("span", { children: detail.event })
-      ] }),
-      /* @__PURE__ */ jsx(Divider, {}),
-      /* @__PURE__ */ jsxs("pre", { children: [
-        detail.all_properties,
-        " "
-      ] })
-    ] })
+    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
   ] });
 };
 Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });

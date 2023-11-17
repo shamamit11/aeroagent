@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-d3b93070.js";
+import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
 import { usePage, Head, router } from "@inertiajs/react";
 import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
@@ -27,21 +27,21 @@ const Index = () => {
     setSearchText("");
   };
   const handleAdd = () => {
-    router.get("/admin/amenity/addEdit");
+    router.get("/admin/propertyType/addEdit");
   };
   const handleEdit = (id) => {
-    router.get(`/admin/amenity/addEdit/?id=${id}`);
+    router.get(`/admin/propertyType/addEdit/?id=${id}`);
   };
   const handleDelete = (id) => {
     const formData = {
       id
     };
-    router.post("/admin/amenity/delete", formData, {
+    router.post("/admin/propertyType/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get("/admin/amenity");
+        router.get("/admin/propertyType");
       }
     });
   };
@@ -138,6 +138,13 @@ const Index = () => {
       ...getColumnSearchProps("name")
     },
     {
+      title: "Property",
+      dataIndex: "property_name",
+      key: "property_name",
+      width: "18%",
+      ...getColumnSearchProps("property_name")
+    },
+    {
       title: "",
       key: "action",
       width: "12%",
@@ -159,9 +166,9 @@ const Index = () => {
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Amenities" }),
+    /* @__PURE__ */ jsx(Head, { title: "Property Types" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Amenities" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Property Types" }) }),
       /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })

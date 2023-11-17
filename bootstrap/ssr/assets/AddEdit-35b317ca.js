@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-d3b93070.js";
+import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
 import { Row, Col, Form, Input, Select, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";
@@ -8,18 +8,19 @@ import { Row, Col, Form, Input, Select, Space, Button, message } from "antd";
 const AddEdit = () => {
   const props = usePage().props;
   const rowData = props.row;
+  const properties = props.properties;
   const [title, setTitle] = useState("");
   const { data, setData, post, processing, errors } = useForm({
     id: (rowData == null ? void 0 : rowData.id) ? rowData == null ? void 0 : rowData.id : 0,
     name: rowData == null ? void 0 : rowData.name,
-    color: (rowData == null ? void 0 : rowData.color) ? rowData == null ? void 0 : rowData.color : "#000000",
-    type: (rowData == null ? void 0 : rowData.type) ? rowData == null ? void 0 : rowData.type : "listing_lead"
+    property_id: (rowData == null ? void 0 : rowData.property_id) ? rowData == null ? void 0 : rowData.property_id : 1
   });
   useEffect(() => {
     setTitle(props.title);
   }, []);
   const submit = () => {
-    post("/admin/status/addAction", {
+    console.log(data);
+    post("/admin/propertyType/addAction", {
       onSuccess: () => {
         if (data.id == 0) {
           message.success("Data Added Successfully !");
@@ -31,12 +32,12 @@ const AddEdit = () => {
         message.error("There was an error processing your request. Please try again !");
       },
       onFinish: () => {
-        router.get("/admin/status");
+        router.get("/admin/propertyType");
       }
     });
   };
   const handleCancel = () => {
-    router.get("/admin/status");
+    router.get("/admin/propertyType");
   };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(Head, { title }),
@@ -79,33 +80,10 @@ const AddEdit = () => {
           /* @__PURE__ */ jsx(
             Form.Item,
             {
-              label: "Color",
-              name: "color",
-              validateStatus: errors.color && "error",
-              help: errors.color,
-              rules: [
-                {
-                  required: true,
-                  message: "This field is required"
-                }
-              ],
-              children: /* @__PURE__ */ jsx(
-                Input,
-                {
-                  size: "large",
-                  type: "color",
-                  disabled: processing
-                }
-              )
-            }
-          ),
-          /* @__PURE__ */ jsx(
-            Form.Item,
-            {
-              label: "Type",
-              name: "type",
-              validateStatus: errors.type && "error",
-              help: errors.type,
+              label: "Property",
+              name: "property_id",
+              validateStatus: errors.property_id && "error",
+              help: errors.property_id,
               rules: [
                 {
                   required: true,
@@ -115,16 +93,10 @@ const AddEdit = () => {
               children: /* @__PURE__ */ jsx(
                 Select,
                 {
-                  options: [
-                    {
-                      value: "listing_lead",
-                      label: "Listing / Lead"
-                    },
-                    {
-                      value: "meeting",
-                      label: "Meeting"
-                    }
-                  ]
+                  options: properties.map((item) => ({
+                    label: item.name,
+                    value: item.id
+                  }))
                 }
               )
             }

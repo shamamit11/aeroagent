@@ -1,12 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AgentLayout } from "./AgentLayout-7e278773.js";
+import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Card, Row, Col, Table, Badge, Space, Tooltip, Button, Popconfirm, Input } from "antd";
-import { EyeOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Request = () => {
+const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -26,22 +26,22 @@ const Request = () => {
     clearFilters();
     setSearchText("");
   };
-  const handleDetail = (id) => {
-    router.get(`/leaser/detail?id=${id}`);
+  const handleAdd = () => {
+    router.get("/admin/amenity/addEdit");
   };
   const handleEdit = (id) => {
-    router.get(`/leaser/addEdit?id=${id}`);
+    router.get(`/admin/amenity/addEdit/?id=${id}`);
   };
-  const handleDelete = (id, lid) => {
+  const handleDelete = (id) => {
     const formData = {
       id
     };
-    router.post("/leaser/delete", formData, {
+    router.post("/admin/amenity/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get(`/leaser/list?lid=${lid}`);
+        router.get("/admin/amenity");
       }
     });
   };
@@ -131,70 +131,43 @@ const Request = () => {
   });
   const columns = [
     {
-      title: "Customer Name",
-      dataIndex: "customer_name",
-      key: "customer_name",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
       width: "auto",
-      ...getColumnSearchProps("customer_name")
-    },
-    {
-      title: "Request Type",
-      dataIndex: "request_type",
-      key: "request_type",
-      width: "15%",
-      ...getColumnSearchProps("request_type")
-    },
-    {
-      title: "Property",
-      dataIndex: "property",
-      key: "property",
-      width: "15%"
-    },
-    {
-      title: "Property Type",
-      dataIndex: "property_type",
-      key: "property_type",
-      width: "10%"
-    },
-    {
-      title: "Status",
-      key: "status",
-      width: "10%",
-      align: "center",
-      render: (_, record) => /* @__PURE__ */ jsx(Badge, { color: record.status_color, count: record.status })
+      ...getColumnSearchProps("name")
     },
     {
       title: "",
       key: "action",
-      width: "13%",
-      align: "center",
+      width: "12%",
       render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
-        /* @__PURE__ */ jsx(Tooltip, { title: "View Detail", color: "blue", children: /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(EyeOutlined, {}), onClick: () => handleDetail(record.id) }) }),
-        /* @__PURE__ */ jsx(Tooltip, { title: "Edit Row", color: "orange", children: /* @__PURE__ */ jsx(Button, { style: { color: "orange", borderColor: "orange" }, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(EditOutlined, {}), onClick: () => handleEdit(record.id) }) }),
+        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
         /* @__PURE__ */ jsx(
           Popconfirm,
           {
             title: "Delete",
             description: "Are you sure to delete?",
-            onConfirm: () => handleDelete(record.id, record.location_id),
+            onConfirm: () => handleDelete(record.id),
             onCancel: handleCancel,
             okText: "Yes",
             cancelText: "No",
-            children: /* @__PURE__ */ jsx(Tooltip, { title: "Delete Row", color: "red", children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(DeleteOutlined, {}) }) })
+            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
           }
         )
       ] })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Leaser Requests" }),
-    /* @__PURE__ */ jsxs(Card, { bordered: false, style: { width: "100%", borderRadius: 0, paddingBottom: 20 }, children: [
-      /* @__PURE__ */ jsx(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Leaser Requests" }) }) }),
-      /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
-    ] })
+    /* @__PURE__ */ jsx(Head, { title: "Amenities" }),
+    /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Amenities" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
   ] });
 };
-Request.layout = (page) => /* @__PURE__ */ jsx(AgentLayout, { children: page });
+Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });
 export {
-  Request as default
+  Index as default
 };

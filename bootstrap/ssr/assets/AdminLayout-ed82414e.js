@@ -30,6 +30,11 @@ const adminNavItems = [
     icon: /* @__PURE__ */ jsx(BgColorsOutlined, {}),
     label: /* @__PURE__ */ jsx(Link, { href: "/admin/payout", children: "Payout" })
   },
+  {
+    key: "listPayout",
+    icon: /* @__PURE__ */ jsx(BgColorsOutlined, {}),
+    label: /* @__PURE__ */ jsx(Link, { href: "/admin/payout/list", children: "List All Payout" })
+  },
   getItem("System Configurations", "systemconfig", null, [], "group"),
   {
     key: "status",
