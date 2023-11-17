@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
+import { A as AdminLayout } from "./AdminLayout-bd2f9456.js";
 import { usePage, Head, router } from "@inertiajs/react";
 import { Row, Col, Button, Table, Badge, Space, Tooltip, Input } from "antd";
 import { PlusOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";

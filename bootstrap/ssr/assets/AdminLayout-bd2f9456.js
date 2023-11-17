@@ -84,14 +84,12 @@ const items = [
   }
 ];
 const AdminLayout = ({ children }) => {
-  const initial = JSON.parse(localStorage.getItem("sidebarCollapsed")) || false;
-  const [collapsed, setCollapsed] = useState(initial);
+  const [collapsed, setCollapsed] = useState(false);
   const { auth } = usePage().props;
   auth.user.role;
   const toggleCollapse = () => {
     const updated = !collapsed;
     setCollapsed(updated);
-    localStorage.setItem("sidebarCollapsed", JSON.stringify(updated));
   };
   return /* @__PURE__ */ jsxs(Layout, { className: "app-layout", children: [
     /* @__PURE__ */ jsxs(

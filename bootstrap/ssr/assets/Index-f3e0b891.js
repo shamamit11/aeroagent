@@ -1,9 +1,10 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
+import dayjs from "dayjs";
+import { A as AdminLayout } from "./AdminLayout-bd2f9456.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Row, Col, Space, DatePicker, Table, Badge, Tooltip, Button, Input } from "antd";
+import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                */import "./light-logo-3220573e.js";
 /* empty css                */const Index = () => {
@@ -12,7 +13,7 @@ import Highlighter from "react-highlight-words";
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [data, setData] = useState();
-  const { results } = usePage().props;
+  const { results, paydate } = usePage().props;
   useEffect(() => {
     setData(results);
     setLoading(false);
@@ -26,27 +27,22 @@ import Highlighter from "react-highlight-words";
     clearFilters();
     setSearchText("");
   };
-  const handleAdd = () => {
-    router.get("/admin/propertyType/addEdit");
+  const onDateChange = (date, dateString) => {
+    router.get(`/admin/payout?pay_date=${dateString}`);
   };
-  const handleEdit = (id) => {
-    router.get(`/admin/propertyType/addEdit/?id=${id}`);
-  };
-  const handleDelete = (id) => {
-    const formData = {
-      id
-    };
-    router.post("/admin/propertyType/delete", formData, {
+  const handlePayment = (object) => {
+    console.log(object);
+    router.post("/admin/payout/store", object, {
       onSuccess: () => {
-        message.success("Data Deleted Successfully !");
+        message.success("Payout Created Successfully !");
+      },
+      onError: () => {
+        message.error("There was an error processing your request. Please try again !");
       },
       onFinish: () => {
-        router.get("/admin/propertyType");
+        router.get("/admin/payout");
       }
     });
-  };
-  const handleCancel = () => {
-    message.error("Operation Cancelled !");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -134,44 +130,64 @@ import Highlighter from "react-highlight-words";
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: "auto",
+      width: "",
       ...getColumnSearchProps("name")
     },
     {
-      title: "Property",
-      dataIndex: "property_name",
-      key: "property_name",
-      width: "18%",
-      ...getColumnSearchProps("property_name")
+      title: "IBAN",
+      dataIndex: "iban",
+      key: "iban",
+      width: "20%"
+    },
+    {
+      title: "Payout Range",
+      key: "pay_range",
+      width: "20%",
+      render: (_, record) => /* @__PURE__ */ jsxs("span", { children: [
+        record.pay_date_from,
+        " - ",
+        record.pay_date_to
+      ] })
+    },
+    {
+      title: "Wallet Balance (AED)",
+      dataIndex: "wallet_balance",
+      key: "wallet_balance",
+      width: "20%"
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      width: "10%",
+      align: "center",
+      ...getColumnSearchProps("status"),
+      render: (_, record) => /* @__PURE__ */ jsx(Badge, { count: record.status, color: record.status_color })
     },
     {
       title: "",
       key: "action",
-      width: "12%",
-      render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
-        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
-        /* @__PURE__ */ jsx(
-          Popconfirm,
-          {
-            title: "Delete",
-            description: "Are you sure to delete?",
-            onConfirm: () => handleDelete(record.id),
-            onCancel: handleCancel,
-            okText: "Yes",
-            cancelText: "No",
-            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
-          }
-        )
+      width: "8%",
+      align: "center",
+      render: (_, record) => /* @__PURE__ */ jsxs(Fragment, { children: [
+        record.status == "Not Paid" && /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "Mark as Paid", color: "green", children: /* @__PURE__ */ jsx(Button, { type: "primary", size: "small", shape: "circle", icon: /* @__PURE__ */ jsx(CheckOutlined, {}), onClick: () => handlePayment(record) }) }) }),
+        record.status == "Paid" && /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "Mark as Paid", color: "red", children: /* @__PURE__ */ jsx(Button, { size: "small", shape: "circle", icon: /* @__PURE__ */ jsx(CheckOutlined, {}), disabled: true }) }) })
       ] })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Property Types" }),
+    /* @__PURE__ */ jsx(Head, { title: "Payouts" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Property Types" }) }),
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs("span", { className: "page-title", children: [
+        "Payouts for ",
+        paydate
+      ] }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
+        /* @__PURE__ */ jsx("span", { children: "Select Date:" }),
+        /* @__PURE__ */ jsx(DatePicker, { defaultValue: dayjs(paydate), onChange: onDateChange })
+      ] }) })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
+    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 200 } }) })
   ] });
 };
 Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });

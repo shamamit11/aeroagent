@@ -1,8 +1,8 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
+import { A as AdminLayout } from "./AdminLayout-bd2f9456.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
+import { Row, Col, Button, Table, Badge, Space, Popconfirm, message, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                */import "./light-logo-3220573e.js";
@@ -27,21 +27,21 @@ import Highlighter from "react-highlight-words";
     setSearchText("");
   };
   const handleAdd = () => {
-    router.get("/admin/property/addEdit");
+    router.get("/admin/status/addEdit");
   };
   const handleEdit = (id) => {
-    router.get(`/admin/property/addEdit/?id=${id}`);
+    router.get(`/admin/status/addEdit/?id=${id}`);
   };
   const handleDelete = (id) => {
     const formData = {
       id
     };
-    router.post("/admin/property/delete", formData, {
+    router.post("/admin/status/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get("/admin/property");
+        router.get("/admin/status");
       }
     });
   };
@@ -138,6 +138,21 @@ import Highlighter from "react-highlight-words";
       ...getColumnSearchProps("name")
     },
     {
+      title: "Color",
+      dataIndex: "color",
+      key: "color",
+      width: "15%",
+      ...getColumnSearchProps("color"),
+      render: (_, record) => /* @__PURE__ */ jsx(Badge, { count: record.color, color: record.color })
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+      width: "15%",
+      ...getColumnSearchProps("type")
+    },
+    {
       title: "",
       key: "action",
       width: "12%",
@@ -159,9 +174,9 @@ import Highlighter from "react-highlight-words";
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Properties" }),
+    /* @__PURE__ */ jsx(Head, { title: "Statuses" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Properties" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Statuses" }) }),
       /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })

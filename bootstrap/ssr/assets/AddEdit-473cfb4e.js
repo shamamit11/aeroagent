@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
+import { A as AdminLayout } from "./AdminLayout-bd2f9456.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
 import { Row, Col, Form, Input, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";
@@ -17,7 +17,7 @@ import "./light-logo-3220573e.js";
     setTitle(props.title);
   }, []);
   const submit = () => {
-    post("/admin/activityType/addAction", {
+    post("/admin/amenity/addAction", {
       onSuccess: () => {
         if (data.id == 0) {
           message.success("Data Added Successfully !");
@@ -29,12 +29,12 @@ import "./light-logo-3220573e.js";
         message.error("There was an error processing your request. Please try again !");
       },
       onFinish: () => {
-        router.get("/admin/activityType");
+        router.get("/admin/amenity");
       }
     });
   };
   const handleCancel = () => {
-    router.get("/admin/activityType");
+    router.get("/admin/amenity");
   };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(Head, { title }),
@@ -56,7 +56,7 @@ import "./light-logo-3220573e.js";
           /* @__PURE__ */ jsx(
             Form.Item,
             {
-              label: "Activity Type",
+              label: "Amenity Name",
               name: "name",
               validateStatus: errors.name && "error",
               help: errors.name,
