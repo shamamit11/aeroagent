@@ -1,20 +1,21 @@
 import React, { useRef, useEffect, useState } from 'react';
-import AgentLayout from '@/Layouts/AgentLayout';
+import dayjs from 'dayjs';
+import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, usePage, router } from "@inertiajs/react";
-import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm } from 'antd';
-import { SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined  } from '@ant-design/icons';
+import { Button, Col, Input, Row, Space, Table, Tooltip, Badge, DatePicker } from 'antd';
+import { SearchOutlined, CheckOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 import "./style.scss";
 
-const Request = () => {
+const Index = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, paydate } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -32,31 +33,25 @@ const Request = () => {
         setSearchText('');
     };
 
-    const handleDetail = (id) => {
-        router.get(`/buyer/detail?id=${id}`)
-    }
+    const onDateChange = (date, dateString) => {
+        router.get(`/admin/payout?pay_date=${dateString}`)
+    };
 
-    const handleEdit = (id) => {
-        router.get(`/buyer/addEdit?id=${id}`)
-    }
+    const handlePayment = (object) => {
+        console.log(object);
 
-    const handleDelete = (id) => {
-        const formData = {
-            id: id
-        };
-        router.post('/buyer/delete', formData, {
+        router.post('/admin/payout/store', object, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success('Payout Created Successfully !')
+            },
+            onError: () => {
+                message.error('There was an error processing your request. Please try again !')
             },
             onFinish: () => {
-                router.get(`/buyer`)
+                router.get('/admin/payout')
             }
-        })
-    };
-
-    const handleCancel = () => {
-        message.error('Operation Cancelled !');
-    };
+        });
+    }
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -130,98 +125,93 @@ const Request = () => {
 
     const columns = [
         {
-            title: 'Customer Name',
-            dataIndex: 'customer_name',
-            key: 'customer_name',
-            width: 'auto',
-            ...getColumnSearchProps('customer_name'),
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
+            width: '',
+            ...getColumnSearchProps('name'),
         },
         {
-            title: 'Request Type',
-            dataIndex: 'request_type',
-            key: 'request_type',
-            width: '15%',
-            ...getColumnSearchProps('request_type'),
+            title: 'IBAN',
+            dataIndex: 'iban',
+            key: 'iban',
+            width: '20%',
         },
         {
-            title: 'Property',
-            dataIndex: 'property',
-            key: 'property',
-            width: '13%',
-            ...getColumnSearchProps('property'),
+            title: 'Payout Range',
+            key: 'pay_range',
+            width: '20%',
+            render: (_, record) => (
+                <span>{record.pay_date_from} - {record.pay_date_to}</span>
+            )
         },
         {
-            title: 'Property Type',
-            dataIndex: 'property_type',
-            key: 'property_type',
-            width: '13%',
-            ...getColumnSearchProps('property_type'),
-        },
-        {
-            title: 'Project',
-            dataIndex: 'project_name',
-            key: 'project_name',
-            width: '15%',
-            ...getColumnSearchProps('project_name'),
+            title: 'Wallet Balance (AED)',
+            dataIndex: 'wallet_balance',
+            key: 'wallet_balance',
+            width: '20%',
         },
         {
             title: 'Status',
+            dataIndex: 'status',
             key: 'status',
             width: '10%',
-            align: 'center',
+            align: "center",
             ...getColumnSearchProps('status'),
             render: (_, record) => (
-                <Badge color={record.status_color} count={record.status} />
+                <Badge count={record.status} color={record.status_color} />
             )
         },
         {
             title: '',
             key: 'action',
-            width: '13%',
+            width: '8%',
             align: "center",
             render: (_, record) => (
-                <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
-                        <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.id)} />
-                    </Tooltip>
-                    <Tooltip title="Edit Row" color="orange">
-                        <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
-                    </Tooltip>
-                    <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
-                        onConfirm={() => handleDelete(record.id)}
-                        onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Tooltip title="Delete Row" color="red">
-                            <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
-                        </Tooltip>
-                    </Popconfirm>
-                </Space>
+                <>
+                    {record.status == 'Not Paid' && (
+                        <Space size="middle">
+                            <Tooltip title="Mark as Paid" color="green">
+                                <Button type='primary' size="small" shape="circle" icon={<CheckOutlined />} onClick={() => handlePayment(record)} />
+                            </Tooltip>
+                        </Space>
+                    )}
+
+                    {record.status == 'Paid' && (
+                        <Space size="middle">
+                            <Tooltip title="Mark as Paid" color="red">
+                                <Button size="small" shape="circle" icon={<CheckOutlined />} disabled/>
+                            </Tooltip>
+                        </Space>
+                    )}
+                </>
+
             ),
         },
     ];
 
     return (
         <>
-            <Head title="Buyer Requests" />
-            <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
-                    <Col>
-                        <span className='page-title'>Buyer Requests</span>
-                    </Col>
-                </Row>
+            <Head title="Payouts" />
+            <Row justify={'space-between'} align={'middle'}>
+                <Col>
+                    <span className='page-title'>Payouts for {paydate}</span>
+                </Col>
+                <Col>
+                    <Space size="middle">
+                        <span>Select Date:</span>
+                        <DatePicker defaultValue={dayjs(paydate)} onChange={onDateChange} />
+                    </Space>
+                </Col>
+            </Row>
 
-                <div className='table-holder'>
-                    <Table columns={columns} dataSource={data} rowKey={(key) => key.id} loading={loading} pagination={{ defaultPageSize: 50 }} />
-                </div>
-            </Card>
+            <div className='table-holder'>
+                <Table columns={columns} dataSource={data} rowKey={(key) => key.id} loading={loading} pagination={{ defaultPageSize: 200 }} />
+            </div>
         </>
     );
 };
 
-Request.layout = page => <AgentLayout children={page} />
+Index.layout = page => <AdminLayout children={page} />
 
-export default Request;
+export default Index;

@@ -15,17 +15,8 @@ class AgentDashboardController extends Controller
     {
         try {
             $user = Auth::user();
-
-            $walletService = new WalletService;
-            $result['balance'] = $walletService->walletBalance();
-            $result['totalPayout'] = $walletService->totalPayout();
-            $referralService = new ReferralService;
-            $result['totalReferral'] = $referralService->totalReferrals();
     
-            $subscriptionObj = UserSubscription::where('user_id', $user->id)->first();
-            $result['nextRenewalDate'] = time_remaining_string($subscriptionObj->next_renewal_date);
-    
-            return Inertia::render('Agent/Dashboard/Index', $result);
+            return Inertia::render('Agent/Dashboard/Index');
         }
         catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);

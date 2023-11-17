@@ -148,18 +148,21 @@ const Request = () => {
             dataIndex: 'property',
             key: 'property',
             width: '15%',
+            ...getColumnSearchProps('property'),
         },
         {
             title: 'Property Type',
             dataIndex: 'property_type',
             key: 'property_type',
-            width: '10%',
+            width: '13%',
+            ...getColumnSearchProps('property_type'),
         },
         {
             title: 'Status',
             key: 'status',
             width: '10%',
             align: 'center',
+            ...getColumnSearchProps('status'),
             render: (_, record) => (
                 <Badge color={record.status_color} count={record.status} />
             )

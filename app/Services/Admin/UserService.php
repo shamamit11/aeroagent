@@ -12,7 +12,7 @@ class UserService
     function list()
     {
         try {
-            $amenities = User::where('role', '<>', 'admin')->get()
+            $users = User::where('role', '<>', 'admin')->get()
                 ->transform(fn($item) => [
                     'id' => $item->id,
                     'name' => $item->first_name . " " . $item->last_name,
@@ -23,10 +23,11 @@ class UserService
                     'role' => ucwords($item->role),
                     'profession' => ucwords($item->profession),
                     'created_at' => $item->created_at->format('Y-m-d H:i:s'),
+                    'user_code' => $item->user_code,
                 ]);
 
             return [
-                "results" => $amenities
+                "results" => $users
             ];
         } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
@@ -83,8 +84,8 @@ class UserService
     {
         try {
             $id = $request->id;
-            $amenity = User::findOrFail($id);
-            $amenity->delete();
+            $user = User::findOrFail($id);
+            $user->delete();
         } catch (\Exception $e) {
             return response()->json(['errors' => $e->getMessage()], 400);
         }

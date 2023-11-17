@@ -188,6 +188,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         Route::get('/admin/user/addEdit', 'addEdit')->name('admin.user.addEdit');
         Route::post('/admin/user/addAction', 'addAction')->name('admin.user.addAction');
         Route::post('/admin/user/delete', 'delete')->name('admin.user.delete');
+        Route::get('/admin/user/view', 'view')->name('admin.user.view');
+    });
+
+    Route::controller('Admin\PayoutController')->group(function () {
+        Route::get('/admin/payout', 'index')->name('admin.payout');
+        Route::post('/admin/payout/store', 'store')->name('admin.payout.store');
+        Route::get('/admin/payout/list', 'listPayouts')->name('admin.payout.list');
     });
 
     Route::controller('Admin\AmenityController')->group(function () {

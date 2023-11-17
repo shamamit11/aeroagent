@@ -1,20 +1,20 @@
 import React, { useRef, useEffect, useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, usePage, router } from "@inertiajs/react";
-import { Button, Col, Input, Row, Space, Table, Tooltip, Badge } from 'antd';
-import { PlusOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons';
+import { Button, Col, Input, Row, Space, Table, Statistic, Card } from 'antd';
+import { SearchOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 import "./style.scss";
 
-const Index = () => {
+const View = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
-    const searchInput = useRef(null);
     const [data, setData] = useState();
+    const searchInput = useRef(null);
 
-    const { results } = usePage().props;
+    const { results, balance, totalReferral, totalPayout, totalRenewal, title } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -32,12 +32,8 @@ const Index = () => {
         setSearchText('');
     };
 
-    const handleAdd = () => {
-        router.get('/admin/user/addEdit')
-    }
-
-    const handleView = (id) => {
-        router.get(`/admin/user/view/?id=${id}`)
+    const handleBack = () => {
+        router.get('/admin/user')
     }
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -112,80 +108,100 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
+            title: 'Date',
+            dataIndex: 'date',
+            key: 'date',
+            width: '12%',
+            ...getColumnSearchProps('date'),
+        },
+        {
+            title: 'Transaction#',
+            dataIndex: 'transaction_id',
+            key: 'transaction_id',
+            width: '25%',
+            ...getColumnSearchProps('transaction_id')
+        },
+        {
+            title: 'Type',
+            dataIndex: 'type',
+            key: 'type',
             width: '15%',
-            ...getColumnSearchProps('name'),
+            ...getColumnSearchProps('type')
         },
         {
-            title: 'Code',
-            dataIndex: 'user_code',
-            key: 'user_code',
-            width: '10%',
-            ...getColumnSearchProps('user_code'),
+            title: 'Amount (AED)',
+            dataIndex: 'amount',
+            key: 'amount',
+            width: '15%'
         },
         {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-            width: '10%',
-            ...getColumnSearchProps('role'),
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
+            title: 'Note',
+            dataIndex: 'note',
+            key: 'note',
             width: 'auto',
-            ...getColumnSearchProps('email'),
-        },
-        {
-            title: 'Mobile',
-            dataIndex: 'mobile',
-            key: 'mobile',
-            width: '15%',
-            ...getColumnSearchProps('mobile'),
-        },
-        {
-            title: 'Created At',
-            dataIndex: 'created_at',
-            key: 'created_at',
-            width: '15%',
-            ...getColumnSearchProps('created_at'),
-        },
-        {
-            title: 'Status',
-            dataIndex: 'status',
-            key: 'status',
-            width: '8%',
-            ...getColumnSearchProps('status'),
-            render: (_, record) => (
-                <Badge count={record.status} color={record.status_color} />
-            )
-        },
-        {
-            title: '',
-            key: 'action',
-            width: '5%',
-            render: (_, record) => (
-                <Space size="middle">
-                    <Tooltip title="View Detail" color="orange">
-                        <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleView(record.id)} />
-                    </Tooltip>
-                </Space>
-            ),
-        },
+        }
     ];
 
     return (
         <>
-            <Head title="Users" />
-            <Row justify={'space-between'} align={'middle'}>
+            <Head title={title} />
+            <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>Users</span>
+                    <span className='page-title'>{title} -  Wallet</span>
                 </Col>
                 <Col>
-                    <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<PlusOutlined />} size={"middle"} onClick={handleAdd} />
+                    <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<ArrowLeftOutlined />} size={"middle"} onClick={handleBack} />
+                </Col>
+            </Row>
+
+            <Row gutter={24}>
+                <Col span={6}>
+                    <Card bordered={false}>
+                        <Statistic
+                            title="Available Balance (AED)"
+                            value={balance}
+                            precision={2}
+                            valueStyle={{
+                                color: '#3f8600',
+                            }}
+                        />
+                    </Card>
+                </Col>
+                <Col span={6}>
+                    <Card bordered={false}>
+                        <Statistic
+                            title="Total Referral (AED)"
+                            value={totalReferral}
+                            precision={2}
+                            valueStyle={{
+                                color: 'skyblue',
+                            }}
+                        />
+                    </Card>
+                </Col>
+                <Col span={6}>
+                    <Card bordered={false}>
+                        <Statistic
+                            title="Total Payout (AED)"
+                            value={totalPayout}
+                            precision={2}
+                            valueStyle={{
+                                color: 'orange',
+                            }}
+                        />
+                    </Card>
+                </Col>
+                <Col span={6}>
+                    <Card bordered={false}>
+                        <Statistic
+                            title="Total Renewal (AED)"
+                            value={totalRenewal}
+                            precision={2}
+                            valueStyle={{
+                                color: '#cf1322',
+                            }}
+                        />
+                    </Card>
                 </Col>
             </Row>
 
@@ -196,6 +212,6 @@ const Index = () => {
     );
 };
 
-Index.layout = page => <AdminLayout children={page} />
+View.layout = page => <AdminLayout children={page} />
 
-export default Index;
+export default View;

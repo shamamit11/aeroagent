@@ -32,90 +32,26 @@ const Dashboard = (props) => {
             <Card title={`Welcome, ${props.auth.user.first_name}`}>
 
                 <Row gutter={24}>
-                    <Col span={6}>
+                    <Col span={4}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Wallet Balance (AED)"
+                                title="Total Agents"
                                 value={props.balance}
-                                precision={2}
                                 valueStyle={{
                                     color: '#3f8600',
                                 }}
                             />
-                            <Button
-                                style={{
-                                    marginTop: 16,
-                                    color: "green", 
-                                    borderColor: "green"
-                                }}
-                                onClick={viewWallet}
-                            >
-                                View Wallet
-                            </Button>
                         </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col span={4}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Total Referrals"
+                                title="Total Affiliates"
                                 value={props.totalReferral}
                                 valueStyle={{
                                     color: 'skyblue',
                                 }}
                             />
-                            <Button
-                                style={{
-                                    marginTop: 16,
-                                    color: "skyblue", 
-                                    borderColor: "skyblue"
-                                }}
-                                onClick={viewReferral}
-                            >
-                                View Referrals
-                            </Button>
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card bordered={false}>
-                            <Statistic
-                                title="Total Payout (AED)"
-                                value={props.totalPayout}
-                                precision={2}
-                                valueStyle={{
-                                    color: 'orange',
-                                }}
-                            />
-                            <Button
-                                style={{
-                                    marginTop: 16,
-                                    color: "orange", 
-                                    borderColor: "orange"
-                                }}
-                                onClick={viewPayout}
-                            >
-                                View Payouts
-                            </Button>
-                        </Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card bordered={false}>
-                            <Statistic
-                                title="Next Renewal After"
-                                value={props.nextRenewalDate}
-                                valueStyle={{
-                                    color: '#cf1322',
-                                }}
-                            />
-                            <Button
-                                style={{
-                                    marginTop: 16,
-                                    color: "#cf1322", 
-                                    borderColor: "#cf1322"
-                                }}
-                                onClick={viewRenewal}
-                            >
-                                View Renewals
-                            </Button>
                         </Card>
                     </Col>
                 </Row>
