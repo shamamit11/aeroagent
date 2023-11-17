@@ -28,6 +28,9 @@ import { createInertiaApp } from '@inertiajs/react'
 import createServer from '@inertiajs/react/server'
 import ReactDOMServer from 'react-dom/server'
 
+import './bootstrap';
+import "../css/app.scss";
+
 createServer(page =>
   createInertiaApp({
     page,
