@@ -49,17 +49,21 @@ const items = [
     },
 ];
 
+
+
 const AdminLayout = ({ children }) => {
-    const initial = JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
-    const [collapsed, setCollapsed] = useState(initial);
+    //const initial = JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
+    const [collapsed, setCollapsed] = useState(false);
+    //const [initial, setInitial] = useState()
 
     const { auth } = usePage().props;
+
     const userRole = auth.user.role;
 
     const toggleCollapse = () => {
         const updated = !collapsed;
         setCollapsed(updated)
-        localStorage.setItem('sidebarCollapsed', JSON.stringify(updated))
+        //localStorage.setItem('sidebarCollapsed', JSON.stringify(updated))
     };
 
     return (
