@@ -1,23 +1,26 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
-import { Row, Col, Form, Input, Space, Button, message } from "antd";
+import { Row, Col, Form, Input, Select, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";
 import "./light-logo-3220573e.js";
 /* empty css                */const AddEdit = () => {
   const props = usePage().props;
   const rowData = props.row;
+  const properties = props.properties;
   const [title, setTitle] = useState("");
   const { data, setData, post, processing, errors } = useForm({
     id: (rowData == null ? void 0 : rowData.id) ? rowData == null ? void 0 : rowData.id : 0,
-    name: rowData == null ? void 0 : rowData.name
+    name: rowData == null ? void 0 : rowData.name,
+    property_id: (rowData == null ? void 0 : rowData.property_id) ? rowData == null ? void 0 : rowData.property_id : 1
   });
   useEffect(() => {
     setTitle(props.title);
   }, []);
   const submit = () => {
-    post("/admin/activityType/addAction", {
+    console.log(data);
+    post("/admin/propertyType/addAction", {
       onSuccess: () => {
         if (data.id == 0) {
           message.success("Data Added Successfully !");
@@ -29,12 +32,12 @@ import "./light-logo-3220573e.js";
         message.error("There was an error processing your request. Please try again !");
       },
       onFinish: () => {
-        router.get("/admin/activityType");
+        router.get("/admin/propertyType");
       }
     });
   };
   const handleCancel = () => {
-    router.get("/admin/activityType");
+    router.get("/admin/propertyType");
   };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(Head, { title }),
@@ -56,7 +59,7 @@ import "./light-logo-3220573e.js";
           /* @__PURE__ */ jsx(
             Form.Item,
             {
-              label: "Activity Type",
+              label: "Name",
               name: "name",
               validateStatus: errors.name && "error",
               help: errors.name,
@@ -70,6 +73,30 @@ import "./light-logo-3220573e.js";
                 Input,
                 {
                   disabled: processing
+                }
+              )
+            }
+          ),
+          /* @__PURE__ */ jsx(
+            Form.Item,
+            {
+              label: "Property",
+              name: "property_id",
+              validateStatus: errors.property_id && "error",
+              help: errors.property_id,
+              rules: [
+                {
+                  required: true,
+                  message: "This field is required"
+                }
+              ],
+              children: /* @__PURE__ */ jsx(
+                Select,
+                {
+                  options: properties.map((item) => ({
+                    label: item.name,
+                    value: item.id
+                  }))
                 }
               )
             }

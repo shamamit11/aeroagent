@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState } from "react";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { Head } from "@inertiajs/react";
 import { Card, Row, Col, Divider, Tabs } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";

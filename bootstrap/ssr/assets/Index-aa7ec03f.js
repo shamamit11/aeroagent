@@ -1,12 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
-import { usePage, Head } from "@inertiajs/react";
-import { Row, Col, Table, Badge, Input, Space, Button } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
+import { usePage, Head, router } from "@inertiajs/react";
+import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 /* empty css                */import "./light-logo-3220573e.js";
-/* empty css                */const List = () => {
+/* empty css                */const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -25,6 +25,28 @@ import Highlighter from "react-highlight-words";
   const handleReset = (clearFilters) => {
     clearFilters();
     setSearchText("");
+  };
+  const handleAdd = () => {
+    router.get("/admin/property/addEdit");
+  };
+  const handleEdit = (id) => {
+    router.get(`/admin/property/addEdit/?id=${id}`);
+  };
+  const handleDelete = (id) => {
+    const formData = {
+      id
+    };
+    router.post("/admin/property/delete", formData, {
+      onSuccess: () => {
+        message.success("Data Deleted Successfully !");
+      },
+      onFinish: () => {
+        router.get("/admin/property");
+      }
+    });
+  };
+  const handleCancel = () => {
+    message.error("Operation Cancelled !");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -116,44 +138,36 @@ import Highlighter from "react-highlight-words";
       ...getColumnSearchProps("name")
     },
     {
-      title: "Payout Date",
-      dataIndex: "payout_date",
-      key: "payout_date",
-      width: "15%"
-    },
-    {
-      title: "Payout Range",
-      key: "pay_range",
-      width: "25%",
-      render: (_, record) => /* @__PURE__ */ jsxs("span", { children: [
-        record.payout_date_from,
-        " - ",
-        record.payout_date_to
+      title: "",
+      key: "action",
+      width: "12%",
+      render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
+        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
+        /* @__PURE__ */ jsx(
+          Popconfirm,
+          {
+            title: "Delete",
+            description: "Are you sure to delete?",
+            onConfirm: () => handleDelete(record.id),
+            onCancel: handleCancel,
+            okText: "Yes",
+            cancelText: "No",
+            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
+          }
+        )
       ] })
-    },
-    {
-      title: "Amount (AED)",
-      dataIndex: "amount",
-      key: "amount",
-      width: "18%"
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: "10%",
-      align: "center",
-      ...getColumnSearchProps("status"),
-      render: (_, record) => /* @__PURE__ */ jsx(Badge, { count: record.status, color: record.status_color })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Payouts" }),
-    /* @__PURE__ */ jsx(Row, { justify: "space-between", align: "middle", children: /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "List All Payouts" }) }) }),
-    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 200 } }) })
+    /* @__PURE__ */ jsx(Head, { title: "Properties" }),
+    /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Properties" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
+    ] }),
+    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
   ] });
 };
-List.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });
+Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });
 export {
-  List as default
+  Index as default
 };

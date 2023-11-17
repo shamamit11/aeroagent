@@ -86,7 +86,6 @@ const items = [
 const AdminLayout = ({ children }) => {
   const initial = JSON.parse(localStorage.getItem("sidebarCollapsed")) || false;
   const [collapsed, setCollapsed] = useState(initial);
-  console.log(children);
   const { auth } = usePage().props;
   auth.user.role;
   const toggleCollapse = () => {

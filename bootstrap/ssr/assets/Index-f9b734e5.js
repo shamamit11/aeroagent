@@ -1,6 +1,6 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, Head, router } from "@inertiajs/react";
 import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
@@ -27,21 +27,21 @@ import Highlighter from "react-highlight-words";
     setSearchText("");
   };
   const handleAdd = () => {
-    router.get("/admin/amenity/addEdit");
+    router.get("/admin/activityType/addEdit");
   };
   const handleEdit = (id) => {
-    router.get(`/admin/amenity/addEdit/?id=${id}`);
+    router.get(`/admin/activityType/addEdit/?id=${id}`);
   };
   const handleDelete = (id) => {
     const formData = {
       id
     };
-    router.post("/admin/amenity/delete", formData, {
+    router.post("/admin/activityType/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get("/admin/amenity");
+        router.get("/admin/activityType");
       }
     });
   };
@@ -159,9 +159,9 @@ import Highlighter from "react-highlight-words";
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Amenities" }),
+    /* @__PURE__ */ jsx(Head, { title: "Activity Types" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Amenities" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Activity Types" }) }),
       /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })

@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
 import { Card, Row, Col, Form, Select, Input, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";

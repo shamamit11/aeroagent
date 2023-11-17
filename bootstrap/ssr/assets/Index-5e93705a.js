@@ -1,5 +1,5 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { Head } from "@inertiajs/react";
 import { Card, Row, Col, Statistic } from "antd";
 import "react";

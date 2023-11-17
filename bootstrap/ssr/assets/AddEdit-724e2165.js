@@ -1,8 +1,8 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
-import { Row, Col, Form, Input, Select, Space, Button, message } from "antd";
+import { Row, Col, Form, Input, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";
 import "./light-logo-3220573e.js";
 /* empty css                */const AddEdit = () => {
@@ -11,15 +11,13 @@ import "./light-logo-3220573e.js";
   const [title, setTitle] = useState("");
   const { data, setData, post, processing, errors } = useForm({
     id: (rowData == null ? void 0 : rowData.id) ? rowData == null ? void 0 : rowData.id : 0,
-    name: rowData == null ? void 0 : rowData.name,
-    color: (rowData == null ? void 0 : rowData.color) ? rowData == null ? void 0 : rowData.color : "#000000",
-    type: (rowData == null ? void 0 : rowData.type) ? rowData == null ? void 0 : rowData.type : "listing_lead"
+    name: rowData == null ? void 0 : rowData.name
   });
   useEffect(() => {
     setTitle(props.title);
   }, []);
   const submit = () => {
-    post("/admin/status/addAction", {
+    post("/admin/activityType/addAction", {
       onSuccess: () => {
         if (data.id == 0) {
           message.success("Data Added Successfully !");
@@ -31,12 +29,12 @@ import "./light-logo-3220573e.js";
         message.error("There was an error processing your request. Please try again !");
       },
       onFinish: () => {
-        router.get("/admin/status");
+        router.get("/admin/activityType");
       }
     });
   };
   const handleCancel = () => {
-    router.get("/admin/status");
+    router.get("/admin/activityType");
   };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(Head, { title }),
@@ -58,7 +56,7 @@ import "./light-logo-3220573e.js";
           /* @__PURE__ */ jsx(
             Form.Item,
             {
-              label: "Name",
+              label: "Activity Type",
               name: "name",
               validateStatus: errors.name && "error",
               help: errors.name,
@@ -72,59 +70,6 @@ import "./light-logo-3220573e.js";
                 Input,
                 {
                   disabled: processing
-                }
-              )
-            }
-          ),
-          /* @__PURE__ */ jsx(
-            Form.Item,
-            {
-              label: "Color",
-              name: "color",
-              validateStatus: errors.color && "error",
-              help: errors.color,
-              rules: [
-                {
-                  required: true,
-                  message: "This field is required"
-                }
-              ],
-              children: /* @__PURE__ */ jsx(
-                Input,
-                {
-                  size: "large",
-                  type: "color",
-                  disabled: processing
-                }
-              )
-            }
-          ),
-          /* @__PURE__ */ jsx(
-            Form.Item,
-            {
-              label: "Type",
-              name: "type",
-              validateStatus: errors.type && "error",
-              help: errors.type,
-              rules: [
-                {
-                  required: true,
-                  message: "This field is required"
-                }
-              ],
-              children: /* @__PURE__ */ jsx(
-                Select,
-                {
-                  options: [
-                    {
-                      value: "listing_lead",
-                      label: "Listing / Lead"
-                    },
-                    {
-                      value: "meeting",
-                      label: "Meeting"
-                    }
-                  ]
                 }
               )
             }
