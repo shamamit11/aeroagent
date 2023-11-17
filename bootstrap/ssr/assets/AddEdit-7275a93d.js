@@ -1,11 +1,11 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
 import { Card, Row, Col, Form, Select, Input, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";
-/* empty css                */import "./light-logo-3220573e.js";
-const AddEdit = () => {
+import "./light-logo-3220573e.js";
+/* empty css                */const AddEdit = () => {
   const props = usePage().props;
   props.row;
   const [title, setTitle] = useState("");

@@ -1,12 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, Head } from "@inertiajs/react";
 import { Row, Col, Table, Badge, Input, Space, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const List = () => {
+/* empty css                */import "./light-logo-3220573e.js";
+/* empty css                */const List = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");

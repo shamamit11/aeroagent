@@ -1,17 +1,20 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
-import { usePage, Head, router } from "@inertiajs/react";
-import { Row, Col, Button, Table, Badge, Space, Tooltip, Input } from "antd";
-import { PlusOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
+import { usePage, Head } from "@inertiajs/react";
+import { Card, Row, Col, Table, Modal, Space, Divider, Tooltip, Button, Input } from "antd";
+import { EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
+import "./light-logo-3220573e.js";
+/* empty css                */const style = "";
 const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [data, setData] = useState();
+  const [detail, setDetail] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { results } = usePage().props;
   useEffect(() => {
     setData(results);
@@ -26,11 +29,13 @@ const Index = () => {
     clearFilters();
     setSearchText("");
   };
-  const handleAdd = () => {
-    router.get("/admin/user/addEdit");
+  const handleDetail = (record) => {
+    console.log(record);
+    setDetail(record);
+    setIsModalOpen(true);
   };
-  const handleView = (id) => {
-    router.get(`/admin/user/view/?id=${id}`);
+  const handleModalCancel = () => {
+    setIsModalOpen(false);
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -115,69 +120,60 @@ const Index = () => {
   });
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Date",
+      dataIndex: "updated_at",
+      key: "updated_at",
+      width: "18%",
+      ...getColumnSearchProps("updated_at")
+    },
+    {
+      title: "Event",
+      dataIndex: "event",
+      key: "event",
       width: "15%",
-      ...getColumnSearchProps("name")
+      ...getColumnSearchProps("event")
     },
     {
-      title: "Code",
-      dataIndex: "user_code",
-      key: "user_code",
-      width: "10%",
-      ...getColumnSearchProps("user_code")
-    },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      width: "10%",
-      ...getColumnSearchProps("role")
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      width: "auto",
-      ...getColumnSearchProps("email")
-    },
-    {
-      title: "Mobile",
-      dataIndex: "mobile",
-      key: "mobile",
-      width: "15%",
-      ...getColumnSearchProps("mobile")
-    },
-    {
-      title: "Created At",
-      dataIndex: "created_at",
-      key: "created_at",
-      width: "15%",
-      ...getColumnSearchProps("created_at")
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: "8%",
-      ...getColumnSearchProps("status"),
-      render: (_, record) => /* @__PURE__ */ jsx(Badge, { count: record.status, color: record.status_color })
+      title: "Properties",
+      dataIndex: "properties",
+      key: "properties",
+      width: "auto"
     },
     {
       title: "",
       key: "action",
-      width: "5%",
-      render: (_, record) => /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "View Detail", color: "orange", children: /* @__PURE__ */ jsx(Button, { style: { color: "orange", borderColor: "orange" }, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(EyeOutlined, {}), onClick: () => handleView(record.id) }) }) })
+      width: "10%",
+      align: "center",
+      render: (_, record) => /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "View Detail", color: "blue", children: /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(EyeOutlined, {}), onClick: () => handleDetail(record) }) }) })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Users" }),
-    /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Users" }) }),
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "middle", onClick: handleAdd }) })
+    /* @__PURE__ */ jsx(Head, { title: "Activity Logs" }),
+    /* @__PURE__ */ jsxs(Card, { bordered: false, style: { width: "100%", borderRadius: 0, paddingBottom: 20 }, children: [
+      /* @__PURE__ */ jsx(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20, marginTop: 5 }, children: /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Activity Logs" }) }) }),
+      /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
+    /* @__PURE__ */ jsxs(Modal, { title: "View Detail", open: isModalOpen, onCancel: handleModalCancel, footer: null, width: 900, children: [
+      /* @__PURE__ */ jsxs(Space, { size: "small", children: [
+        /* @__PURE__ */ jsx("span", { style: { fontWeight: 600 }, children: "Created At:" }),
+        /* @__PURE__ */ jsx("span", { children: detail.created_at })
+      ] }),
+      /* @__PURE__ */ jsx(Divider, {}),
+      /* @__PURE__ */ jsxs(Space, { size: "small", children: [
+        /* @__PURE__ */ jsx("span", { style: { fontWeight: 600 }, children: "Updated At:" }),
+        /* @__PURE__ */ jsx("span", { children: detail.updated_at })
+      ] }),
+      /* @__PURE__ */ jsx(Divider, {}),
+      /* @__PURE__ */ jsxs(Space, { size: "small", children: [
+        /* @__PURE__ */ jsx("span", { style: { fontWeight: 600 }, children: "Event:" }),
+        /* @__PURE__ */ jsx("span", { children: detail.event })
+      ] }),
+      /* @__PURE__ */ jsx(Divider, {}),
+      /* @__PURE__ */ jsxs("pre", { children: [
+        detail.all_properties,
+        " "
+      ] })
+    ] })
   ] });
 };
 Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });

@@ -1,18 +1,18 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Card, Statistic, Table, Input, Space } from "antd";
+import { ArrowLeftOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Index = () => {
+/* empty css                */import "./light-logo-3220573e.js";
+/* empty css                */const View = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
-  const searchInput = useRef(null);
   const [data, setData] = useState();
-  const { results } = usePage().props;
+  const searchInput = useRef(null);
+  const { results, balance, totalReferral, totalPayout, totalRenewal, title } = usePage().props;
   useEffect(() => {
     setData(results);
     setLoading(false);
@@ -26,27 +26,8 @@ const Index = () => {
     clearFilters();
     setSearchText("");
   };
-  const handleAdd = () => {
-    router.get("/admin/activityType/addEdit");
-  };
-  const handleEdit = (id) => {
-    router.get(`/admin/activityType/addEdit/?id=${id}`);
-  };
-  const handleDelete = (id) => {
-    const formData = {
-      id
-    };
-    router.post("/admin/activityType/delete", formData, {
-      onSuccess: () => {
-        message.success("Data Deleted Successfully !");
-      },
-      onFinish: () => {
-        router.get("/admin/activityType");
-      }
-    });
-  };
-  const handleCancel = () => {
-    message.error("Operation Cancelled !");
+  const handleBack = () => {
+    router.get("/admin/user");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -131,43 +112,98 @@ const Index = () => {
   });
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      width: "auto",
-      ...getColumnSearchProps("name")
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+      width: "12%",
+      ...getColumnSearchProps("date")
     },
     {
-      title: "",
-      key: "action",
-      width: "12%",
-      render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
-        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
-        /* @__PURE__ */ jsx(
-          Popconfirm,
-          {
-            title: "Delete",
-            description: "Are you sure to delete?",
-            onConfirm: () => handleDelete(record.id),
-            onCancel: handleCancel,
-            okText: "Yes",
-            cancelText: "No",
-            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
-          }
-        )
-      ] })
+      title: "Transaction#",
+      dataIndex: "transaction_id",
+      key: "transaction_id",
+      width: "25%",
+      ...getColumnSearchProps("transaction_id")
+    },
+    {
+      title: "Type",
+      dataIndex: "type",
+      key: "type",
+      width: "15%",
+      ...getColumnSearchProps("type")
+    },
+    {
+      title: "Amount (AED)",
+      dataIndex: "amount",
+      key: "amount",
+      width: "15%"
+    },
+    {
+      title: "Note",
+      dataIndex: "note",
+      key: "note",
+      width: "auto"
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Activity Types" }),
-    /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Activity Types" }) }),
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
+    /* @__PURE__ */ jsx(Head, { title }),
+    /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", style: { marginBottom: 20 }, children: [
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs("span", { className: "page-title", children: [
+        title,
+        " -  Wallet"
+      ] }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, shape: "circle", icon: /* @__PURE__ */ jsx(ArrowLeftOutlined, {}), size: "middle", onClick: handleBack }) })
+    ] }),
+    /* @__PURE__ */ jsxs(Row, { gutter: 24, children: [
+      /* @__PURE__ */ jsx(Col, { span: 6, children: /* @__PURE__ */ jsx(Card, { bordered: false, children: /* @__PURE__ */ jsx(
+        Statistic,
+        {
+          title: "Available Balance (AED)",
+          value: balance,
+          precision: 2,
+          valueStyle: {
+            color: "#3f8600"
+          }
+        }
+      ) }) }),
+      /* @__PURE__ */ jsx(Col, { span: 6, children: /* @__PURE__ */ jsx(Card, { bordered: false, children: /* @__PURE__ */ jsx(
+        Statistic,
+        {
+          title: "Total Referral (AED)",
+          value: totalReferral,
+          precision: 2,
+          valueStyle: {
+            color: "skyblue"
+          }
+        }
+      ) }) }),
+      /* @__PURE__ */ jsx(Col, { span: 6, children: /* @__PURE__ */ jsx(Card, { bordered: false, children: /* @__PURE__ */ jsx(
+        Statistic,
+        {
+          title: "Total Payout (AED)",
+          value: totalPayout,
+          precision: 2,
+          valueStyle: {
+            color: "orange"
+          }
+        }
+      ) }) }),
+      /* @__PURE__ */ jsx(Col, { span: 6, children: /* @__PURE__ */ jsx(Card, { bordered: false, children: /* @__PURE__ */ jsx(
+        Statistic,
+        {
+          title: "Total Renewal (AED)",
+          value: totalRenewal,
+          precision: 2,
+          valueStyle: {
+            color: "#cf1322"
+          }
+        }
+      ) }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
   ] });
 };
-Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });
+View.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });
 export {
-  Index as default
+  View as default
 };

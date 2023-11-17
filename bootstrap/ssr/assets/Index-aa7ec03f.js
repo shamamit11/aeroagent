@@ -1,19 +1,18 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import dayjs from "dayjs";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-272e4a16.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Row, Col, Space, DatePicker, Table, Badge, Tooltip, Button, Input } from "antd";
-import { CheckOutlined, SearchOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
+import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Index = () => {
+/* empty css                */import "./light-logo-3220573e.js";
+/* empty css                */const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const [data, setData] = useState();
-  const { results, paydate } = usePage().props;
+  const { results } = usePage().props;
   useEffect(() => {
     setData(results);
     setLoading(false);
@@ -27,22 +26,27 @@ const Index = () => {
     clearFilters();
     setSearchText("");
   };
-  const onDateChange = (date, dateString) => {
-    router.get(`/admin/payout?pay_date=${dateString}`);
+  const handleAdd = () => {
+    router.get("/admin/property/addEdit");
   };
-  const handlePayment = (object) => {
-    console.log(object);
-    router.post("/admin/payout/store", object, {
+  const handleEdit = (id) => {
+    router.get(`/admin/property/addEdit/?id=${id}`);
+  };
+  const handleDelete = (id) => {
+    const formData = {
+      id
+    };
+    router.post("/admin/property/delete", formData, {
       onSuccess: () => {
-        message.success("Payout Created Successfully !");
-      },
-      onError: () => {
-        message.error("There was an error processing your request. Please try again !");
+        message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get("/admin/payout");
+        router.get("/admin/property");
       }
     });
+  };
+  const handleCancel = () => {
+    message.error("Operation Cancelled !");
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -130,64 +134,37 @@ const Index = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: "",
+      width: "auto",
       ...getColumnSearchProps("name")
-    },
-    {
-      title: "IBAN",
-      dataIndex: "iban",
-      key: "iban",
-      width: "20%"
-    },
-    {
-      title: "Payout Range",
-      key: "pay_range",
-      width: "20%",
-      render: (_, record) => /* @__PURE__ */ jsxs("span", { children: [
-        record.pay_date_from,
-        " - ",
-        record.pay_date_to
-      ] })
-    },
-    {
-      title: "Wallet Balance (AED)",
-      dataIndex: "wallet_balance",
-      key: "wallet_balance",
-      width: "20%"
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      width: "10%",
-      align: "center",
-      ...getColumnSearchProps("status"),
-      render: (_, record) => /* @__PURE__ */ jsx(Badge, { count: record.status, color: record.status_color })
     },
     {
       title: "",
       key: "action",
-      width: "8%",
-      align: "center",
-      render: (_, record) => /* @__PURE__ */ jsxs(Fragment, { children: [
-        record.status == "Not Paid" && /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "Mark as Paid", color: "green", children: /* @__PURE__ */ jsx(Button, { type: "primary", size: "small", shape: "circle", icon: /* @__PURE__ */ jsx(CheckOutlined, {}), onClick: () => handlePayment(record) }) }) }),
-        record.status == "Paid" && /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "Mark as Paid", color: "red", children: /* @__PURE__ */ jsx(Button, { size: "small", shape: "circle", icon: /* @__PURE__ */ jsx(CheckOutlined, {}), disabled: true }) }) })
+      width: "12%",
+      render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
+        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
+        /* @__PURE__ */ jsx(
+          Popconfirm,
+          {
+            title: "Delete",
+            description: "Are you sure to delete?",
+            onConfirm: () => handleDelete(record.id),
+            onCancel: handleCancel,
+            okText: "Yes",
+            cancelText: "No",
+            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
+          }
+        )
       ] })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Payouts" }),
+    /* @__PURE__ */ jsx(Head, { title: "Properties" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs("span", { className: "page-title", children: [
-        "Payouts for ",
-        paydate
-      ] }) }),
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
-        /* @__PURE__ */ jsx("span", { children: "Select Date:" }),
-        /* @__PURE__ */ jsx(DatePicker, { defaultValue: dayjs(paydate), onChange: onDateChange })
-      ] }) })
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Properties" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 200 } }) })
+    /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
   ] });
 };
 Index.layout = (page) => /* @__PURE__ */ jsx(AdminLayout, { children: page });

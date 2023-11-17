@@ -3,8 +3,8 @@ import { useState } from "react";
 import { DashboardOutlined, BgColorsOutlined, ApartmentOutlined, GoldOutlined, HomeOutlined, SwitcherOutlined, MenuUnfoldOutlined, MenuFoldOutlined, UserOutlined, CaretDownOutlined, SettingOutlined, LineChartOutlined, LogoutOutlined } from "@ant-design/icons";
 import { Layout, Menu, Row, Col, Button, Dropdown, Typography, Space, Avatar } from "antd";
 import { Link, usePage } from "@inertiajs/react";
-/* empty css                */import { L as Logo } from "./light-logo-3220573e.js";
-function getItem(label, key, icon, children, type) {
+import { L as Logo } from "./light-logo-3220573e.js";
+/* empty css                */function getItem(label, key, icon, children, type) {
   return {
     key,
     icon,
@@ -84,10 +84,10 @@ const items = [
   }
 ];
 const AdminLayout = ({ children }) => {
-  const { auth } = usePage().props;
-  auth.user.role;
   const initial = JSON.parse(localStorage.getItem("sidebarCollapsed")) || false;
   const [collapsed, setCollapsed] = useState(initial);
+  const { auth } = usePage().props;
+  auth.user.role;
   const toggleCollapse = () => {
     const updated = !collapsed;
     setCollapsed(updated);
