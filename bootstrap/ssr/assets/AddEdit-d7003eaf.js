@@ -1,11 +1,11 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
 import { usePage, useForm, Head, router } from "@inertiajs/react";
 import { Row, Col, Form, Input, Space, Button, message } from "antd";
 /* empty css                */import "@ant-design/icons";
-/* empty css                */import "./light-logo-3220573e.js";
-const AddEdit = () => {
+import "./light-logo-3220573e.js";
+/* empty css                */const AddEdit = () => {
   const props = usePage().props;
   const rowData = props.row;
   const [title, setTitle] = useState("");
@@ -17,7 +17,7 @@ const AddEdit = () => {
     setTitle(props.title);
   }, []);
   const submit = () => {
-    post("/admin/activityType/addAction", {
+    post("/admin/property/addAction", {
       onSuccess: () => {
         if (data.id == 0) {
           message.success("Data Added Successfully !");
@@ -29,12 +29,12 @@ const AddEdit = () => {
         message.error("There was an error processing your request. Please try again !");
       },
       onFinish: () => {
-        router.get("/admin/activityType");
+        router.get("/admin/property");
       }
     });
   };
   const handleCancel = () => {
-    router.get("/admin/activityType");
+    router.get("/admin/property");
   };
   return /* @__PURE__ */ jsxs(Fragment, { children: [
     /* @__PURE__ */ jsx(Head, { title }),
@@ -56,7 +56,7 @@ const AddEdit = () => {
           /* @__PURE__ */ jsx(
             Form.Item,
             {
-              label: "Activity Type",
+              label: "Name",
               name: "name",
               validateStatus: errors.name && "error",
               help: errors.name,

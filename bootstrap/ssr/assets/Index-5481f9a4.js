@@ -1,12 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
 import { usePage, Head, router } from "@inertiajs/react";
-import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
-import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
+import { Row, Col, Button, Table, Badge, Space, Tooltip, Input } from "antd";
+import { PlusOutlined, EyeOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Index = () => {
+/* empty css                */import "./light-logo-3220573e.js";
+/* empty css                */const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -27,26 +27,10 @@ const Index = () => {
     setSearchText("");
   };
   const handleAdd = () => {
-    router.get("/admin/propertyType/addEdit");
+    router.get("/admin/user/addEdit");
   };
-  const handleEdit = (id) => {
-    router.get(`/admin/propertyType/addEdit/?id=${id}`);
-  };
-  const handleDelete = (id) => {
-    const formData = {
-      id
-    };
-    router.post("/admin/propertyType/delete", formData, {
-      onSuccess: () => {
-        message.success("Data Deleted Successfully !");
-      },
-      onFinish: () => {
-        router.get("/admin/propertyType");
-      }
-    });
-  };
-  const handleCancel = () => {
-    message.error("Operation Cancelled !");
+  const handleView = (id) => {
+    router.get(`/admin/user/view/?id=${id}`);
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => /* @__PURE__ */ jsxs(
@@ -134,42 +118,64 @@ const Index = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      width: "auto",
+      width: "15%",
       ...getColumnSearchProps("name")
     },
     {
-      title: "Property",
-      dataIndex: "property_name",
-      key: "property_name",
-      width: "18%",
-      ...getColumnSearchProps("property_name")
+      title: "Code",
+      dataIndex: "user_code",
+      key: "user_code",
+      width: "10%",
+      ...getColumnSearchProps("user_code")
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      width: "10%",
+      ...getColumnSearchProps("role")
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      width: "auto",
+      ...getColumnSearchProps("email")
+    },
+    {
+      title: "Mobile",
+      dataIndex: "mobile",
+      key: "mobile",
+      width: "15%",
+      ...getColumnSearchProps("mobile")
+    },
+    {
+      title: "Created At",
+      dataIndex: "created_at",
+      key: "created_at",
+      width: "15%",
+      ...getColumnSearchProps("created_at")
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      width: "8%",
+      ...getColumnSearchProps("status"),
+      render: (_, record) => /* @__PURE__ */ jsx(Badge, { count: record.status, color: record.status_color })
     },
     {
       title: "",
       key: "action",
-      width: "12%",
-      render: (_, record) => /* @__PURE__ */ jsxs(Space, { size: "middle", children: [
-        /* @__PURE__ */ jsx(Button, { size: "middle", onClick: () => handleEdit(record.id), children: "Edit" }),
-        /* @__PURE__ */ jsx(
-          Popconfirm,
-          {
-            title: "Delete",
-            description: "Are you sure to delete?",
-            onConfirm: () => handleDelete(record.id),
-            onCancel: handleCancel,
-            okText: "Yes",
-            cancelText: "No",
-            children: /* @__PURE__ */ jsx(Button, { danger: true, size: "middle", children: "Delete" })
-          }
-        )
-      ] })
+      width: "5%",
+      render: (_, record) => /* @__PURE__ */ jsx(Space, { size: "middle", children: /* @__PURE__ */ jsx(Tooltip, { title: "View Detail", color: "orange", children: /* @__PURE__ */ jsx(Button, { style: { color: "orange", borderColor: "orange" }, size: "middle", shape: "circle", icon: /* @__PURE__ */ jsx(EyeOutlined, {}), onClick: () => handleView(record.id) }) }) })
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Property Types" }),
+    /* @__PURE__ */ jsx(Head, { title: "Users" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Property Types" }) }),
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("span", { className: "page-title", children: "Users" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { style: { color: "blue", borderColor: "blue" }, shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "middle", onClick: handleAdd }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })
   ] });

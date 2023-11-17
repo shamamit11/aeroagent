@@ -1,12 +1,12 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState, useRef, useEffect } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
 import { usePage, Head, router } from "@inertiajs/react";
 import { Row, Col, Button, Table, Space, Popconfirm, message, Input } from "antd";
 import { PlusOutlined, SearchOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const Index = () => {
+/* empty css                */import "./light-logo-3220573e.js";
+/* empty css                */const Index = () => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -27,21 +27,21 @@ const Index = () => {
     setSearchText("");
   };
   const handleAdd = () => {
-    router.get("/admin/activityType/addEdit");
+    router.get("/admin/property/addEdit");
   };
   const handleEdit = (id) => {
-    router.get(`/admin/activityType/addEdit/?id=${id}`);
+    router.get(`/admin/property/addEdit/?id=${id}`);
   };
   const handleDelete = (id) => {
     const formData = {
       id
     };
-    router.post("/admin/activityType/delete", formData, {
+    router.post("/admin/property/delete", formData, {
       onSuccess: () => {
         message.success("Data Deleted Successfully !");
       },
       onFinish: () => {
-        router.get("/admin/activityType");
+        router.get("/admin/property");
       }
     });
   };
@@ -159,9 +159,9 @@ const Index = () => {
     }
   ];
   return /* @__PURE__ */ jsxs(Fragment, { children: [
-    /* @__PURE__ */ jsx(Head, { title: "Activity Types" }),
+    /* @__PURE__ */ jsx(Head, { title: "Properties" }),
     /* @__PURE__ */ jsxs(Row, { justify: "space-between", align: "middle", children: [
-      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Activity Types" }) }),
+      /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx("h1", { className: "page-title", children: "Properties" }) }),
       /* @__PURE__ */ jsx(Col, { children: /* @__PURE__ */ jsx(Button, { type: "primary", shape: "circle", icon: /* @__PURE__ */ jsx(PlusOutlined, {}), size: "large", onClick: handleAdd }) })
     ] }),
     /* @__PURE__ */ jsx("div", { className: "table-holder", children: /* @__PURE__ */ jsx(Table, { columns, dataSource: data, rowKey: (key) => key.id, loading, pagination: { defaultPageSize: 50 } }) })

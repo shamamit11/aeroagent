@@ -1,13 +1,13 @@
 import { jsxs, Fragment, jsx } from "react/jsx-runtime";
 import { useState } from "react";
-import { A as AdminLayout } from "./AdminLayout-ed82414e.js";
+import { A as AdminLayout } from "./AdminLayout-2b572b0f.js";
 import { Head } from "@inertiajs/react";
 import { Card, Row, Col, Divider, Tabs } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import SettingProfile from "./Profile-f1402222.js";
 import SettingPassword from "./Password-3358bdb0.js";
-/* empty css                *//* empty css                */import "./light-logo-3220573e.js";
-const tabItems = [
+/* empty css                */import "./light-logo-3220573e.js";
+/* empty css                */const tabItems = [
   {
     key: "profile",
     label: /* @__PURE__ */ jsxs("span", { children: [

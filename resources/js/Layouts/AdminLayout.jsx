@@ -10,12 +10,9 @@ import {
 } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } from 'antd';
 import { Link, usePage } from '@inertiajs/react';
-
 import { adminNavItems } from './adminRoutes';
-
-import "./style.scss";
-
 import Logo from "/public/light-logo.png";
+import "./style.scss";
 
 const { Header, Sider, Content, Footer } = Layout;
 
