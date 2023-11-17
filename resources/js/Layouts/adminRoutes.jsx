@@ -39,6 +39,12 @@ const adminNavItems = [
         label: <Link href='/admin/payout'>Payout</Link>,
     },
 
+    {
+        key: 'listPayout',
+        icon: <BgColorsOutlined />,
+        label: <Link href='/admin/payout/list'>List All Payout</Link>,
+    },
+
     getItem('System Configurations', 'systemconfig', null, [], 'group'),
 
     {

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UserRequest;
 use App\Models\User;
+use App\Services\Admin\WalletService;
 use Illuminate\Http\Request;
 use App\Services\Admin\UserService;
 use Inertia\Inertia;
@@ -39,5 +41,22 @@ class UserController extends Controller
     public function delete(Request $request)
     {
         return $this->service->delete($request);
+    }
+
+    public function view(Request $request): Response
+    {
+        $id = ($request->id) ? $request->id : 0;
+    
+        $walletService = new WalletService;
+        $data = $walletService->wallet($id);
+        $data['balance'] = $walletService->walletBalance($id);
+        $data['totalReferral'] = $walletService->totalReferral($id);
+        $data['totalPayout'] = $walletService->totalPayout($id);
+        $data['totalRenewal'] = $walletService->totalRenewal($id);
+
+        $data['row'] = $row = User::where('id', $id)->first();
+        $data['title'] = $row->first_name . ' ' . $row->last_name;
+        
+        return Inertia::render('Admin/User/View', $data);
     }
 }

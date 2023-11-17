@@ -3,11 +3,14 @@
     font-weight: 700;
 }
 .ant-statistic-title {
+    color: rgba(34, 34, 34, 0.45) !important;
+    font-size: 16px !important;
     font-family: "Quicksand";
     font-weight: 600;
+    // color: rgb(255 255 255 / 45%) !important;
 }
 .ant-statistic-content-value {
-    font-size: 30px;
+    font-size: 35px !important;
     font-weight: 600;
     font-family: "Quicksand";
 }

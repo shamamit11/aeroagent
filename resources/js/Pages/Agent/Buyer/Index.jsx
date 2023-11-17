@@ -177,7 +177,7 @@ const Index = () => {
             key: 'status',
             width: '10%',
             align: 'center',
-            ...getColumnSearchProps('project_name'),
+            ...getColumnSearchProps('status'),
             render: (_, record) => (
                 <Badge color={record.status_color} count={record.status} />
             )

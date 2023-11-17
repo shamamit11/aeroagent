@@ -1,12 +1,11 @@
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, router } from "@inertiajs/react";
 import { Card, Col, Row, Statistic, Button } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 
 import "./style.scss";
 
 
-const Dashboard = (props) => {
+const WalletDashboard = (props) => {
    console.log(props)
 
     const viewWallet = () => {
@@ -124,6 +123,6 @@ const Dashboard = (props) => {
     );
 };
 
-Dashboard.layout = page => <AgentLayout children={page} />
+WalletDashboard.layout = page => <AgentLayout children={page} />
 
-export default Dashboard;
+export default WalletDashboard;

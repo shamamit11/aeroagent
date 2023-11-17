@@ -1,13 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, usePage, router } from "@inertiajs/react";
-import { Button, Col, Input, Row, Space, Table, Tooltip, Badge } from 'antd';
-import { PlusOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons';
+import { Head, usePage } from "@inertiajs/react";
+import { Button, Col, Input, Row, Space, Table, Badge } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
 import "./style.scss";
 
-const Index = () => {
+const List = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -31,14 +31,6 @@ const Index = () => {
         clearFilters();
         setSearchText('');
     };
-
-    const handleAdd = () => {
-        router.get('/admin/user/addEdit')
-    }
-
-    const handleView = (id) => {
-        router.get(`/admin/user/view/?id=${id}`)
-    }
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -115,87 +107,58 @@ const Index = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            width: '15%',
+            width: 'auto',
             ...getColumnSearchProps('name'),
         },
         {
-            title: 'Code',
-            dataIndex: 'user_code',
-            key: 'user_code',
-            width: '10%',
-            ...getColumnSearchProps('user_code'),
-        },
-        {
-            title: 'Role',
-            dataIndex: 'role',
-            key: 'role',
-            width: '10%',
-            ...getColumnSearchProps('role'),
-        },
-        {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            width: 'auto',
-            ...getColumnSearchProps('email'),
-        },
-        {
-            title: 'Mobile',
-            dataIndex: 'mobile',
-            key: 'mobile',
+            title: 'Payout Date',
+            dataIndex: 'payout_date',
+            key: 'payout_date',
             width: '15%',
-            ...getColumnSearchProps('mobile'),
         },
         {
-            title: 'Created At',
-            dataIndex: 'created_at',
-            key: 'created_at',
-            width: '15%',
-            ...getColumnSearchProps('created_at'),
+            title: 'Payout Range',
+            key: 'pay_range',
+            width: '25%',
+            render: (_, record) => (
+                <span>{record.payout_date_from} - {record.payout_date_to}</span>
+            )
+        },
+        {
+            title: 'Amount (AED)',
+            dataIndex: 'amount',
+            key: 'amount',
+            width: '18%',
         },
         {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            width: '8%',
+            width: '10%',
+            align: "center",
             ...getColumnSearchProps('status'),
             render: (_, record) => (
                 <Badge count={record.status} color={record.status_color} />
             )
-        },
-        {
-            title: '',
-            key: 'action',
-            width: '5%',
-            render: (_, record) => (
-                <Space size="middle">
-                    <Tooltip title="View Detail" color="orange">
-                        <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleView(record.id)} />
-                    </Tooltip>
-                </Space>
-            ),
-        },
+        }
     ];
 
     return (
         <>
-            <Head title="Users" />
+            <Head title="Payouts" />
             <Row justify={'space-between'} align={'middle'}>
                 <Col>
-                    <span className='page-title'>Users</span>
-                </Col>
-                <Col>
-                    <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<PlusOutlined />} size={"middle"} onClick={handleAdd} />
+                    <span className='page-title'>List All Payouts</span>
                 </Col>
             </Row>
 
             <div className='table-holder'>
-                <Table columns={columns} dataSource={data} rowKey={(key) => key.id} loading={loading} pagination={{ defaultPageSize: 50 }} />
+                <Table columns={columns} dataSource={data} rowKey={(key) => key.id} loading={loading} pagination={{ defaultPageSize: 200 }} />
             </div>
         </>
     );
 };
 
-Index.layout = page => <AdminLayout children={page} />
+List.layout = page => <AdminLayout children={page} />
 
-export default Index;
+export default List;
