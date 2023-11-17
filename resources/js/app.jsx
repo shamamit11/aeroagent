@@ -1,15 +1,16 @@
+import './bootstrap';
+import "../css/app.scss";
+
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 
-import './bootstrap';
-import "../css/app.scss";
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
-const appName = import.meta.env.VITE_APP_NAME || 'AERO-CRM';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
-    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx', { eager: true })),
+    resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
     setup({ el, App, props }) {
         const root = createRoot(el);
 
