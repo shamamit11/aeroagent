@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
-import { Button, Form, Input, Row, Col, message, Space, Card } from "antd";
+import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "antd";
 
 import "./style.scss";
 
@@ -16,6 +16,7 @@ const AddEdit = () => {
         email: rowData?.email,
         mobile: rowData?.mobile,
         nationality: rowData?.nationality,
+        customer_type: undefined
     });
 
     useEffect(() => {
@@ -36,7 +37,13 @@ const AddEdit = () => {
                 message.error('There was an error processing your request. Please try again !')
             },
             onFinish: () => {
-                router.get('/customer')
+                if(data.customer_type == 'default') {
+                    router.get('/customer')  
+                }
+                else {
+                    router.get(`/${data.customer_type}/addEdit`) 
+                }
+                
             }
         });
     };
@@ -48,7 +55,7 @@ const AddEdit = () => {
     return (
         <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
             <Head title={title} />
-            <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
+            <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                 <Col>
                     <span className='page-title'>{title}</span>
                 </Col>
@@ -79,7 +86,7 @@ const AddEdit = () => {
                             }
                         ]}
                     >
-                        <Input disabled={processing}/>
+                        <Input disabled={processing} />
                     </Form.Item>
 
                     <Form.Item
@@ -94,7 +101,7 @@ const AddEdit = () => {
                             }
                         ]}
                     >
-                        <Input type="email" disabled={processing}/>
+                        <Input type="email" disabled={processing} />
                     </Form.Item>
 
                     <Form.Item
@@ -109,7 +116,7 @@ const AddEdit = () => {
                             }
                         ]}
                     >
-                        <Input disabled={processing}/>
+                        <Input disabled={processing} />
                     </Form.Item>
 
                     <Form.Item
@@ -124,8 +131,50 @@ const AddEdit = () => {
                             }
                         ]}
                     >
-                        <Input disabled={processing}/>
+                        <Input disabled={processing} />
                     </Form.Item>
+
+                    {!rowData?.id && (
+                        <Form.Item
+                            label="Adding Customer As"
+                            name="customer_type"
+                            validateStatus={errors.customer_type && 'error'}
+                            help={errors.customer_type}
+                            rules={[
+                                {
+                                    required: true,
+                                    message: "This field is required",
+                                }
+                            ]}
+                        >
+                            <Select
+                                disabled={processing}
+                                options={[
+                                    {
+                                        value: 'default',
+                                        label: 'Default',
+                                    },
+                                    {
+                                        value: 'seller',
+                                        label: 'Seller',
+                                    },
+                                    {
+                                        value: 'buyer',
+                                        label: 'Buyer',
+                                    },
+                                    {
+                                        value: 'leaser',
+                                        label: 'Leaser',
+                                    },
+                                    {
+                                        value: 'tenant',
+                                        label: 'Tenant',
+                                    }
+                                ]}
+                            />
+                        </Form.Item>
+                    )}
+
 
                     <Form.Item className="form-actions">
                         <Space size="middle">

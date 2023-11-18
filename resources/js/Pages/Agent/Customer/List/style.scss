@@ -7,7 +7,7 @@
     }
 
     form {
-        max-width: 50%;
+        max-width: 70%;
         background: var(--white);
         border-radius: 5px;
 
@@ -28,6 +28,20 @@
                 font-weight: 500;
                 padding: 10px;
                 padding-left: 15px;
+            }
+
+            .ant-select {
+                height: 45px;
+            }
+
+            .ant-select-selection-item {
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .ant-select-item-option-content {
+                font-size: 14px;
+                font-weight: 500;
             }
 
             .ant-form-item-explain {

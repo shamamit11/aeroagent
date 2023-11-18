@@ -50,9 +50,9 @@ class TenantController extends Controller
         } 
         else {
             $data['title'] = ($id == 0) ? "Add Tenant Data" : "Edit Tenant Data";
-            $data['request_type'] = $res->request_type ? $res->request_type : null;
-            $data['source_id'] = $res->source_id ? $res->source_id : 0;
-            $data['customer_id'] = $res->customer_id ? $res->customer_id : null;
+            $data['request_type'] = @$res->request_type ? @$res->request_type : null;
+            $data['source_id'] = @$res->source_id ? @$res->source_id : 0;
+            $data['customer_id'] = @$res->customer_id ? @$res->customer_id : null;
         }
 
         if ($request->has('customer_id')){ 
@@ -137,9 +137,9 @@ class TenantController extends Controller
             $data['status'] = $statusObj->name;
             $data['title'] = "Update Tenant Data";
             $data['row'] = $res = $this->service->show($id);
-            $data['request_type'] = $res->request_type ? $res->request_type : null;
-            $data['source_id'] = $res->source_id ? $res->source_id : 0;
-            $data['customer_id'] = $res->customer_id ? $res->customer_id : null;
+            $data['request_type'] = @$res->request_type ? @$res->request_type : null;
+            $data['source_id'] = @$res->source_id ? @$res->source_id : 0;
+            $data['customer_id'] = @$res->customer_id ? @$res->customer_id : null;
             $data['customers'] = Customer::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
             $data['properties'] = Property::get();
             $data['propertyTypes'] = PropertyType::get();
