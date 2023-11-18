@@ -6,6 +6,7 @@ use App\Models\UserPayout;
 use App\Models\UserSubscription;
 use App\Models\Wallet;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class PayoutService
 {
@@ -49,7 +50,7 @@ class PayoutService
                 "results" => $recordsForToday
             ];
         } catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -64,9 +65,18 @@ class PayoutService
             $payout->payout_date_from = $request->start_date;
             $payout->payout_date_to = $request->end_date;
             $payout->save();
+
+            $wallet = new Wallet;
+            $wallet->user_id = $request->user_id;
+            $wallet->transaction_id = Str::uuid();
+            $wallet->date = date('Y-m-d');
+            $wallet->type = 'payout';
+            $wallet->amount = $request->wallet_balance;
+            $wallet->note = "Payout";
+            $wallet->save();
         } 
         catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -90,7 +100,7 @@ class PayoutService
             return $data;
         }
         catch (\Exception $e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 }
