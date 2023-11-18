@@ -1,30 +1,11 @@
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, router } from "@inertiajs/react";
-import { Card, Col, Row, Statistic, Button } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import { Head } from "@inertiajs/react";
+import { Card, Col, Row, Statistic } from 'antd';
 
 import "./style.scss";
 
 
 const Dashboard = (props) => {
-   //console.log(props)
-
-    const viewWallet = () => {
-        router.get('/wallet')
-    }
-
-    const viewReferral = () => {
-        router.get('/referral')
-    }
-
-    const viewPayout = () => {
-        router.get('/wallet/payout')
-    }
-
-    const viewRenewal = () => {
-        router.get('/wallet/renewal')
-    }
-    
 
     return (
         <>
@@ -36,7 +17,7 @@ const Dashboard = (props) => {
                         <Card bordered={false}>
                             <Statistic
                                 title="Total Agents"
-                                value={props.balance}
+                                value={props.agents}
                                 valueStyle={{
                                     color: '#3f8600',
                                 }}
@@ -47,7 +28,18 @@ const Dashboard = (props) => {
                         <Card bordered={false}>
                             <Statistic
                                 title="Total Affiliates"
-                                value={props.totalReferral}
+                                value={props.affiliate}
+                                valueStyle={{
+                                    color: 'skyblue',
+                                }}
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={4}>
+                        <Card bordered={false}>
+                            <Statistic
+                                title="Today's Payout"
+                                value={props.payout}
                                 valueStyle={{
                                     color: 'skyblue',
                                 }}
