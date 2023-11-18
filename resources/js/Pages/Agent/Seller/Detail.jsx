@@ -32,6 +32,16 @@ const Detail = () => {
     ];
 
     const onStatusMenuClick = (e) => {
+        let status_label
+
+        if (e.key == 4) {
+            status_label = 'Not Interested'
+        }
+
+        if (e.key == 5) {
+            status_label = 'Deal'
+        }
+
         if (e.key == 2 || e.key == 3) {
             router.get(`/seller/editData?id=${rowData.id}&status=${e.key}`)
         }
@@ -40,7 +50,7 @@ const Detail = () => {
                 source_id: rowData.id,
                 customer_type: "seller",
                 customer_id: rowData.customer_id,
-                status: "No Deal"
+                status: status_label
             }
             router.post('/seller/updateStatus', formData, {
                 onSuccess: () => {
@@ -204,19 +214,21 @@ const Detail = () => {
                                 </Col>
                                 <Col>
                                     <Space size={'middle'}>
-                                        <Dropdown
-                                            menu={{
-                                                items: statusItems,
-                                                onClick: onStatusMenuClick,
-                                            }}
-                                        >
-                                            <Button size='large' style={{ borderColor: "red" }}>
-                                                <Space>
-                                                    <span style={{ color: "red" }}>Update Status</span>
-                                                    <DownOutlined style={{ color: "red" }} />
-                                                </Space>
-                                            </Button>
-                                        </Dropdown>
+                                        {rowData.status != 'Deal' && (
+                                            <Dropdown
+                                                menu={{
+                                                    items: statusItems,
+                                                    onClick: onStatusMenuClick,
+                                                }}
+                                            >
+                                                <Button size='large' style={{ borderColor: "red" }}>
+                                                    <Space>
+                                                        <span style={{ color: "red" }}>Update Status</span>
+                                                        <DownOutlined style={{ color: "red" }} />
+                                                    </Space>
+                                                </Button>
+                                            </Dropdown>
+                                        )}
 
                                         <Dropdown
                                             menu={{
@@ -236,7 +248,7 @@ const Detail = () => {
                             </Row>
                         </Card>
 
-                        {rowData.status == 'Deal' && (
+                        {(rowData.status == 'Interested' || rowData.status == 'Deal') && (
                             <Card title="Property Information" headStyle={{ backgroundColor: "skyblue", color: "white" }} style={{ borderColor: "skyblue", marginBottom: 20 }}>
                                 <Row justify={'space-between'} align={'top'}>
                                     <Col style={{ width: "32%" }}>

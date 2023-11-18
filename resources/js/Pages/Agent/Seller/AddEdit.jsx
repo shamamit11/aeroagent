@@ -9,6 +9,7 @@ const { TextArea } = Input;
 
 const AddEdit = () => {
     const props = usePage().props;
+
     const rowData = props.row;
     const [title, setTitle] = useState('');
     const [locationId, setLocationId] = useState(rowData?.location_id);
@@ -81,7 +82,7 @@ const AddEdit = () => {
 
     const submit = () => {
         setLocationId(data.location_id);
-
+        
         post('/seller/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {

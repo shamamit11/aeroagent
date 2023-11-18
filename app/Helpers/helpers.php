@@ -84,17 +84,28 @@ if (!function_exists('get_active_statuses')) {
             if ($customer_type == 'seller' || $customer_type == 'leaser' || $customer_type == 'tenant') {
                 unset($return_result[1]);
             }
-        } else if ($customer_status == 'Potential') {
+            unset($return_result[4]);
+        } 
+        else if ($customer_status == 'Potential') {
             unset($return_result[0]);
             unset($return_result[1]);
-        } else if ($customer_status == 'Deal') {
+        } 
+        else if ($customer_status == 'Interested') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[2]);
-        } else if ($customer_status == 'No Deal') {
+        } 
+        else if ($customer_status == 'Not Interested') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[3]);
+        }
+        else if ($customer_status == 'Deal') {
+            unset($return_result[0]);
+            unset($return_result[1]);
+            unset($return_result[2]);
+            unset($return_result[3]);
+            unset($return_result[4]);
         }
 
         sort($return_result);

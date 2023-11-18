@@ -197,8 +197,10 @@ class SellerService
             $seller->commission = $request['commission'];
             $seller->ad_link = $request['ad_link'];
             $seller->note = $request['note'];
+
             $seller->request_type = $request['request_type'];
             $seller->source_id = $request['source_id'];
+            
             $seller->save();
 
             if(!$request['id']) {

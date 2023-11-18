@@ -150,7 +150,12 @@ class SellerController extends Controller
         if($statusObj) {
             $data['status'] = $statusObj->name;
             $data['title'] = "Update Seller Data";
-            $data['row'] = $this->service->show($id);
+
+            $data['row'] = $res = $this->service->show($id);
+            $data['request_type'] = $res->request_type ? $res->request_type : null;
+            $data['source_id'] = $res->source_id ? $res->source_id : 0;
+            $data['customer_id'] = $res->customer_id ? $res->customer_id : null;
+
             $data['customers'] = Customer::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
             $data['locations'] = Location::where('user_id', Auth::user()->id)->whereNull('deleted_at')->get();
             $data['properties'] = Property::get();
