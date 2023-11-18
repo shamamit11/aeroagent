@@ -29,7 +29,7 @@ class DeveloperService
             ];
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -50,7 +50,7 @@ class DeveloperService
             $developer->save();
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -62,7 +62,7 @@ class DeveloperService
             $developer->delete();
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 }

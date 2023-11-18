@@ -1,14 +1,24 @@
 <?php
 namespace App\Services\Agent;
 use App\Models\CustomerMeeting;
+use Illuminate\Support\Carbon;
 use Auth;
 
 class MeetingService
 {
-    function index() {
+    function index($request) {
         try {
             $user_id = Auth::user()->id;
-            $meetings = CustomerMeeting::where([['user_id', $user_id]])->with('customer', 'status')->orderBy('date', 'asc')->get();
+
+            if($request->date_range) {
+                $date_filter = explode(',', $request->date_range);
+                $start_date = Carbon::parse($date_filter[0]);
+                $end_date = Carbon::parse($date_filter[1]);
+                $meetings = CustomerMeeting::where([['user_id', $user_id]])->whereBetween('date', [$start_date, $end_date])->with('customer', 'status')->orderBy('date', 'asc')->get();
+            }
+            else {
+                $meetings = CustomerMeeting::where([['user_id', $user_id]])->with('customer', 'status')->orderBy('date', 'asc')->get();
+            }
 
             $meetings->transform(fn ($item) => [
                 'id'=> $item->id,
@@ -29,7 +39,7 @@ class MeetingService
             ];
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -42,7 +52,7 @@ class MeetingService
             $meeting->save();
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -54,7 +64,7 @@ class MeetingService
             $meeting->delete();
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 }
