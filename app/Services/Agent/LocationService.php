@@ -29,7 +29,7 @@ class LocationService
             ];
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -50,7 +50,7 @@ class LocationService
             $location->save();
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 
@@ -62,7 +62,7 @@ class LocationService
             $location->delete();
         } 
         catch (\Exception$e) {
-            return response()->json(['errors' => $e->getMessage()], 400);
+            return $e->getMessage();
         }
     }
 }

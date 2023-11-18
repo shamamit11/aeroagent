@@ -18,7 +18,7 @@ class MeetingController extends Controller
 
     public function index(Request $request): Response
     {
-        $result = $this->service->index();
+        $result = $this->service->index($request);
         $result['statuses'] = Status::where('type', 'meeting')->whereNull('deleted_at')->get();
         return Inertia::render('Agent/Meeting/Index', $result);
     }

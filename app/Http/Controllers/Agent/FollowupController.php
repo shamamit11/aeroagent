@@ -17,7 +17,7 @@ class FollowupController extends Controller
 
     public function index(Request $request): Response
     {
-        $result = $this->service->index();
+        $result = $this->service->index($request);
         return Inertia::render('Agent/Followup/Index', $result);
     }
 
