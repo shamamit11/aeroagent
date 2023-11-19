@@ -7,19 +7,10 @@ import Logo from "../../../../public/light-logo.png";
 import "./style.scss";
 
 const PaymentConfirmation = () => {
-
-    const userData = JSON.parse(localStorage.getItem('newUser'));
    
     const handleClick = () => {
-        router.post('/register', userData, {
-            onSuccess: () => {
-                message.success('Your Account has been created successfully !');
-                localStorage.removeItem('newUser');
-            },
-            onFinish: () => {
-                router.get(`/login`)
-            }
-        });
+        message.success('Your Account has been created successfully !');
+        router.get(`/login`)
     };
 
     return (

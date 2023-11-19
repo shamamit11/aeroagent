@@ -39,6 +39,16 @@ class RegisteredUserController extends Controller
             'terms' => 'required'
         ]);
 
+        session([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'profession' => $request->profession,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'password' => $request->password,
+            'referral_code' => $request->referral_code
+        ]);
+
         \Stripe\Stripe::setApiKey(config('stripe.sk'));
 
         $stripe_session = \Stripe\Checkout\Session::create([
@@ -64,6 +74,66 @@ class RegisteredUserController extends Controller
     }
 
     public function paymentConfirmation(Request $request): Response {
+
+        $full_name = session('first_name') . ' ' . session('last_name');
+        $initial = generateInitial($full_name);
+        $usercode = generateUserCode($initial);
+
+        $uuid = Str::uuid();
+
+        $profession = session('profession');
+
+        if($profession == 'Affiliate') {
+            $role = 'affiliate';
+        } else {
+            $role = 'agent';
+        }
+
+        $user = User::create([
+            'user_code' => $usercode,
+            'role' => $role,
+            'profession' => session('profession'),
+            'first_name' => session('first_name'),
+            'last_name' => session('last_name'),
+            'mobile' => session('mobile'),
+            'email' => session('email'),
+            'password' => Hash::make(session('password')),
+            'cc_transaction_id'  => $uuid,
+            'status' => 1
+        ]);
+
+        $referral_code = session('referral_code');
+        $date = date('Y-m-d');
+
+        if($referral_code) {
+            $referral = new UserReferral;
+            $referral->user_id = $user->id;
+            $referral->referral_code = $referral_code;
+            $referral->save();
+
+            $refUser = User::where('user_code', $referral_code)->first();
+            $wallet = new Wallet;
+            $wallet->user_id = $refUser->id;
+            $wallet->transaction_id = Str::uuid();
+            $wallet->date = $date;
+            $wallet->type = 'referral';
+            $wallet->amount = 100.00;
+            $wallet->note = session('first_name') . " Subscribed with your Referral Code";
+            $wallet->save();
+        }
+
+        $subscription = new UserSubscription;
+        $subscription->user_id = $user->id;
+        $subscription->subscription_date = Carbon::now()->toDate();
+        $subscription->next_renewal_date = Carbon::now()->addDays(30)->toDate();
+        $subscription->next_payout_date = Carbon::now()->addDays(31)->toDate();
+        $subscription->renewal_status = null;
+        $subscription->save();
+
+        event(new Registered($user));
+
+        $request->session()->flush();
+        
         return Inertia::render('Auth/PaymentConfirmation');
     }
 

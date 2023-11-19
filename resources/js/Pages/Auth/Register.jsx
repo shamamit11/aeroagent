@@ -43,8 +43,6 @@ const Register = () => {
             },
             onSuccess: (page) => {
                 //console.log(page.props.stripe_url);
-                //console.log(data);
-                localStorage.setItem('newUser', JSON.stringify(data));
                 location.href = page.props.stripe_url;
             }
         });
