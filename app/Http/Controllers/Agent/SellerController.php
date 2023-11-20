@@ -173,4 +173,30 @@ class SellerController extends Controller
     {
         return $this->service->updateStatus($request);
     }
+
+    public function deals(Request $request): Response
+    {
+        $result = $this->service->deals();
+        return Inertia::render('Agent/Seller/Deal', $result);
+    }
+
+    public function stock(Request $request): Response
+    {   
+        $property_id = $request->property_id;
+        $result = $this->service->stock($property_id);
+        $result['property_id'] = $property_id;
+        return Inertia::render('Agent/Seller/Stock', $result);
+    }
+
+    public function stockList(Request $request): Response
+    {
+        $property_id = $request->property_id;
+        $location_id = $request->lid;
+        $locationObj = Location::where('id', $location_id)->first();
+        $propertyObj = Property::where('id', $property_id)->first();
+        $result = $this->service->stockList($location_id, $property_id);
+        $result['location_name'] = $locationObj->name;
+        $result['property_name'] = $propertyObj->name;
+        return Inertia::render('Agent/Seller/StockList', $result);
+    }
 }

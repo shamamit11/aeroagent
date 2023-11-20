@@ -159,4 +159,10 @@ class BuyerController extends Controller
     {
         return $this->service->updateStatus($request);
     }
+
+    public function deals(Request $request): Response
+    {
+        $result = $this->service->deals();
+        return Inertia::render('Agent/Buyer/Deal', $result);
+    }
 }

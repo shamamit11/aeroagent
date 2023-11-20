@@ -5,14 +5,14 @@ import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm
 import { SearchOutlined, EyeOutlined, DeleteOutlined, EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-const List = () => {
+const StockList = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { location_name, results } = usePage().props;
+    const { location_name, results, property_name } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -147,17 +147,17 @@ const List = () => {
         },
         {
             title: 'Property',
-            dataIndex: 'property',
-            key: 'property',
+            dataIndex: 'property_name',
+            key: 'property_name',
             width: '15%',
-            ...getColumnSearchProps('property'),
+            ...getColumnSearchProps('property_name'),
         },
         {
             title: 'Property Type',
-            dataIndex: 'property_type',
+            dataIndex: 'property_type_name',
             key: 'property_type',
             width: '13%',
-            ...getColumnSearchProps('property_type'),
+            ...getColumnSearchProps('property_type_name'),
         },
         {
             title: 'Status',
@@ -182,18 +182,6 @@ const List = () => {
                     <Tooltip title="Edit Row" color="orange">
                         <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
                     </Tooltip>
-                    <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
-                        onConfirm={() => handleDelete(record.id, record.location_id)}
-                        onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Tooltip title="Delete Row" color="red">
-                            <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
-                        </Tooltip>
-                    </Popconfirm>
                 </Space>
             ),
         },
@@ -201,11 +189,11 @@ const List = () => {
 
     return (
         <>
-            <Head title="Sellers" />
+            <Head title="Seller Stock" />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>Sellers - {location_name}</span>
+                        <span className='page-title'>{property_name} - {location_name}</span>
                     </Col>
                     <Col>
                         <Button shape="circle" icon={<ArrowLeftOutlined />} size={"middle"} onClick={handleBack} />
@@ -220,6 +208,6 @@ const List = () => {
     );
 };
 
-List.layout = page => <AgentLayout children={page} />
+StockList.layout = page => <AgentLayout children={page} />
 
-export default List;
+export default StockList;

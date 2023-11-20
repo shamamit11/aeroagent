@@ -1,8 +1,13 @@
 <?php
 namespace App\Services\Agent;
+use App\Models\Buyer;
 use App\Models\CustomerMeeting;
+use App\Models\CustomerStatus;
 use App\Models\CustomerViewing;
-use App\Models\Wallet;
+use App\Models\Leaser;
+use App\Models\Seller;
+use App\Models\Tenant;
+use DB;
 use Illuminate\Support\Carbon;
 use App\Models\CustomerFollowup;
 use Auth;
@@ -47,5 +52,59 @@ class DashboardService
         catch (\Exception$e) {
             return $e->getMessage();
         }
+    }
+
+    public function getRequestData($type) {
+        $user_id = Auth::user()->id;
+
+        if($type == 'buyer') {
+            $requests = Buyer::where('user_id', $user_id)->whereNotNull('request_type')->whereNull('deleted_at')->count();
+            return $requests;
+        }
+
+        if($type == 'seller') {
+            $requests = Seller::where('user_id', $user_id)->whereNotNull('request_type')->whereNull('deleted_at')->count();
+            return $requests;
+        }
+
+        if($type == 'tenant') {
+            $requests = Tenant::where('user_id', $user_id)->whereNotNull('request_type')->whereNull('deleted_at')->count();
+            return $requests;
+        }
+
+        if($type == 'leaser') {
+            $requests = Leaser::where('user_id', $user_id)->whereNotNull('request_type')->whereNull('deleted_at')->count();
+            return $requests;
+        }
+    }
+
+    public function getTotalDealData($type) {
+        $user_id = Auth::user()->id;
+        $deals['count'] = CustomerStatus::where([['user_id', $user_id], ['customer_type', $type], ['status', 'Deal']])->count();
+        $deals['url'] = route($type.'.deals');
+        return $deals;
+    }
+
+    public function getTotalProperty($id) {
+        $user_id = Auth::user()->id;
+
+        $totalPropertyArray = [];
+        $sellers = Seller::where([['user_id', $user_id], ['property_id', $id]])->whereNull('deleted_at')->get();
+        
+        foreach($sellers as $seller) {
+            $customer_status = DB::table('customer_statuses')->where([
+                ['customer_type', 'seller'],
+                ['source_id', $seller->id],
+                ['status', 'Interested']
+            ])->first();
+
+            if($customer_status) {
+                array_push($totalPropertyArray, $seller);
+            }
+        }
+
+        $property['count'] = count($totalPropertyArray);
+        $property['url'] = route('seller.stock', ['property_id='.$id]);
+        return $property;
     }
 }

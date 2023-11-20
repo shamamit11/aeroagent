@@ -439,4 +439,107 @@ class SellerService
             return $e->getMessage();
         }
     }
+
+    public function deals() {
+        try {
+            $user_id = Auth::user()->id;
+
+            $dealsArray = [];
+
+            $sellers = Seller::where([['user_id', $user_id]])->whereNull('deleted_at')->get();
+            foreach($sellers as $seller) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_type', 'seller'],
+                    ['source_id', $seller->id],
+                    ['status', 'Deal']
+                ])->first();
+
+                if($customer_status) {
+                    $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                    
+                    $seller->customer_name = $seller->customer->name;
+                    $seller->mobile = $seller->customer->mobile;
+                    $seller->property_name = $seller->property->name;
+                    $seller->property_type_name = ($seller->property_type_id) ? $seller->propertyType->name : "-";
+                    $seller->status = $status_obj->name;
+                    $seller->status_color = $status_obj->color;
+
+                    array_push($dealsArray, $seller);
+                }
+            }
+            
+            return [
+                "results" => $dealsArray
+            ];
+        } 
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
+
+    function stock($property_id) {
+        try {
+            $locations = Location::where([["user_id", Auth::user()->id]])->whereNull('deleted_at')->get();
+            $totalPropertyArray = [];
+
+            foreach ($locations as $location) {
+                $sellers = Seller::where([["location_id", $location->id], ["user_id", Auth::user()->id], ["property_id", $property_id]])->whereNull('deleted_at')->get();
+
+                foreach($sellers as $seller) {
+                    $customer_status = DB::table('customer_statuses')->where([
+                        ['customer_type', 'seller'],
+                        ['source_id', $seller->id],
+                        ['status', 'Interested']
+                    ])->first();
+                    if($customer_status) {
+                        array_push($totalPropertyArray, $seller);
+                    }
+                }
+                $location->count = count($totalPropertyArray);
+            }
+
+            return [
+                "results" => $locations
+            ];
+        }
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function stockList($location_id, $property_id) 
+    {
+        try {
+            $user_id = Auth::user()->id;
+            $stocks = [];
+            $sellers = Seller::where([['user_id', $user_id], ['location_id', $location_id]])->whereNull('deleted_at')->get();
+
+            foreach($sellers as $seller) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_id', $seller->customer_id], 
+                    ['customer_type', 'seller'],
+                    ['source_id', $seller->id],
+                    ['status', 'Interested']
+                ])->first();
+
+                if($customer_status) {
+                    $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                    $seller->status = $status_obj->name;
+                    $seller->status_color = $status_obj->color;
+                    $seller->customer_name = $seller->customer->name;
+                    $seller->customer_mobile = $seller->customer->mobile;
+                    $seller->property_name = $seller->property->name;
+                    $seller->property_type_name = ($seller->property_type_id) ? $seller->propertyType->name : "-";
+                    array_push($stocks, $seller);
+                }
+            }
+
+            return [
+                "results" => $stocks
+            ];
+        }
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
 }

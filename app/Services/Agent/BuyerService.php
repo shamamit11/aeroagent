@@ -410,4 +410,41 @@ class BuyerService
             return $e->getMessage();
         }
     }
+
+    public function deals() {
+        try {
+            $user_id = Auth::user()->id;
+
+            $dealsArray = [];
+
+            $buyers = Buyer::where([['user_id', $user_id]])->whereNull('deleted_at')->get();
+            foreach($buyers as $buyer) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_type', 'buyer'],
+                    ['source_id', $buyer->id],
+                    ['status', 'Deal']
+                ])->first();
+
+                if($customer_status) {
+                    $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                    
+                    $buyer->customer_name = $buyer->customer->name;
+                    $buyer->mobile = $buyer->customer->mobile;
+                    $buyer->property_name = $buyer->property->name;
+                    $buyer->property_type_name = ($buyer->property_type_id) ? $buyer->propertyType->name : "-";
+                    $buyer->status = $status_obj->name;
+                    $buyer->status_color = $status_obj->color;
+
+                    array_push($dealsArray, $buyer);
+                }
+            }
+            
+            return [
+                "results" => $dealsArray
+            ];
+        } 
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
 }

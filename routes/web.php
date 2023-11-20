@@ -72,6 +72,9 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::get('/seller/editData', 'editData')->name('seller.editData');
         Route::post('/seller/updateStatus', 'updateStatus')->name('seller.updateStatus');
         Route::get('/request-seller', 'requestList')->name('seller.request');
+        Route::get('/seller/deals', 'deals')->name('seller.deals');
+        Route::get('/seller/stock', 'stock')->name('seller.stock');
+        Route::get('/seller/stock/list', 'stockList')->name('seller.stock.list');
     });
 
     Route::controller('Agent\LeaserController')->group(function () {
@@ -87,6 +90,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::get('/leaser/editData', 'editData')->name('leaser.editData');
         Route::post('/leaser/updateStatus', 'updateStatus')->name('leaser.updateStatus');
         Route::get('/request-leaser', 'requestList')->name('leaser.request');
+        Route::get('/leaser/deals', 'deals')->name('leaser.deals');
     });
 
     Route::controller('Agent\TenantController')->group(function () {
@@ -101,6 +105,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::get('/tenant/editData', 'editData')->name('tenant.editData');
         Route::post('/tenant/updateStatus', 'updateStatus')->name('tenant.updateStatus');
         Route::get('/request-tenant', 'requestList')->name('tenant.request');
+        Route::get('/tenant/deals', 'deals')->name('tenant.deals');
     });
 
     Route::controller('Agent\BuyerController')->group(function () {
@@ -115,6 +120,7 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::get('/buyer/editData', 'editData')->name('buyer.editData');
         Route::post('/buyer/updateStatus', 'updateStatus')->name('buyer.updateStatus');
         Route::get('/request-buyer', 'requestList')->name('buyer.request');
+        Route::get('/buyer/deals', 'deals')->name('buyer.deals');
     });
 
     Route::controller('Agent\FollowupController')->group(function () {

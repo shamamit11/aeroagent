@@ -210,8 +210,8 @@ class TenantService
     {
         try {
             $id = $request->id;
-            $seller = Tenant::findOrFail($id);
-            $seller->delete();
+            $tenant = Tenant::findOrFail($id);
+            $tenant->delete();
         } 
         catch (\Exception$e) {
             return $e->getMessage();
@@ -387,6 +387,43 @@ class TenantService
             $customerActivity->save();
         }
         catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function deals() {
+        try {
+            $user_id = Auth::user()->id;
+
+            $dealsArray = [];
+
+            $tenants = Tenant::where([['user_id', $user_id]])->whereNull('deleted_at')->get();
+            foreach($tenants as $tenant) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_type', 'tenant'],
+                    ['source_id', $tenant->id],
+                    ['status', 'Deal']
+                ])->first();
+
+                if($customer_status) {
+                    $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                    
+                    $tenant->customer_name = $tenant->customer->name;
+                    $tenant->mobile = $tenant->customer->mobile;
+                    $tenant->property_name = $tenant->property->name;
+                    $tenant->property_type_name = ($tenant->property_type_id) ? $tenant->propertyType->name : "-";
+                    $tenant->status = $status_obj->name;
+                    $tenant->status_color = $status_obj->color;
+
+                    array_push($dealsArray, $tenant);
+                }
+            }
+            
+            return [
+                "results" => $dealsArray
+            ];
+        } 
+        catch (\Exception$e) {
             return $e->getMessage();
         }
     }

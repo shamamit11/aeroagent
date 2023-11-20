@@ -1,18 +1,18 @@
 import React, { useRef, useEffect, useState } from 'react';
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, router } from "@inertiajs/react";
-import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm } from 'antd';
-import { SearchOutlined, EyeOutlined, DeleteOutlined, EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';
+import { Button, Col, Input, Row, Space, Table, Tooltip, Card } from 'antd';
+import { SearchOutlined  } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-const List = () => {
+const Stock = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { location_name, results } = usePage().props;
+    const { results, property_id } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -30,34 +30,8 @@ const List = () => {
         setSearchText('');
     };
 
-    const handleDetail = (id) => {
-        router.get(`/seller/detail?id=${id}`)
-    }
-
-    const handleEdit = (id) => {
-        router.get(`/seller/addEdit?id=${id}`)
-    }
-
-    const handleDelete = (id, lid) => {
-        const formData = {
-            id: id
-        };
-        router.post('/seller/delete', formData, {
-            onSuccess: () => {
-                message.success('Data Deleted Successfully !');
-            },
-            onFinish: () => {
-                router.get(`/seller/list?lid=${lid}`)
-            }
-        })
-    };
-
-    const handleCancel = () => {
-        message.error('Operation Cancelled !');
-    };
-
-    const handleBack = () => {
-        router.get('/seller')
+    const handleView = (id) => {
+        router.get(`/seller/stock/list?lid=${id}&property_id=${property_id}`)
     }
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -132,68 +106,24 @@ const List = () => {
 
     const columns = [
         {
-            title: 'Customer Name',
-            dataIndex: 'customer_name',
-            key: 'customer_name',
+            title: 'Location',
+            dataIndex: 'name',
+            key: 'name',
             width: 'auto',
-            ...getColumnSearchProps('customer_name'),
+            ...getColumnSearchProps('name'),
         },
         {
-            title: 'Mobile',
-            dataIndex: 'customer_mobile',
-            key: 'customer_mobile',
-            width: '18%',
-            ...getColumnSearchProps('customer_mobile'),
-        },
-        {
-            title: 'Property',
-            dataIndex: 'property',
-            key: 'property',
-            width: '15%',
-            ...getColumnSearchProps('property'),
-        },
-        {
-            title: 'Property Type',
-            dataIndex: 'property_type',
-            key: 'property_type',
-            width: '13%',
-            ...getColumnSearchProps('property_type'),
-        },
-        {
-            title: 'Status',
-            key: 'status',
-            width: '10%',
-            align: 'center',
-            ...getColumnSearchProps('status'),
-            render: (_, record) => (
-                <Badge color={record.status_color} count={record.status} />
-            )
-        },
-        {
-            title: '',
+            title: 'Total Sellers',
             key: 'action',
             width: '13%',
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
-                        <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.id)} />
+                    <Tooltip title="Total Sellers" color="orange">
+                        <Button type='primary' size="middle" shape="circle" onClick={() => handleView(record.id)}>
+                            {record.count}
+                        </Button>
                     </Tooltip>
-                    <Tooltip title="Edit Row" color="orange">
-                        <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
-                    </Tooltip>
-                    <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
-                        onConfirm={() => handleDelete(record.id, record.location_id)}
-                        onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
-                    >
-                        <Tooltip title="Delete Row" color="red">
-                            <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
-                        </Tooltip>
-                    </Popconfirm>
                 </Space>
             ),
         },
@@ -201,14 +131,11 @@ const List = () => {
 
     return (
         <>
-            <Head title="Sellers" />
+            <Head title="Sellers Stocks" />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
+                <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>Sellers - {location_name}</span>
-                    </Col>
-                    <Col>
-                        <Button shape="circle" icon={<ArrowLeftOutlined />} size={"middle"} onClick={handleBack} />
+                        <span className='page-title'>Sellers Stocks</span>
                     </Col>
                 </Row>
 
@@ -220,6 +147,6 @@ const List = () => {
     );
 };
 
-List.layout = page => <AgentLayout children={page} />
+Stock.layout = page => <AgentLayout children={page} />
 
-export default List;
+export default Stock;

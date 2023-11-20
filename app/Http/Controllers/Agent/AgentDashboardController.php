@@ -32,6 +32,26 @@ class AgentDashboardController extends Controller
         $data['viewing'] = $service->getWidgetData($request, "viewing");
         $data['meeting'] = $service->getWidgetData($request, "meeting");
         
+        $data['buyer_request'] = $service->getRequestData("buyer");
+        $data['seller_request'] = $service->getRequestData("seller");
+        $data['tenant_request'] = $service->getRequestData("tenant");
+        $data['leaser_request'] = $service->getRequestData("leaser");
+
+        $data['seller_deal'] = $service->getTotalDealData("seller");
+        $data['buyer_deal'] = $service->getTotalDealData("buyer");
+        $data['leaser_deal'] = $service->getTotalDealData("leaser");
+        $data['tenant_deal'] = $service->getTotalDealData("tenant");
+
+        $data['stock_apartment'] = $service->getTotalProperty(1);
+        $data['stock_villa'] = $service->getTotalProperty(2);
+        $data['stock_townhouse'] = $service->getTotalProperty(3);
+        $data['stock_penthouse'] = $service->getTotalProperty(4);
+        $data['stock_office'] = $service->getTotalProperty(5);
+        $data['stock_land'] = $service->getTotalProperty(6);
+        $data['stock_retail'] = $service->getTotalProperty(7);
+        $data['stock_factory'] = $service->getTotalProperty(8);
+        $data['stock_hotel'] = $service->getTotalProperty(9);
+        
         return Inertia::render('Agent/Dashboard/Index', $data);
     }
 

@@ -428,4 +428,41 @@ class LeaserService
             return $e->getMessage();
         }
     }
+
+    public function deals() {
+        try {
+            $user_id = Auth::user()->id;
+
+            $dealsArray = [];
+
+            $leasers = Leaser::where([['user_id', $user_id]])->whereNull('deleted_at')->get();
+            foreach($leasers as $leaser) {
+                $customer_status = DB::table('customer_statuses')->where([
+                    ['customer_type', 'leaser'],
+                    ['source_id', $leaser->id],
+                    ['status', 'Deal']
+                ])->first();
+
+                if($customer_status) {
+                    $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
+                    
+                    $leaser->customer_name = $leaser->customer->name;
+                    $leaser->mobile = $leaser->customer->mobile;
+                    $leaser->property_name = $leaser->property->name;
+                    $leaser->property_type_name = ($leaser->property_type_id) ? $leaser->propertyType->name : "-";
+                    $leaser->status = $status_obj->name;
+                    $leaser->status_color = $status_obj->color;
+
+                    array_push($dealsArray, $leaser);
+                }
+            }
+            
+            return [
+                "results" => $dealsArray
+            ];
+        } 
+        catch (\Exception$e) {
+            return $e->getMessage();
+        }
+    }
 }
