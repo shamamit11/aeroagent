@@ -8,8 +8,6 @@ import "./style.scss";
 const { RangePicker } = DatePicker;
 
 const Dashboard = (props) => {
-    console.log(props);
-
     const onChange = (date, dateString) => {
         router.get(`/dashboard?date_range=${dateString}`)
     };
