@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->unsignedBigInteger('location_id')->nullable();
             $table->string('view_style')->nullable();
-            $table->dateTimeTz('handover_date')->nullable();
+            $table->date('handover_date')->nullable();
             $table->decimal('commission', 10, 2)->nullable();
             $table->text('amenities_id')->nullable();
             $table->string('project_status')->nullable();
