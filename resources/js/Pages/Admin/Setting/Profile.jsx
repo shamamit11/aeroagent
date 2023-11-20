@@ -3,8 +3,6 @@ import { usePage, useForm, router } from "@inertiajs/react";
 import { Button, Input, Space, Divider, Form, Avatar, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
-import "./style.scss";
-
 const SettingProfile = () => {
     const props = usePage().props;
     const rowData = props.profile;

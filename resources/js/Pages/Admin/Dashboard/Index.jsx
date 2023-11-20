@@ -2,8 +2,6 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head } from "@inertiajs/react";
 import { Card, Col, Row, Statistic } from 'antd';
 
-import "./style.scss";
-
 
 const Dashboard = (props) => {
 

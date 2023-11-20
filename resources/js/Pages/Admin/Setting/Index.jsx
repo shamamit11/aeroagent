@@ -7,8 +7,6 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import SettingProfile from './Profile';
 import SettingPassword from './Password';
 
-import "./style.scss";
-
 const tabItems = [
     {
         key: 'profile',

@@ -3,8 +3,6 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "antd";
 
-import "./style.scss";
-
 const AddEdit = () => {
     const props = usePage().props;
     const rowData = props.row;

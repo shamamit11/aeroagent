@@ -5,8 +5,6 @@ import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Modal, Divider } 
 import { SearchOutlined, EyeOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-import "./style.scss";
-
 const Index = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');

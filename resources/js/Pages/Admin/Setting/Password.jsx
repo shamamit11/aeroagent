@@ -2,8 +2,6 @@ import React from 'react';
 import { useForm, router } from "@inertiajs/react";
 import { Button, Input, Space, Form, message } from 'antd';
 
-import "./style.scss";
-
 const SettingPassword = () => {
     const { data, setData, post, processing, errors } = useForm({
         old_password: '',
