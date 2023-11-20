@@ -129,18 +129,20 @@ class SellerService
                 $seller->noc_label = $seller->noc_status ? "Yes" : "No";
                 $seller->project_name = $seller->project_id ? $seller->project->name : "N/A";
 
-                $current_arr_value = isset($seller->property_amenities) ? $seller->property_amenities : [];
-                if (!empty($current_arr_value)) {
-                    $current_arr_value = explode(', ', $current_arr_value);
+                if($seller->property_amenities) {
+                    $current_arr_value = isset($seller->property_amenities) ? $seller->property_amenities : [];
+                    if (!empty($current_arr_value)) {
+                        $current_arr_value = explode(', ', $current_arr_value);
+                    }
+                    $amenities = [];
+                    foreach ($current_arr_value as $key) {
+                        $res = Amenity::where('id', $key)->first();
+                        array_push($amenities, $res->name);
+                    }
+                    $amenities_array = implode(", ", $amenities);
+                    $seller->amenities = $amenities_array;
                 }
-                $amenities = [];
-                foreach ($current_arr_value as $key) {
-                    $res = Amenity::where('id', $key)->first();
-                    array_push($amenities, $res->name);
-                }
-                $amenities_array = implode(", ", $amenities);
-                $seller->amenities = $amenities_array;
-
+                
                 $customer_status = DB::table('customer_statuses')->where([
                     ['customer_id', $seller->customer_id], 
                     ['customer_type', 'seller'],
@@ -176,30 +178,36 @@ class SellerService
                 $seller->user_id = Auth::user()->id;
                 $seller->customer_id = $request['customer_id'];
             }
-            $seller->market = $request['market'];
-            $seller->project_id = $request['project_id'];
+            $seller->market = isset($request['market']) ? $request['market'] : null;
+
+            if($request['market'] == "offplan") {
+                $seller->project_id = isset($request['project_id']) ? $request['project_id'] : null;
+            }
+
             $seller->location_id = $request['location_id'];
             $seller->property_id = $request['property_id'];
-            $seller->property_type_id = $request['property_type_id'];
-            $seller->building_name = $request['building_name'];
-            $seller->view_style = $request['view_style'];
+            $seller->property_type_id = isset($request['property_type_id']) ? $request['property_type_id'] : null;
+            $seller->building_name = isset($request['building_name']) ? $request['building_name'] : null;
+            $seller->view_style = isset($request['view_style']) ? $request['view_style'] : null;
 
-            $amenities = $request['property_amenities'];
-            $implode_amenities = implode(", ", $amenities);
-            $seller->property_amenities = $implode_amenities;
+            if(isset($request['property_amenities'])) {
+                $amenities = $request['property_amenities'];
+                $implode_amenities = implode(", ", $amenities);
+                $seller->property_amenities = $implode_amenities;
+            }
 
-            $seller->property_size = $request['property_size'];
-            $seller->unit_price = $request['unit_price'];
-            $seller->market_price = $request['market_price'];
-            $seller->noc_status = $request['noc_status'];
-            $seller->is_furnished = $request['is_furnished'];
-            $seller->commission_type = $request['commission_type'];
-            $seller->commission = $request['commission'];
-            $seller->ad_link = $request['ad_link'];
-            $seller->note = $request['note'];
+            $seller->property_size = isset($request['property_size']) ? $request['property_size'] : null;
+            $seller->unit_price = isset($request['unit_price']) ? $request['unit_price'] : null;
+            $seller->market_price = isset($request['market_price']) ? $request['market_price'] : null;
+            $seller->noc_status = isset($request['noc_status']) ? $request['noc_status'] : null;
+            $seller->is_furnished = isset($request['is_furnished']) ? $request['is_furnished'] : null;
+            $seller->commission_type = isset($request['commission_type']) ? $request['commission_type'] : null;
+            $seller->commission = isset($request['commission']) ? $request['commission'] : null;
+            $seller->ad_link = isset($request['ad_link']) ? $request['ad_link']: null;
+            $seller->note = isset($request['note']) ? $request['note'] : null;
 
-            $seller->request_type = $request['request_type'];
-            $seller->source_id = $request['source_id'];
+            $seller->request_type = isset($request['request_type']) ? $request['request_type'] : null;
+            $seller->source_id = isset($request['source_id']) ? $request['source_id'] : 0;
             
             $seller->save();
 

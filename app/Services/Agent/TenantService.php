@@ -98,17 +98,19 @@ class TenantService
             if ($exists) {
                 $tenant = Tenant::where([["id", $id], ["user_id", $user_id]])->with('property', 'customer', 'propertyType')->first();
 
-                $current_arr_value = isset($tenant->property_amenities) ? $tenant->property_amenities : [];
-                if (!empty($current_arr_value)) {
-                    $current_arr_value = explode(', ', $current_arr_value);
+                if($tenant->property_amenities) {
+                    $current_arr_value = isset($tenant->property_amenities) ? $tenant->property_amenities : [];
+                    if (!empty($current_arr_value)) {
+                        $current_arr_value = explode(', ', $current_arr_value);
+                    }
+                    $amenities = [];
+                    foreach ($current_arr_value as $key) {
+                        $res = Amenity::where('id', $key)->first();
+                        array_push($amenities, $res->name);
+                    }
+                    $amenities_array = implode(", ", $amenities);
+                    $tenant->amenities = $amenities_array;
                 }
-                $amenities = [];
-                foreach ($current_arr_value as $key) {
-                    $res = Amenity::where('id', $key)->first();
-                    array_push($amenities, $res->name);
-                }
-                $amenities_array = implode(", ", $amenities);
-                $tenant->amenities = $amenities_array;
 
                 $customer_status = DB::table('customer_statuses')->where([
                     ['customer_id', $tenant->customer_id], 
@@ -146,18 +148,20 @@ class TenantService
                 $tenant->customer_id = $request['customer_id'];
             }
             $tenant->property_id = $request['property_id'];
-            $tenant->property_type_id = $request['property_type_id'];
+            $tenant->property_type_id = isset($request['property_type_id']) ? $request['property_type_id'] : null;
 
-            $amenities = $request['property_amenities'];
-            $implode_amenities = implode(", ", $amenities);
-            $tenant->property_amenities = $implode_amenities;
+            if(isset($request['property_amenities'])) {
+                $amenities = $request['property_amenities'];
+                $implode_amenities = implode(", ", $amenities);
+                $tenant->property_amenities = $implode_amenities;
+            }
 
-            $tenant->property_size = $request['property_size'];
-            $tenant->budget = $request['budget'];
-            $tenant->time_to_close = $request['time_to_close'];
-            $tenant->note = $request['note'];
-            $tenant->request_type = $request['request_type'];
-            $tenant->source_id = $request['source_id'];
+            $tenant->property_size = isset($request['property_size']) ? $request['property_size'] : null;
+            $tenant->budget = isset($request['budget']) ? $request['budget'] : null;
+            $tenant->time_to_close = isset($request['time_to_close']) ? $request['time_to_close'] : null;
+            $tenant->note = isset($request['note']) ? $request['note'] : null;
+            $tenant->request_type = isset($request['request_type']) ? $request['request_type'] : null;
+            $tenant->source_id = isset($request['source_id']) ? $request['source_id'] : 0;
             $tenant->save();
 
             if(!$request['id']) {

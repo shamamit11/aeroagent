@@ -32,7 +32,7 @@ const AddEdit = () => {
         customer_id: (rowData?.customer_id) ? rowData?.customer_id : props.customer_id,
         property_id: selectedProperty,
         property_type_id: selectedPropertyType,
-        property_amenities: amenitiesArray,
+        property_amenities: (rowData?.property_amenities) ? amenitiesArray : [],
         property_size: rowData?.property_size,
         budget: rowData?.budget,
         time_to_close: rowData?.time_to_close,
@@ -179,6 +179,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>
@@ -213,6 +214,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>
@@ -227,6 +229,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>

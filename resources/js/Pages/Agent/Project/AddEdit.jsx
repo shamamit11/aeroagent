@@ -14,7 +14,7 @@ const AddEdit = () => {
     const amenities = props.amenities;
     const [title, setTitle] = useState('');
 
-    const dateFormat = "YYYY-MM-DD HH:mm:ss";
+    const dateFormat = "YYYY-MM-DD";
 
     const amenities_id = rowData?.amenities_id;
     const amenitiesArray = amenities_id?.split(',').map(Number);
@@ -158,7 +158,7 @@ const AddEdit = () => {
                                     }
                                 ]}
                             >
-                                <DatePicker showTime format={dateFormat} />
+                                <DatePicker format={dateFormat} />
                             </Form.Item>
                         </Col>
                         <Col style={{ width: '48%' }}>

@@ -11,6 +11,7 @@ const AddEdit = () => {
     const props = usePage().props;
 
     const rowData = props.row;
+
     const [title, setTitle] = useState('');
     const [locationId, setLocationId] = useState(rowData?.location_id);
 
@@ -43,8 +44,8 @@ const AddEdit = () => {
         property_id: selectedProperty,
         property_type_id: selectedPropertyType,
         building_name: rowData?.building_name,
-        view_style:rowData?.view_style,
-        property_amenities: amenitiesArray,
+        view_style: rowData?.view_style,
+        property_amenities: (rowData?.property_amenities) ? amenitiesArray : [],
         property_size: rowData?.property_size,
         unit_price: rowData?.unit_price,
         market_price: rowData?.market_price,
@@ -52,8 +53,8 @@ const AddEdit = () => {
         is_furnished: rowData?.is_furnished,
         commission_type: rowData?.commission_type,
         commission: rowData?.commission,
-        ad_link: (rowData?.ad_link) ? rowData?.ad_link : "",
-        note: (rowData?.note) ? rowData?.note : "",
+        ad_link: rowData?.ad_link,
+        note: rowData?.note,
         status: status_name,
         request_type: props.request_type,
         source_id: props.source_id,
@@ -70,8 +71,10 @@ const AddEdit = () => {
 
         if (rowData?.market == 'offplan') {
             setProjectDisabled(false);
-        } else {
+        } 
+        else {
             setProjectDisabled(true);
+            //setData('project_id', null)
         }
     }, []);
 
@@ -82,7 +85,7 @@ const AddEdit = () => {
 
     const submit = () => {
         setLocationId(data.location_id);
-        
+
         post('/seller/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
@@ -236,6 +239,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>
@@ -400,6 +404,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>
@@ -414,6 +419,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>
@@ -501,6 +507,7 @@ const AddEdit = () => {
                                 >
                                     <Input
                                         type='number'
+                                        onWheel={(e) => e.target.blur()}
                                         disabled={processing}
                                     />
                                 </Form.Item>

@@ -126,17 +126,19 @@ class LeaserService
                 $leaser->noc_label = $leaser->noc_status ? "Yes" : "No";
                 $leaser->furnished_label = $leaser->is_furnished ? "Yes" : "No";
 
-                $current_arr_value = isset($leaser->property_amenities) ? $leaser->property_amenities : [];
-                if (!empty($current_arr_value)) {
-                    $current_arr_value = explode(', ', $current_arr_value);
+                if($leaser->property_amenities) {
+                    $current_arr_value = isset($leaser->property_amenities) ? $leaser->property_amenities : [];
+                    if (!empty($current_arr_value)) {
+                        $current_arr_value = explode(', ', $current_arr_value);
+                    }
+                    $amenities = [];
+                    foreach ($current_arr_value as $key) {
+                        $res = Amenity::where('id', $key)->first();
+                        array_push($amenities, $res->name);
+                    }
+                    $amenities_array = implode(", ", $amenities);
+                    $leaser->amenities = $amenities_array;
                 }
-                $amenities = [];
-                foreach ($current_arr_value as $key) {
-                    $res = Amenity::where('id', $key)->first();
-                    array_push($amenities, $res->name);
-                }
-                $amenities_array = implode(", ", $amenities);
-                $leaser->amenities = $amenities_array;
 
                 $customer_status = DB::table('customer_statuses')->where([
                     ['customer_id', $leaser->customer_id], 
@@ -175,25 +177,27 @@ class LeaserService
             }
             $leaser->location_id = $request['location_id'];
             $leaser->property_id = $request['property_id'];
-            $leaser->property_type_id = $request['property_type_id'];
-            $leaser->building_name = $request['building_name'];
-            $leaser->view_style = $request['view_style'];
+            $leaser->property_type_id = isset($request['property_type_id']) ? $request['property_type_id'] : null;
+            $leaser->building_name = isset($request['building_name']) ? $request['building_name'] : null;
+            $leaser->view_style = isset($request['view_style']) ? $request['view_style'] : null;
 
-            $amenities = $request['property_amenities'];
-            $implode_amenities = implode(", ", $amenities);
-            $leaser->property_amenities = $implode_amenities;
+            if(isset($request['property_amenities'])) {
+                $amenities = $request['property_amenities'];
+                $implode_amenities = implode(", ", $amenities);
+                $leaser->property_amenities = $implode_amenities;
+            }
 
-            $leaser->property_size = $request['property_size'];
-            $leaser->rent_price = $request['rent_price'];
-            $leaser->rent_index = $request['rent_index'];
-            $leaser->noc_status = $request['noc_status'];
-            $leaser->is_furnished = $request['is_furnished'];
-            $leaser->commission_type = $request['commission_type'];
-            $leaser->commission = $request['commission'];
-            $leaser->ad_link = $request['ad_link'];
-            $leaser->note = $request['note'];
-            $leaser->request_type = $request['request_type'];
-            $leaser->source_id = $request['source_id'];
+            $leaser->property_size = isset($request['property_size']) ? $request['property_size'] : null;
+            $leaser->rent_price = isset($request['rent_price']) ? $request['rent_price'] : null;
+            $leaser->rent_index = isset($request['rent_index']) ? $request['rent_index'] : null;
+            $leaser->noc_status = isset($request['noc_status']) ? $request['noc_status'] : null;
+            $leaser->is_furnished = isset($request['is_furnished']) ? $request['is_furnished'] : null;
+            $leaser->commission_type = isset($request['commission_type']) ? $request['commission_type'] : null;
+            $leaser->commission = isset($request['commission']) ? $request['commission'] : null;
+            $leaser->ad_link = isset($request['ad_link']) ? $request['ad_link'] : null;
+            $leaser->note = isset($request['note']) ? $request['note'] : null;
+            $leaser->request_type = isset($request['request_type']) ? $request['request_type'] : null;
+            $leaser->source_id = isset($request['source_id']) ? $request['source_id'] : 0;
             $leaser->save();
 
             if(!$request['id']) {

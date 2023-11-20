@@ -108,17 +108,19 @@ class BuyerService
                 $buyer->project_name = $buyer->project_id ? $buyer->project->name : "N/A";
                 $buyer->interest_label = ucwords($buyer->interest);
 
-                $current_arr_value = isset($buyer->property_amenities) ? $buyer->property_amenities : [];
-                if (!empty($current_arr_value)) {
-                    $current_arr_value = explode(', ', $current_arr_value);
+                if($buyer->property_amenities) {
+                    $current_arr_value = isset($buyer->property_amenities) ? $buyer->property_amenities : [];
+                    if (!empty($current_arr_value)) {
+                        $current_arr_value = explode(', ', $current_arr_value);
+                    }
+                    $amenities = [];
+                    foreach ($current_arr_value as $key) {
+                        $res = Amenity::where('id', $key)->first();
+                        array_push($amenities, $res->name);
+                    }
+                    $amenities_array = implode(", ", $amenities);
+                    $buyer->amenities = $amenities_array;
                 }
-                $amenities = [];
-                foreach ($current_arr_value as $key) {
-                    $res = Amenity::where('id', $key)->first();
-                    array_push($amenities, $res->name);
-                }
-                $amenities_array = implode(", ", $amenities);
-                $buyer->amenities = $amenities_array;
 
                 $customer_status = DB::table('customer_statuses')->where([
                     ['customer_id', $buyer->customer_id], 
@@ -155,27 +157,29 @@ class BuyerService
                 $buyer->user_id = Auth::user()->id;
                 $buyer->customer_id = $request['customer_id'];
             }
-            $buyer->interest = $request['interest'];
-            $buyer->market = $request['market'];
+            $buyer->interest = isset($request['interest']) ? $request['interest'] : null;
+            $buyer->market = isset($request['market']) ? $request['market'] : null;
 
             if($request['market'] == "offplan") {
-                $buyer->project_id = $request['project_id'];
+                $buyer->project_id = isset($request['project_id']) ? $request['project_id'] : null;
             }
 
             $buyer->property_id = $request['property_id'];
-            $buyer->property_type_id = $request['property_type_id'];
+            $buyer->property_type_id = isset($request['property_type_id']) ? $request['property_type_id'] : null;
 
-            $amenities = $request['property_amenities'];
-            $implode_amenities = implode(", ", $amenities);
-            $buyer->property_amenities = $implode_amenities;
+            if(isset($request['property_amenities'])) {
+                $amenities = $request['property_amenities'];
+                $implode_amenities = implode(", ", $amenities);
+                $buyer->property_amenities = $implode_amenities;
+            }
+            
+            $buyer->property_size = isset($request['property_size']) ? $request['property_size'] : null;
+            $buyer->budget = isset($request['budget']) ? $request['budget'] : null;
+            $buyer->time_to_close = isset($request['time_to_close']) ? $request['time_to_close'] : null;
+            $buyer->note = isset($request['note']) ? $request['note'] : null;
 
-            $buyer->property_size = $request['property_size'];
-            $buyer->budget = $request['budget'];
-            $buyer->time_to_close = $request['time_to_close'];
-            $buyer->note = $request['note'];
-
-            $buyer->request_type = $request['request_type'];
-            $buyer->source_id = $request['source_id'];
+            $buyer->request_type = isset($request['request_type']) ? $request['request_type'] : null;
+            $buyer->source_id = isset($request['source_id']) ? $request['source_id'] : 0;
         
             $buyer->save();
 
