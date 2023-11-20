@@ -5,8 +5,6 @@ import { Button, Col, Input, Row, Space, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-import "./style.scss";
-
 const Payout = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');

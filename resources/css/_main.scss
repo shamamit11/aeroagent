@@ -59,4 +59,34 @@ body {
             font-weight: 700 !important;
         }
     }
+
+    .ant-card-head-title {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+    }
+
+    .ant-statistic-title {
+        color: rgba(34, 34, 34, 0.45) !important;
+        font-size: 16px !important;
+        font-family: "Quicksand";
+        font-weight: 600;
+    }
+
+    .ant-statistic-content-value {
+        font-size: 35px !important;
+        font-weight: 600;
+        font-family: "Quicksand";
+    }
+
+    .ant-tabs-tab-btn {
+        .anticon {
+            font-size: large;
+            font-weight: 700;
+        }
+    }
+    
+    .ant-tabs-tab-btn {
+        font-size: 16px;
+        font-weight: 500;
+    }
 }

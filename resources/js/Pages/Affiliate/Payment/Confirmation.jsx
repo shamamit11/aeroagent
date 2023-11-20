@@ -3,8 +3,6 @@ import AffiliateLayout from '@/Layouts/AffiliateLayout';
 import { Head, router } from "@inertiajs/react";
 import { Button, Col, Row, Space, Card, Alert } from 'antd';
 
-import "./style.scss";
-
 const Confirmation = () => {
 
     const alertMessage = "You have renewed your Subscription Successfully ! ";

@@ -3,8 +3,6 @@ import AffiliateLayout from '@/Layouts/AffiliateLayout';
 import { Head, router } from "@inertiajs/react";
 import { Button, Col, Row, Space, Card, Alert, Modal, message } from 'antd';
 
-import "./style.scss";
-
 const Index = (props) => {
     const { next_renewal_date, balance } = props;
     const alertMessage = "Your subscription expired on: " + next_renewal_date;

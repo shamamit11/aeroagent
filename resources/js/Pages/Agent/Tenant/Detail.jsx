@@ -4,8 +4,6 @@ import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Card, Select, Badge, Divider, Modal, Dropdown, List } from "antd";
 import { ArrowLeftOutlined, DownOutlined } from '@ant-design/icons';
 
-import "./style.scss";
-
 const { TextArea } = Input;
 
 const Detail = () => {

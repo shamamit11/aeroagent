@@ -5,8 +5,6 @@ import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm
 import { SearchOutlined, EyeOutlined, DeleteOutlined, EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-import "./style.scss";
-
 const ListPage = () => {
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');

@@ -2,12 +2,8 @@ import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, router } from "@inertiajs/react";
 import { Card, Col, Row, Statistic, Button } from 'antd';
 
-import "./style.scss";
-
-
 const WalletDashboard = (props) => {
-   console.log(props)
-
+    
     const viewWallet = () => {
         router.get('/wallet')
     }

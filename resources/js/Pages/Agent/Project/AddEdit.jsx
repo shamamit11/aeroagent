@@ -4,8 +4,6 @@ import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Select, DatePicker, Card } from "antd";
 import dayjs from 'dayjs';
 
-import "./style.scss";
-
 const AddEdit = () => {
     const props = usePage().props;
     const rowData = props.row;

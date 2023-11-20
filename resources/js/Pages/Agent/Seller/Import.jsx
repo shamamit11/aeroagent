@@ -3,8 +3,6 @@ import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "antd";
 
-import "./style.scss";
-
 const Import = () => {
     const [form] = Form.useForm();
 
@@ -55,7 +53,7 @@ const Import = () => {
                     </Col>
                 </Row>
 
-                <div className="form-holder" style={{ width: '40%' }}>
+                <div className="form-holder" style={{ width: '75%' }}>
                     <Form
                         form={form}
                         name="basic"

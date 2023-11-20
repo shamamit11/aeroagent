@@ -19,7 +19,7 @@ class CustomerController extends Controller
     public function index(): Response
     {
         $result = $this->service->list();
-        return Inertia::render('Agent/Customer/List/Index', $result);
+        return Inertia::render('Agent/Customer/Index', $result);
     }
 
     public function addEdit(Request $request): Response
@@ -27,7 +27,7 @@ class CustomerController extends Controller
         $id = ($request->id) ? $request->id : 0;
         $data['title'] = ($id == 0) ? "Add Customer" : "Edit Customer";
         $data['row'] = $this->service->show($id);
-        return Inertia::render('Agent/Customer/List/AddEdit', $data);
+        return Inertia::render('Agent/Customer/AddEdit', $data);
     }
 
     public function addAction(CustomerRequest $request)

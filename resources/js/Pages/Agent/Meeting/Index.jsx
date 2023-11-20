@@ -5,8 +5,6 @@ import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm
 import { EditOutlined, SearchOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
-import "./style.scss";
-
 const Index = () => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);

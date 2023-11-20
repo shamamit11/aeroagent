@@ -1,5 +1,5 @@
 .form-holder {
-    margin-top: 15px;
+    margin-top: 15px !important;
     max-width: 100%;
 
     @media (max-width: 576px) {
@@ -9,7 +9,7 @@
     form {
         max-width: 75%;
         background: var(--white);
-        border-radius: 5px;
+        padding: 0;
 
         @media (max-width: 576px) {
             max-width: 100%;
@@ -17,7 +17,8 @@
         }
 
         .ant-form-item {
-            .ant-form-item-label, .ant-form-item-required {
+            .ant-form-item-label,
+            .ant-form-item-required {
                 font-size: 15px;
                 font-weight: 500;
                 color: #000000;
@@ -47,14 +48,14 @@
             .ant-form-item-explain {
                 position: relative;
                 top: auto;
-              }
-      
-              .ant-form-item-explain-error {
+            }
+
+            .ant-form-item-explain-error {
                 margin-top: 2px;
                 margin-bottom: 10px;
                 font-size: 12px;
                 font-weight: 500;
-              }
+            }
 
             &.form-actions {
                 margin: 0;
@@ -65,4 +66,24 @@
             }
         }
     }
+}
+
+.ant-dropdown-menu-title-content {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.ant-divider-horizontal {
+    margin: 15px 0;
+}
+
+.ant-list-item-meta-title {
+    font-family: 'Quicksand';
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.ant-list-item-meta-description {
+    font-family: 'Quicksand';
+    font-weight: 500;
 }

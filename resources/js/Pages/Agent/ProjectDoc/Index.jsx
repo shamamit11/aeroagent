@@ -4,8 +4,6 @@ import { Head, usePage, router, Link } from "@inertiajs/react";
 import { Button, Col, Row, Space, Table, Popconfirm, message, Tooltip, Card } from 'antd';
 import { PlusOutlined, ArrowLeftOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
-import "./style.scss";
-
 const Index = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState();

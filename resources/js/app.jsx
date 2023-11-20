@@ -4,9 +4,8 @@ import "../css/app.scss";
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { ConfigProvider } from 'antd';
-import theme from './theme';
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -20,7 +19,6 @@ createInertiaApp({
         const root = createRoot(el);
 
         const app = <ConfigProvider
-            theme={theme}
         >
             <App {...props} />
         </ConfigProvider>;

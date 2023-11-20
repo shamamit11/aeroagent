@@ -3,8 +3,6 @@ import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "antd";
 
-import "./style.scss";
-
 const Import = () => {
     const [form] = Form.useForm();
 

@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
-import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, router } from "@inertiajs/react";
-import { Button, Col, Input, Row, Space, Table, Popconfirm, message } from 'antd';
-import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Col, Input, Row, Space, Table, Popconfirm, message, Tooltip, Card } from 'antd';
+import { PlusOutlined, SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
-
-import "./style.scss";
+import Authenticated from '@/Layouts/AgentLayout';
 
 const Index = () => {
     const [loading, setLoading] = useState(true);
@@ -31,32 +29,6 @@ const Index = () => {
         clearFilters();
         setSearchText('');
     };
-
-    const handleAdd = () => {
-        router.get('/location/addEdit')
-    }
-
-    const handleEdit = (id) => {
-        router.get(`/location/addEdit/?id=${id}`)
-    }
-
-    const handleDelete = (id) => {
-        const formData = {
-            id: id
-        };
-        router.post('/location/delete', formData, {
-            onSuccess: () => {
-                message.success('Data Deleted Successfully !');
-            },
-            onFinish: () => {
-                router.get('/location')
-            }
-        })
-      };
-
-      const handleCancel = () => {
-        message.error('Operation Cancelled !');
-      };
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -128,6 +100,32 @@ const Index = () => {
             ) : (text)
     });
 
+    const handleAdd = () => {
+        router.get('/customer/addEdit')
+    }
+
+    const handleEdit = (id) => {
+        router.get(`/customer/addEdit/?id=${id}`)
+    }
+
+    const handleDelete = (id) => {
+        const formData = {
+            id: id
+        };
+        router.post('/customer/delete', formData, {
+            onSuccess: () => {
+                message.success('Data Deleted Successfully !');
+            },
+            onFinish: () => {
+                router.get('/customer')
+            }
+        })
+    };
+
+    const handleCancel = () => {
+        message.error('Operation Cancelled !');
+    };
+
     const columns = [
         {
             title: 'Name',
@@ -137,35 +135,35 @@ const Index = () => {
             ...getColumnSearchProps('name'),
         },
         {
-            title: 'City',
-            dataIndex: 'city',
-            key: 'city',
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
+            width: '25%',
+            ...getColumnSearchProps('age'),
+        },
+        {
+            title: 'Mobile',
+            dataIndex: 'mobile',
+            key: 'mobile',
             width: '15%',
-            ...getColumnSearchProps('city'),
+            ...getColumnSearchProps('mobile')
         },
         {
-            title: 'Country',
-            dataIndex: 'country',
-            key: 'country',
-            width: '20%',
-            ...getColumnSearchProps('country'),
-            sorter: (a, b) => a.address.length - b.address.length,
-            sortDirections: ['descend', 'ascend'],
-        },
-        {
-            title: 'Added By',
-            dataIndex: 'user_name',
-            key: 'user_name',
-            width: '20%',
-            ...getColumnSearchProps('user_name')
+            title: 'Nationality',
+            dataIndex: 'nationality',
+            key: 'nationality',
+            width: '15%',
+            ...getColumnSearchProps('nationality')
         },
         {
             title: '',
             key: 'action',
-            width: '12%',
+            width: '8%',
             render: (_, record) => (
                 <Space size="middle">
-                    <Button size="middle" onClick={() => handleEdit(record.id)}>Edit</Button>
+                    <Tooltip title="Edit Row" color="orange">
+                        <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
+                    </Tooltip>
                     <Popconfirm
                         title="Delete"
                         description="Are you sure to delete?"
@@ -174,9 +172,10 @@ const Index = () => {
                         okText="Yes"
                         cancelText="No"
                     >
-                        <Button danger size="middle">Delete</Button>
+                        <Tooltip title="Delete Row" color="red">
+                            <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
+                        </Tooltip>
                     </Popconfirm>
-
                 </Space>
             ),
         },
@@ -184,23 +183,31 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Locations" />
-            <Row justify={'space-between'} align={'middle'}>
-                <Col>
-                    <h1 className='page-title'>Locations</h1>
-                </Col>
-                <Col>
-                    <Button type="primary" shape="circle" icon={<PlusOutlined />} size={"large"} onClick={handleAdd} />
-                </Col>
-            </Row>
+            <Head title="All Customers" />
 
-            <div className='table-holder'>
-                <Table columns={columns} dataSource={data} rowKey={(key) => key.id} loading={loading} pagination={{ defaultPageSize: 50 }} />
-            </div>
+            <Card bordered={false} style={{ width: "100%", borderRadius: 0 }}>
+                <Row justify={'space-between'} align="middle">
+                    <Col>
+                        <span style={{ fontSize: 25, fontWeight: 600 }}>All Customers</span>
+                    </Col>
+                    <Col>
+                        <Space size={"middle"}>
+                            <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<PlusOutlined />} size={"middle"} onClick={handleAdd} />
+                        </Space>
+                    </Col>
+
+                </Row>
+
+                <div className='table-holder'>
+                    <Table columns={columns} dataSource={data} rowKey={(key) => key.id} loading={loading} pagination={{ defaultPageSize: 50 }} />
+                </div>
+            </Card>
         </>
-    );
-};
 
-Index.layout = page => <AgentLayout children={page} />
+    )
+
+}
+
+Index.layout = page => <Authenticated children={page} />
 
 export default Index;

@@ -7,8 +7,6 @@ import TabInfo from './Partials/TabInfo';
 import TabDetail from './Partials/TabDetail';
 import TabDoc from './Partials/TabDoc';
 
-import "./style.scss";
-
 const View = () => {
     const props = usePage().props;
     const rowData = props.row;

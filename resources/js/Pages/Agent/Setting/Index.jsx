@@ -8,8 +8,6 @@ import SettingProfile from './Profile';
 import SettingPassword from './Password';
 import SettingBank from './Bank';
 
-import "./style.scss";
-
 const tabItems = [
     {
         key: 'profile',

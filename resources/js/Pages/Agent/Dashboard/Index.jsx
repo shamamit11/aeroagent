@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, router, Link } from "@inertiajs/react";
 import { Card, Col, Row, Statistic, DatePicker, Space } from 'antd';
-import "./style.scss";
 
 const { RangePicker } = DatePicker;
 

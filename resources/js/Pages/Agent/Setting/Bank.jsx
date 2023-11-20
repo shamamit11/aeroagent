@@ -2,8 +2,6 @@ import React from 'react';
 import { usePage, useForm, router } from "@inertiajs/react";
 import { Button, Input, Space, Form, message } from 'antd';
 
-import "./style.scss";
-
 const SettingBank = () => {
     const props = usePage().props;
     const rowData = props.bank;
