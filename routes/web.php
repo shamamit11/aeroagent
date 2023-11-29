@@ -123,6 +123,15 @@ Route::middleware(['auth', 'verified', 'role:agent', 'check.subscription'])->gro
         Route::get('/buyer/deals', 'deals')->name('buyer.deals');
     });
 
+    Route::controller('Agent\FeedController')->group(function () {
+        Route::get('/feed', 'index')->name('feed');
+        Route::get('/feed/view', 'view')->name('feed.view');
+        Route::get('/feed/addEdit', 'addEdit')->name('feed.addEdit');
+        Route::post('/feed/addAction', 'addAction')->name('feed.addAction');
+        Route::post('/feed/delete', 'delete')->name('feed.delete');
+        Route::get('/feed/list', 'list')->name('feed.all');
+    });
+
     Route::controller('Agent\FollowupController')->group(function () {
         Route::get('/followup', 'index')->name('followup');
         Route::post('/followup/delete', 'delete')->name('followup.delete');

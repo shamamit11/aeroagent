@@ -8,7 +8,8 @@ import {
     ShopOutlined,
     AppstoreOutlined,
     PullRequestOutlined,
-    WalletOutlined
+    WalletOutlined,
+    DeploymentUnitOutlined
 } from '@ant-design/icons';
 import { Link } from '@inertiajs/react';
 
@@ -33,6 +34,12 @@ const agentNavItems = [
         key: 'wallet',
         icon: <WalletOutlined />,
         label: <Link href='/wallet-dashboard'>Wallet</Link>,
+    },
+
+    {
+        key: 'feed',
+        icon: <DeploymentUnitOutlined />,
+        label: <Link href='/feed/list'>Feed</Link>,
     },
 
     getItem('Data Management', 'customermanagement', null, [], 'group'),
