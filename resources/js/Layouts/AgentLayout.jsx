@@ -10,50 +10,16 @@ import {
 } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } from 'antd';
 import { Link, usePage } from '@inertiajs/react';
-import { agentNavItems } from './agentRoutes';
-import "./style.scss";
+import AgentNavComponent from '@/components/AgentNavComponent';
 
+import "./layout.scss";
 import Logo from "/public/light-logo.png";
 
 const { Header, Sider, Content, Footer } = Layout;
 
-const items = [
-    {
-        key: 'settings',
-        label: (
-            <Link href='/settings'>
-                Settings
-            </Link>
-        ),
-        icon: <SettingOutlined />,
-    },
-    {
-        key: 'logs',
-        label: (
-            <Link href='/activity-log'>
-                Activity Log
-            </Link>
-        ),
-        icon: <LineChartOutlined />,
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: 'logout',
-        label: (
-            <Link href='/logout' method='post' as='div'>
-                Logout
-            </Link>
-        ),
-        icon: <LogoutOutlined />,
-    },
-];
-
 const AgentLayout = ({ children }) => {
-
-    const { auth } = usePage().props;
-    const userRole = auth.user.role;
+    const { auth, lang } = usePage().props;
+    const agentNavItems = AgentNavComponent();
 
     const initial = JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
     const [collapsed, setCollapsed] = useState(initial);
@@ -63,6 +29,39 @@ const AgentLayout = ({ children }) => {
         setCollapsed(updated)
         localStorage.setItem('sidebarCollapsed', JSON.stringify(updated))
     };
+
+    const items = [
+        {
+            key: 'settings',
+            label: (
+                <Link href='/settings'>
+                    {lang.menuItems.settings}
+                </Link>
+            ),
+            icon: <SettingOutlined />,
+        },
+        {
+            key: 'logs',
+            label: (
+                <Link href='/activity-log'>
+                    {lang.menuItems.acitvity_log}
+                </Link>
+            ),
+            icon: <LineChartOutlined />,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'logout',
+            label: (
+                <Link href='/logout' method='post' as='div'>
+                    {lang.menuItems.logout}
+                </Link>
+            ),
+            icon: <LogoutOutlined />,
+        },
+    ];
 
     return (
         <Layout className="app-layout">

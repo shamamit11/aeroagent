@@ -4,7 +4,7 @@ import { Button, message, Card} from "antd";
 
 import Logo from "../../../../public/light-logo.png";
 
-import "./style.scss";
+// import "./style.scss";
 
 const PaymentConfirmation = () => {
    

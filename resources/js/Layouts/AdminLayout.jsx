@@ -12,7 +12,8 @@ import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } f
 import { Link, usePage } from '@inertiajs/react';
 import { adminNavItems } from './adminRoutes';
 import Logo from "/public/light-logo.png";
-import "./style.scss";
+
+import "./layout.scss";
 
 const { Header, Sider, Content, Footer } = Layout;
 
@@ -52,18 +53,13 @@ const items = [
 
 
 const AdminLayout = ({ children }) => {
-    //const initial = JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
     const [collapsed, setCollapsed] = useState(false);
-    //const [initial, setInitial] = useState()
 
     const { auth } = usePage().props;
 
-    const userRole = auth.user.role;
-
     const toggleCollapse = () => {
         const updated = !collapsed;
-        setCollapsed(updated)
-        //localStorage.setItem('sidebarCollapsed', JSON.stringify(updated))
+        setCollapsed(updated);
     };
 
     return (

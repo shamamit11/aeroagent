@@ -213,14 +213,37 @@ if (!function_exists('time_elapsed_string')) {
 if (!function_exists('time_remaining_string')) {
     function time_remaining_string($datetime, $full = false)
     {
+        $locale = app()->getLocale();
+        
         $now = new DateTime;
         $next = new DateTime($datetime);
         $diff = $now->diff($next);
 
         if ($diff->days > 1) {
-            return $diff->days . ' days';
-        } else {
-            return $diff->days . ' day';
+            if($locale == 'ar') {
+                return $diff->days . ' أيام';
+            }
+            else {
+                return $diff->days . ' days';
+            }  
+        } 
+        else {
+            if($locale == 'ar') {
+                return $diff->days . ' يوم';
+            }
+            else {
+                return $diff->days . ' day';
+            }
         }
+    }
+}
+
+if (!function_exists('translations')) {
+    function translations($json)
+    {
+        if(!file_exists($json)) {
+        return [];
+        }
+        return json_decode(file_get_contents($json), true);
     }
 }

@@ -6,8 +6,6 @@ const SettingBank = () => {
     const props = usePage().props;
     const rowData = props.bank;
 
-    console.log(rowData);
-
     const { data, setData, post, processing, errors } = useForm({
         bank_name: rowData?.bank_name,
         account_name: rowData?.account_name,

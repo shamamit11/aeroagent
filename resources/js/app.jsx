@@ -4,6 +4,8 @@ import "../css/app.scss";
 import { createRoot } from 'react-dom/client';
 import { createInertiaApp } from '@inertiajs/react';
 import { ConfigProvider } from 'antd';
+import en from 'antd/locale/en_US';
+import ar from 'antd/locale/ar_EG';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -17,9 +19,9 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         const root = createRoot(el);
+        const currentLocale = props.initialPage.props.locale;
 
-        const app = <ConfigProvider
-        >
+        const app = <ConfigProvider locale={props.currentLocale === 'ar' ? ar : en} direction={ currentLocale === 'ar' ? 'rtl' : 'ltr'}>
             <App {...props} />
         </ConfigProvider>;
 

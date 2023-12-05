@@ -14,7 +14,7 @@ const AddEdit = () => {
         email: rowData?.email,
         mobile: rowData?.mobile,
         nationality: rowData?.nationality,
-        customer_type: undefined
+        customer_type: 'default'
     });
 
     useEffect(() => {
@@ -41,7 +41,6 @@ const AddEdit = () => {
                 else {
                     router.get(`/${data.customer_type}/addEdit`) 
                 }
-                
             }
         });
     };

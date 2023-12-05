@@ -11,7 +11,8 @@ import {
 import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } from 'antd';
 import { Link, usePage } from '@inertiajs/react';
 import { affiliateNavItems } from './affiliateRoutes';
-import "./style.scss";
+
+import "./layout.scss";
 
 import Logo from "/public/light-logo.png";
 
@@ -44,7 +45,6 @@ const items = [
 const AffiliateLayout = ({ children }) => {
 
     const { auth } = usePage().props;
-    const userRole = auth.user.role;
 
     const initial = JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
     const [collapsed, setCollapsed] = useState(initial);

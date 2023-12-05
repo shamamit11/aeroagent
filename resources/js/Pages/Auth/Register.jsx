@@ -5,7 +5,7 @@ import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined, CodeOutlined }
 
 import Logo from "../../../../public/light-logo.png";
 
-import "./style.scss";
+// import "./style.scss";
 
 const Register = () => {
 

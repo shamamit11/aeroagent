@@ -6,3 +6,15 @@ export function filesize(size) {
     ['B', 'kB', 'MB', 'GB', 'TB'][i]
   );
 }
+
+export const getDefaultLanguage = () => {
+  const languageFromStorage = localStorage.getItem(DEFAULT_LANGUAGE_KEY);
+  if (languageFromStorage) {
+    return LANGUAGES.find(l => l.key === languageFromStorage);
+  }
+  return LANGUAGES.find(l => l.default);
+};
+
+export const setDefaultLanguage = (key) => {
+  return localStorage.setItem(DEFAULT_LANGUAGE_KEY, key);
+};

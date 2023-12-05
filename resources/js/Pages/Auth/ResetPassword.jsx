@@ -5,7 +5,7 @@ import { MailOutlined } from "@ant-design/icons";
 
 import Logo from "../../../../public/light-logo.png";
 
-import "./style.scss";
+// import "./style.scss";
 
 const ResetPassword = ({ token, email }) => {
 

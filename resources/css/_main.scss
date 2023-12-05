@@ -1,3 +1,5 @@
+$locale: var(--locale);
+
 body {
     font-family: var(--default-font-family);
     font-weight: var(--font-regular);
@@ -84,9 +86,150 @@ body {
             font-weight: 700;
         }
     }
-    
+
     .ant-tabs-tab-btn {
         font-size: 16px;
         font-weight: 500;
+    }
+}
+
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("/public/hero-bg.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+
+    .login-form {
+        max-width: 95%;
+        margin-top: 25px;
+        margin-bottom: 25px;
+
+        @media (max-width: 576px) {
+            max-width: 100%;
+        }
+
+        .login-form-header {
+            text-align: center;
+            margin-bottom: 0px;
+
+            img {
+                width: 200px;
+                margin-bottom: 0px;
+            }
+        }
+
+        .login-text-holder {
+            h1 {
+                color: inherit;
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 0;
+            }
+
+            p {
+                color: var(--text-gray-600);
+                font-size: 14px;
+                font-weight: var(--font-medium);
+                margin-bottom: 2rem;
+                margin-top: 8px;
+            }
+        }
+
+        form {
+            width: 500px;
+            max-width: 100%;
+            background: var(--white);
+            padding: 35px;
+            border-radius: 15px;
+
+            @media (max-width: 576px) {
+                border-radius: 0;
+            }
+
+            .ant-form-item {
+                .ant-form-item-label,
+                .ant-form-item-required {
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: #000000;
+                }
+
+                .ant-input {
+                    font-size: 14px;
+                    font-weight: 500;
+                    padding-left: 15px;
+                    padding: 5px;
+                }
+
+                .ant-select {
+                    height: 45px;
+                }
+
+                .ant-select-selection-item {
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+
+                .ant-select-item-option-content {
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+
+                .ant-form-item-explain {
+                    position: relative;
+                    top: auto;
+                }
+
+                .ant-form-item-explain-error {
+                    margin-top: 2px;
+                    margin-bottom: 10px;
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+
+                &.form-actions {
+                    margin: 0;
+
+                    .ant-form-item-row {
+                        width: 100%;
+                    }
+
+                    .ant-btn {
+                        font-size: 16px;
+                        font-weight: 600;
+                        height: 45px;
+                    }
+                }
+            }
+
+            .form-forgot-password {
+                font-size: 14px;
+                text-align: right;
+                margin-top: 15px;
+
+                a {
+                    color: var(--text-gray-600);
+
+                    &:hover {
+                        color: var(--text-gray-800);
+                    }
+                }
+            }
+
+            .form-register {
+                font-size: 16px;
+                text-align: center;
+            }
+        }
+
+        .language-container {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 0px;
+        }
     }
 }

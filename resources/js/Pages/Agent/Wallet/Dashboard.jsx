@@ -1,8 +1,9 @@
 import AgentLayout from '@/Layouts/AgentLayout';
-import { Head, router } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { Card, Col, Row, Statistic, Button } from 'antd';
 
 const WalletDashboard = (props) => {
+    const { lang } = usePage().props;
     
     const viewWallet = () => {
         router.get('/wallet')
@@ -20,17 +21,16 @@ const WalletDashboard = (props) => {
         router.get('/wallet/renewal')
     }
     
-
     return (
         <>
-            <Head title="Dashboard" />
-            <Card title={`Your Referral Code is: ${props.auth.user.user_code}`}>
+            <Head title={lang.menuItems.wallet} />
+            <Card title={`${lang.wallet.your_referral_code_is}: ${props.auth.user.user_code}`}>
 
                 <Row gutter={24}>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Wallet Balance (AED)"
+                                title={lang.wallet.wallet_balance + " AED"}
                                 value={props.balance}
                                 precision={2}
                                 valueStyle={{
@@ -45,14 +45,14 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewWallet}
                             >
-                                View Wallet
+                                {lang.wallet.view_wallet}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Total Referrals"
+                                title={lang.wallet.total_referrals}
                                 value={props.totalReferral}
                                 valueStyle={{
                                     color: 'skyblue',
@@ -66,14 +66,14 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewReferral}
                             >
-                                View Referrals
+                                {lang.wallet.view_referrals}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Total Payout (AED)"
+                                title={lang.wallet.total_payout + " AED"}
                                 value={props.totalPayout}
                                 precision={2}
                                 valueStyle={{
@@ -88,14 +88,14 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewPayout}
                             >
-                                View Payouts
+                                {lang.wallet.view_payouts}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Next Renewal After"
+                                title={lang.wallet.next_renewal_after}
                                 value={props.nextRenewalDate}
                                 valueStyle={{
                                     color: '#cf1322',
@@ -109,7 +109,7 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewRenewal}
                             >
-                                View Renewals
+                                {lang.wallet.view_renewals}
                             </Button>
                         </Card>
                     </Col>

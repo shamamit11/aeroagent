@@ -246,7 +246,7 @@ const Detail = () => {
                             </Row>
                         </Card>
 
-                        {(rowData.status == 'Interested' || rowData.status == 'Deal') && (
+                        {(rowData.status == 'Interested' || rowData.status == 'Deal' || rowData.status == 'Potential') && (
                             <Card title="Property Information" headStyle={{ backgroundColor: "skyblue", color: "white" }} style={{ borderColor: "skyblue", marginBottom: 20 }}>
                                 <Row justify={'space-between'} align={'top'}>
                                     <Col style={{ width: "32%" }}>

@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 //Common Controller
+Route::controller('CommonController')->group(function () {
+    Route::get('/change-locale/{locale}', 'changeLocale')->name('change.locale');
+});
+
+//Common Controller - Verified
 Route::middleware(['auth', 'verified', 'role:admin,agent,affiliate'])->group(function () {
     Route::controller('CommonController')->group(function () {
         Route::get('/', 'index')->name('/');

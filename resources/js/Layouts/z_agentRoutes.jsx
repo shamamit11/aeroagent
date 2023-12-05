@@ -10,8 +10,11 @@ import {
     PullRequestOutlined,
     WalletOutlined,
     DeploymentUnitOutlined
-} from '@ant-design/icons';
-import { Link } from '@inertiajs/react';
+} 
+from '@ant-design/icons';
+import { Link, usePage } from '@inertiajs/react';
+
+const { locale, lang } = usePage().props;
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -27,7 +30,7 @@ const agentNavItems = [
     {
         key: 'dashboard',
         icon: <DashboardOutlined />,
-        label: <Link href='/dashboard'>Dashboard</Link>,
+        label: <Link href='/dashboard'>{lang.menuItems.dashboard}</Link>,
     },
 
     {

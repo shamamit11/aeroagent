@@ -1,3 +1,5 @@
+$locale: attr(lang);
+
 .form-holder {
     margin-top: 15px !important;
     max-width: 100%;
@@ -48,6 +50,7 @@
             .ant-form-item-explain {
                 position: relative;
                 top: auto;
+                text-align: if($locale == 'ar', 'right', 'left');
             }
 
             .ant-form-item-explain-error {

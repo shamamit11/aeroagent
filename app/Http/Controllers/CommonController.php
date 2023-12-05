@@ -20,4 +20,9 @@ class CommonController extends Controller
             return redirect()->route("wallet.dashboard");
         }
     }
+
+    public function changeLocale($locale)
+    {
+        Session()->put('locale', $locale);
+    }
 }
