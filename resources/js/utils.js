@@ -18,3 +18,12 @@ export const getDefaultLanguage = () => {
 export const setDefaultLanguage = (key) => {
   return localStorage.setItem(DEFAULT_LANGUAGE_KEY, key);
 };
+
+export const getObjectValue = (jsonData, topLevelKey, nestedKey) => {
+  if (jsonData.hasOwnProperty(topLevelKey) && jsonData[topLevelKey].hasOwnProperty(nestedKey)) {
+    return jsonData[topLevelKey][nestedKey];
+  } 
+  else {
+    return false;
+  }
+}

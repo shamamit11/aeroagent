@@ -12,7 +12,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -40,7 +40,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    // placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -58,7 +58,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -67,7 +67,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -114,7 +114,7 @@ const Index = () => {
         };
         router.post('/customer/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get('/customer')
@@ -123,33 +123,33 @@ const Index = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const columns = [
         {
-            title: 'Name',
+            title: lang.com.name,
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
             ...getColumnSearchProps('name'),
         },
         {
-            title: 'Email',
+            title: lang.com.email,
             dataIndex: 'email',
             key: 'email',
             width: '25%',
             ...getColumnSearchProps('age'),
         },
         {
-            title: 'Mobile',
+            title: lang.com.mobile,
             dataIndex: 'mobile',
             key: 'mobile',
             width: '15%',
             ...getColumnSearchProps('mobile')
         },
         {
-            title: 'Nationality',
+            title: lang.com.nationality,
             dataIndex: 'nationality',
             key: 'nationality',
             width: '15%',
@@ -161,18 +161,18 @@ const Index = () => {
             width: '8%',
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="Edit Row" color="orange">
+                    <Tooltip title={lang.com.edit_row} color="orange">
                         <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
                     </Tooltip>
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
-                        <Tooltip title="Delete Row" color="red">
+                        <Tooltip title={lang.com.delete_row} color="red">
                             <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
                         </Tooltip>
                     </Popconfirm>
@@ -183,12 +183,12 @@ const Index = () => {
 
     return (
         <>
-            <Head title="All Customers" />
+            <Head title={lang.com.all_customers} />
 
             <Card bordered={false} style={{ width: "100%", borderRadius: 0 }}>
                 <Row justify={'space-between'} align="middle">
                     <Col>
-                        <span style={{ fontSize: 25, fontWeight: 600 }}>All Customers</span>
+                        <span style={{ fontSize: 25, fontWeight: 600 }}>{lang.com.all_customers}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>

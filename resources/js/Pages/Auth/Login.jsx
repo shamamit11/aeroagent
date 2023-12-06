@@ -122,9 +122,9 @@ const Login = () => {
                         </div>
                     </Form>
                     
-                    {/* <div className="language-container">
+                    <div className="language-container">
                         <LoginLanguageSwitcher currentLocale={locale} />
-                    </div> */}
+                    </div>
                 </div>
 
 

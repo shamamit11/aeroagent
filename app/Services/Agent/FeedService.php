@@ -25,14 +25,16 @@ class FeedService
                 $feed->location = $location_array;
             }
 
+            $locale = app()->getLocale();
+
             $feeds->transform(fn ($res) => [
                 'id'=> $res->id,
                 'user_name' => $res->user->first_name . ' ' . $res->user->last_name,
                 'user_mobile' => $res->user->mobile,
-                'looking_for' => ucwords($res->looking_for),
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
-                'market'=> ucwords($res->market),
+                'looking_for' => $res->looking_for,
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
+                'market'=> $res->market,
                 'project_name' => ($res->project_id) ? $res->project->name : "-",
                 'location' => $res->location,
                 'property_size' => $res->property_size,
@@ -69,14 +71,16 @@ class FeedService
                 $feed->location = $location_array;
             }
 
+            $locale = app()->getLocale();
+
             $feeds->transform(fn ($res) => [
                 'id'=> $res->id,
                 'user_name' => $res->user->first_name . ' ' . $res->user->last_name,
                 'user_mobile' => $res->user->mobile,
-                'looking_for' => ucwords($res->looking_for),
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
-                'market'=> ucwords($res->market),
+                'looking_for' => $res->looking_for,
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
+                'market'=> $res->market,
                 'project_name' => ($res->project_id) ? $res->project->name : "-",
                 'location' => $res->location,
                 'property_size' => $res->property_size,
@@ -101,7 +105,7 @@ class FeedService
             if ($exists) {
                 $feed = Feed::where([["id", $id], ["user_id", $user_id]])->with('property', 'propertyType', 'project')->first();
 
-                $feed->market_label = ucwords($feed->market);
+                $feed->market_label = $feed->market;
                 $feed->project_name = $feed->project_id ? $feed->project->name : "N/A";
 
                 if($feed->location) {

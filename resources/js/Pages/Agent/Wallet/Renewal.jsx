@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage } from "@inertiajs/react";
-import { Button, Col, Input, Row, Space, Table, Statistic, Card } from 'antd';
+import { Button, Col, Input, Row, Space, Table } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
@@ -12,7 +12,7 @@ const Payout = () => {
     const [data, setData] = useState();
     const searchInput = useRef(null);
 
-    const { results, balance, totalReferral, totalPayout, totalRenewal } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -40,7 +40,7 @@ const Payout = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    // placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -58,7 +58,7 @@ const Payout = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -67,7 +67,7 @@ const Payout = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -102,27 +102,27 @@ const Payout = () => {
 
     const columns = [
         {
-            title: 'Date',
+            title: lang.com.date,
             dataIndex: 'date',
             key: 'date',
             width: '12%',
             ...getColumnSearchProps('date'),
         },
         {
-            title: 'Transaction#',
+            title: lang.com.transaction + ' #',
             dataIndex: 'transaction_id',
             key: 'transaction_id',
             width: '25%',
             ...getColumnSearchProps('transaction_id')
         },
         {
-            title: 'Amount (AED)',
+            title: lang.com.amount + ' (AED)',
             dataIndex: 'amount',
             key: 'amount',
             width: '15%'
         },
         {
-            title: 'Note',
+            title: lang.com.note,
             dataIndex: 'note',
             key: 'note',
             width: 'auto',
@@ -131,10 +131,10 @@ const Payout = () => {
 
     return (
         <>
-            <Head title="My Renewals" />
+            <Head title={lang.renewals.my_renewals} />
             <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>My Renewals</span>
+                    <span className='page-title'>{lang.renewals.my_renewals}</span>
                 </Col>
             </Row>
 
