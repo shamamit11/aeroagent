@@ -72,7 +72,17 @@ const AddEdit = () => {
                 message.error(lang.com.error_request)
             },
             onFinish: () => {
-                router.get(`/tenant`)
+                if (data.id == 0 || rowData.id) {
+                    if (status) {
+                        router.get(`/tenant/detail?id=${rowData.id}`)
+                    }
+                    else {
+                        router.get(`/tenant`)
+                    }
+                }
+                else {
+                    router.get(`/tenant`)
+                }
             }
         });
     };
