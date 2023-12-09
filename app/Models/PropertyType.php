@@ -16,7 +16,8 @@ class PropertyType extends Model
 
     protected $fillable = [
         'property_id',
-        'name'
+        'name',
+        'ar_name'
     ];
 
     public function property() {

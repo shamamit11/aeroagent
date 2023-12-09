@@ -50,11 +50,11 @@ const Index = () => {
                 router.get('/admin/propertyType')
             }
         })
-      };
+    };
 
-      const handleCancel = () => {
+    const handleCancel = () => {
         message.error(lang.com.operation_cancelled);
-      };
+    };
 
     const getColumnSearchProps = (dataIndex) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -133,6 +133,14 @@ const Index = () => {
             key: 'name',
             width: 'auto',
             ...getColumnSearchProps('name'),
+        },
+        {
+            title: "Name (Arabic)",
+            dataIndex: 'ar_name',
+            key: 'ar_name',
+            width: '20%',
+            align: 'right',
+            ...getColumnSearchProps('ar_name'),
         },
         {
             title: lang.com.property,

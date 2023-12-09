@@ -27,6 +27,7 @@ class AmenityService
                 $amenity = new Amenity;
             }
             $amenity->name = $request['name'];
+            $amenity->ar_name = $request['ar_name'];
             $amenity->save();
         } 
         catch (\Exception$e) {

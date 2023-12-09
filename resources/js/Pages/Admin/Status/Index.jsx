@@ -135,6 +135,14 @@ const Index = () => {
             ...getColumnSearchProps('name'),
         },
         {
+            title: "Name (Arabic)",
+            dataIndex: 'ar_name',
+            key: 'ar_name',
+            width: '20%',
+            align: 'right',
+            ...getColumnSearchProps('ar_name'),
+        },
+        {
             title: 'Color',
             dataIndex: 'color',
             key: 'color',

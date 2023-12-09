@@ -28,6 +28,7 @@ class PropertyService
                 $property = new Property;
             }
             $property->name = $request['name'];
+            $property->ar_name = $request['ar_name'];
             $property->save();
         } 
         catch (\Exception$e) {

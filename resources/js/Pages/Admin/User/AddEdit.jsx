@@ -5,7 +5,8 @@ import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "ant
 
 const AddEdit = () => {
     const props = usePage().props;
-const { lang } = usePage().props;
+    const { lang } = usePage().props;
+    
     const rowData = props.row;
     const [title, setTitle] = useState('');
 
@@ -231,7 +232,7 @@ const { lang } = usePage().props;
                             </Button>
 
                             <Button danger size="large" onClick={handleCancel}>
-                               {lang.com.cancel}
+                                {lang.com.cancel}
                             </Button>
                         </Space>
                     </Form.Item>

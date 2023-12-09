@@ -15,7 +15,7 @@ class Property extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name',
+        'name', 'ar_name'
     ];
 
     public function getActivityLogOptions(): LogOptions

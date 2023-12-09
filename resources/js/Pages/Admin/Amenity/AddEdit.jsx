@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
-import { Button, Form, Input, Row, Col, message, Space } from "antd";
+import { Button, Form, Input, Row, Col, message, Space, Card } from "antd";
 
 const AddEdit = () => {
     const props = usePage().props;
-const { lang } = usePage().props;
+    const { lang } = usePage().props;
     const rowData = props.row;
     const [title, setTitle] = useState('');
 
     const { data, setData, post, processing, errors } = useForm({
         id: (rowData?.id) ? rowData?.id : 0,
-        name: rowData?.name
+        name: rowData?.name,
+        ar_name: rowData?.ar_name
     });
 
     useEffect(() => {
@@ -23,7 +24,7 @@ const { lang } = usePage().props;
             onSuccess: () => {
                 if (data.id == 0) {
                     message.success(lang.com.data_added)
-                } 
+                }
                 else {
                     message.success(lang.com.data_updated)
                 }
@@ -42,7 +43,7 @@ const { lang } = usePage().props;
     }
 
     return (
-        <>
+        <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
             <Head title={title} />
             <Row justify={'space-between'} align={'middle'}>
                 <Col>
@@ -64,7 +65,7 @@ const { lang } = usePage().props;
                     autoComplete="off"
                 >
                     <Form.Item
-                        label="Amenity Name"
+                        label="Name (English)"
                         name="name"
                         validateStatus={errors.name && 'error'}
                         help={errors.name}
@@ -80,6 +81,24 @@ const { lang } = usePage().props;
                         />
                     </Form.Item>
 
+                    <Form.Item
+                        label="Name (Arabic)"
+                        name="ar_name"
+                        validateStatus={errors.ar_name && 'error'}
+                        help={errors.ar_name}
+                        rules={[
+                            {
+                                required: true,
+                                message: lang.com.field_required,
+                            }
+                        ]}
+                    >
+                        <Input
+                            disabled={processing}
+                            style={{textAlign: 'right'}}
+                        />
+                    </Form.Item>
+
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
@@ -87,15 +106,14 @@ const { lang } = usePage().props;
                             </Button>
 
                             <Button danger size="large" onClick={handleCancel}>
-                               {lang.com.cancel}
+                                {lang.com.cancel}
                             </Button>
                         </Space>
                     </Form.Item>
 
                 </Form>
             </div>
-
-        </>
+        </Card>
     );
 };
 
