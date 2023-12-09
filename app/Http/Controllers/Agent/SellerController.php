@@ -116,7 +116,6 @@ class SellerController extends Controller
 
         $customer_status = $data['status']->status;
         $data['statuses'] = get_active_statuses($seller->customer_id, "seller", $id, $customer_status);
-
         $data['activityTypes'] = get_active_activities($seller->customer_id, "seller", $id);
 
         return Inertia::render('Agent/Seller/Detail', $data);

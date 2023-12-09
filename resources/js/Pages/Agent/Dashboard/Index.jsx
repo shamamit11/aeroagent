@@ -17,7 +17,7 @@ const Dashboard = (props) => {
         return (
             <>
                 <Space size="middle">
-                    <span>{lang.dashboard.select_range} : </span>
+                    <span>{lang.com.select_range} : </span>
                     <RangePicker defaultValue={[dayjs(props.date_from), dayjs(props.date_to)]} onChange={onChange} />
                 </Space>
             </>
@@ -27,15 +27,15 @@ const Dashboard = (props) => {
 
     return (
         <>
-            <Head title={lang.menuItems.dashboard} />
+            <Head title={lang.com.dashboard} />
 
-            <Card title={lang.dashboard.stats} extra={<RangeComponent />}>
+            <Card title={lang.com.stats} extra={<RangeComponent />}>
                 <Row gutter={24}>
                     <Col span={4} style={{ marginBottom: 24 }}>
                         <Link href={props.followup.followup_url}>
                             <Card bordered={false} style={{ backgroundColor: '#76c52f' }}>
                                 <Statistic
-                                    title={lang.menuItems.follow_ups}
+                                    title={lang.com.follow_ups}
                                     value={props.followup.followup_count}
                                     valueStyle={{
                                         color: '#fff',
@@ -50,7 +50,7 @@ const Dashboard = (props) => {
                         <Link href={props.viewing.viewing_url}>
                             <Card bordered={false} style={{ backgroundColor: 'skyblue' }}>
                                 <Statistic
-                                    title={lang.menuItems.viewings}
+                                    title={lang.com.viewings}
                                     value={props.viewing.viewing_count}
                                     valueStyle={{
                                         color: '#fff',
@@ -65,7 +65,7 @@ const Dashboard = (props) => {
                         <Link href={props.meeting.meeting_url}>
                             <Card bordered={false} style={{ backgroundColor: 'orange' }}>
                                 <Statistic
-                                    title={lang.menuItems.meetings}
+                                    title={lang.com.meetings}
                                     value={props.meeting.meeting_count}
                                     valueStyle={{
                                         color: '#fff',
@@ -77,13 +77,13 @@ const Dashboard = (props) => {
                 </Row>
             </Card>
 
-            <Card title={lang.dashboard.total_deals} style={{ marginTop: 25 }}>
+            <Card title={lang.com.total_deals} style={{ marginTop: 25 }}>
                 <Row gutter={24}>
                     <Col span={4} style={{ marginBottom: 24 }}>
                         <Link href={props.seller_deal.url}>
                             <Card bordered={false} style={{ backgroundColor: '#3dda03' }}>
                                 <Statistic
-                                    title={lang.menuItems.sellers}
+                                    title={lang.com.sellers}
                                     value={props.seller_deal.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -96,7 +96,7 @@ const Dashboard = (props) => {
                         <Link href={props.buyer_deal.url}>
                             <Card bordered={false} style={{ backgroundColor: '#e04e4e' }}>
                                 <Statistic
-                                    title={lang.menuItems.buyers}
+                                    title={lang.com.buyers}
                                     value={props.buyer_deal.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -109,7 +109,7 @@ const Dashboard = (props) => {
                         <Link href={props.leaser_deal.url}>
                             <Card bordered={false} style={{ backgroundColor: '#bb79da' }}>
                                 <Statistic
-                                    title={lang.menuItems.leasers}
+                                    title={lang.com.leasers}
                                     value={props.leaser_deal.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -122,7 +122,7 @@ const Dashboard = (props) => {
                         <Link href={props.tenant_deal.url}>
                             <Card bordered={false} style={{ backgroundColor: '#e49527' }}>
                                 <Statistic
-                                    title={lang.menuItems.tenants}
+                                    title={lang.com.tenants}
                                     value={props.tenant_deal.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -134,13 +134,13 @@ const Dashboard = (props) => {
                 </Row>
             </Card>
 
-            <Card title={lang.dashboard.total_requests} style={{ marginTop: 25 }}>
+            <Card title={lang.com.total_requests} style={{ marginTop: 25 }}>
                 <Row gutter={24}>
                     <Col span={4} style={{ marginBottom: 24 }}>
                         <Link href="/request-seller">
                             <Card bordered={false} style={{ backgroundColor: '#b373b3' }}>
                                 <Statistic
-                                    title={lang.menuItems.sellers}
+                                    title={lang.com.sellers}
                                     value={props.seller_request}
                                     valueStyle={{
                                         color: '#fff',
@@ -153,7 +153,7 @@ const Dashboard = (props) => {
                         <Link href="/request-buyer">
                             <Card bordered={false} style={{ backgroundColor: '#e5b34e' }}>
                                 <Statistic
-                                    title={lang.menuItems.buyers}
+                                    title={lang.com.buyers}
                                     value={props.buyer_request}
                                     valueStyle={{
                                         color: '#fff',
@@ -166,7 +166,7 @@ const Dashboard = (props) => {
                         <Link href="/request-leaser">
                             <Card bordered={false} style={{ backgroundColor: '#1fadad' }}>
                                 <Statistic
-                                    title={lang.menuItems.leasers}
+                                    title={lang.com.leasers}
                                     value={props.leaser_request}
                                     valueStyle={{
                                         color: '#fff',
@@ -179,7 +179,7 @@ const Dashboard = (props) => {
                         <Link href="/request-tenant">
                             <Card bordered={false} style={{ backgroundColor: '#bbbbbb' }}>
                                 <Statistic
-                                    title={lang.menuItems.tenants}
+                                    title={lang.com.tenants}
                                     value={props.tenant_request}
                                     valueStyle={{
                                         color: '#fff',
@@ -191,13 +191,13 @@ const Dashboard = (props) => {
                 </Row>
             </Card>
 
-            <Card title={lang.dashboard.property_stats} style={{ marginTop: 25 }}>
+            <Card title={lang.com.property_stats} style={{ marginTop: 25 }}>
                 <Row gutter={24}>
                     <Col span={4} style={{ marginBottom: 24 }}>
                         <Link href={props.stock_apartment.url}>
                             <Card bordered={false} style={{ backgroundColor: '#bbbbbb' }}>
                                 <Statistic
-                                    title={lang.dashboard.apartments}
+                                    title={lang.com.apartments}
                                     value={props.stock_apartment.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -212,7 +212,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_villa.url}>
                             <Card bordered={false} style={{ backgroundColor: '#ca2c2c' }}>
                                 <Statistic
-                                    title={lang.dashboard.villas}
+                                    title={lang.com.villas}
                                     value={props.stock_villa.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -227,7 +227,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_townhouse.url}>
                             <Card bordered={false} style={{ backgroundColor: '#6ec4d7' }}>
                                 <Statistic
-                                    title={lang.dashboard.townhouses}
+                                    title={lang.com.townhouses}
                                     value={props.stock_townhouse.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -241,7 +241,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_penthouse.url}>
                             <Card bordered={false} style={{ backgroundColor: '#b373b3' }}>
                                 <Statistic
-                                    title={lang.dashboard.penthouses}
+                                    title={lang.com.penthouses}
                                     value={props.stock_penthouse.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -255,7 +255,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_office.url}>
                             <Card bordered={false} style={{ backgroundColor: '#e773e7' }}>
                                 <Statistic
-                                    title={lang.dashboard.offices}
+                                    title={lang.com.offices}
                                     value={props.stock_office.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -269,7 +269,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_retail.url}>
                             <Card bordered={false} style={{ backgroundColor: 'pink' }}>
                                 <Statistic
-                                    title={lang.dashboard.retail_shops}
+                                    title={lang.com.retail_shops}
                                     value={props.stock_retail.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -283,7 +283,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_land.url}>
                             <Card bordered={false} style={{ backgroundColor: '#1fadad' }}>
                                 <Statistic
-                                    title={lang.dashboard.lands}
+                                    title={lang.com.lands}
                                     value={props.stock_land.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -297,7 +297,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_factory.url}>
                             <Card bordered={false} style={{ backgroundColor: '#e5b34e' }}>
                                 <Statistic
-                                    title={lang.dashboard.factory}
+                                    title={lang.com.factory}
                                     value={props.stock_factory.count}
                                     valueStyle={{
                                         color: '#fff',
@@ -311,7 +311,7 @@ const Dashboard = (props) => {
                         <Link href={props.stock_hotel.url}>
                             <Card bordered={false} style={{ backgroundColor: '#737add' }}>
                                 <Statistic
-                                    title={lang.dashboard.hotel_apartments}
+                                    title={lang.com.hotel_apartments}
                                     value={props.stock_hotel.count}
                                     valueStyle={{
                                         color: '#fff',

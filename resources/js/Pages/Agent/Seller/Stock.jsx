@@ -12,7 +12,9 @@ const Stock = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results, property_id } = usePage().props;
+    const { results, property_id, lang } = usePage().props;
+
+    console.log(results);
 
     useEffect(() => {
         setData(results);
@@ -44,7 +46,7 @@ const Stock = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -62,7 +64,7 @@ const Stock = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -71,7 +73,7 @@ const Stock = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -106,20 +108,20 @@ const Stock = () => {
 
     const columns = [
         {
-            title: 'Location',
+            title: lang.com.location,
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
             ...getColumnSearchProps('name'),
         },
         {
-            title: 'Total Sellers',
+            title: lang.com.total_sellers,
             key: 'action',
             width: '13%',
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="Total Sellers" color="orange">
+                    <Tooltip title={lang.com.total_sellers} color="orange">
                         <Button type='primary' size="middle" shape="circle" onClick={() => handleView(record.id)}>
                             {record.count}
                         </Button>
@@ -131,11 +133,11 @@ const Stock = () => {
 
     return (
         <>
-            <Head title="Sellers Stocks" />
+            <Head title={lang.com.seller_stocks} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>Sellers Stocks</span>
+                        <span className='page-title'>{lang.com.seller_stocks}</span>
                     </Col>
                 </Row>
 

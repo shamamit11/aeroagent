@@ -12,7 +12,7 @@ const View = () => {
     const [data, setData] = useState();
     const searchInput = useRef(null);
 
-    const { results, balance, totalReferral, totalPayout, totalRenewal, title } = usePage().props;
+    const { results, balance, totalReferral, totalPayout, totalRenewal, title, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -44,7 +44,7 @@ const View = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -62,7 +62,7 @@ const View = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -71,7 +71,7 @@ const View = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -133,7 +133,7 @@ const View = () => {
             width: '15%'
         },
         {
-            title: 'Note',
+            title: lang.com.note,
             dataIndex: 'note',
             key: 'note',
             width: 'auto',

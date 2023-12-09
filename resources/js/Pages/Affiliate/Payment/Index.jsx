@@ -4,9 +4,9 @@ import { Head, router } from "@inertiajs/react";
 import { Button, Col, Row, Space, Card, Alert, Modal, message } from 'antd';
 
 const Index = (props) => {
-    const { next_renewal_date, balance } = props;
-    const alertMessage = "Your subscription expired on: " + next_renewal_date;
-    const alertBalance = "Your Wallet Balance is: AED " + balance;
+    const { next_renewal_date, balance, lang } = props;
+    const alertMessage = lang.com.subscription_expired + " : " + next_renewal_date;
+    const alertBalance = lang.com.wallet_balance_text + " : AED " + balance;
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -23,11 +23,11 @@ const Index = (props) => {
         
         router.post('/pay-through-wallet', {
             onSuccess: () => {
-                message.success('Subscription Renewed Successfully !')
+                message.success(lang.com.subscription_renewed)
                 router.get('/')
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/')
@@ -45,10 +45,10 @@ const Index = (props) => {
 
     return (
         <>
-            <Head title="Renew Subscription" />
+            <Head title={lang.com.renew_subscription} />
             <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20 }}>
                 <Col>
-                    <span className='page-title'>Renew Subscription</span>
+                    <span className='page-title'>{lang.com.renew_subscription}</span>
                 </Col>
             </Row>
 
@@ -60,10 +60,10 @@ const Index = (props) => {
                 <Row>
                     <Space size="large">
                         {balance >= 200 && (
-                            <Col><Button size='large' onClick={handleModal}>Pay using Wallet Balance</Button></Col>
+                            <Col><Button size='large' onClick={handleModal}>{lang.com.pay_using_wallet}</Button></Col>
                         )}
                         <Col>
-                            <Button size='large' onClick={handleStripePayment}>Pay using Stripe</Button>
+                            <Button size='large' onClick={handleStripePayment}>{lang.com.pay_through_cc}</Button>
                         </Col>
                     </Space>
                 </Row>
@@ -71,12 +71,12 @@ const Index = (props) => {
 
             <Modal title="Pay Using Wallet Balance" open={isModalOpen} onCancel={handleCancel} footer={null}>
                 <div style={{ fontSize: 16, fontWeight: 500, lineHeight: 2 }}>
-                    Your current Wallet Balance is: AED {balance}
+                    {lang.com.current_wallet_balance} : AED {balance}
                     <br />
-                    Remaining Balance after renewal: AED {balance - 200}
+                    {lang.com.remaining_balance_text} : AED {balance - 200}
                 </div>
                 <div style={{ marginTop: 15 }}>
-                    <Button type="primary" size='large' onClick={handleWalletPayment}>Confirm & Pay Now</Button>
+                    <Button type="primary" size='large' onClick={handleWalletPayment}>{lang.com.confirm_pay}</Button>
                 </div>
 
             </Modal>

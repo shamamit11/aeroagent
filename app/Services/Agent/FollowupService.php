@@ -24,7 +24,7 @@ class FollowupService
                 'id'=> $item->id,
                 'customer_id'=> $item->customer_id,
                 'customer_name'=> $item->customer->name,
-                'customer_type' => ucwords($item->customer_type),
+                'customer_type' => $item->customer_type,
                 'source_id' => $item->source_id,
                 'date' => date('D, d M, Y', strtotime($item->date)),
                 'time' => date('h:i A', strtotime($item->time)),

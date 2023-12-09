@@ -5,12 +5,11 @@ import {
     UserOutlined,
     LogoutOutlined,
     CaretDownOutlined,
-    LineChartOutlined,
     SettingOutlined
 } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Typography, Space, Dropdown, Avatar, Button } from 'antd';
 import { Link, usePage } from '@inertiajs/react';
-import { affiliateNavItems } from './affiliateRoutes';
+import AffiliateNavComponent from '@/components/AffiliateNavComponent';
 
 import "./layout.scss";
 
@@ -18,33 +17,9 @@ import Logo from "/public/light-logo.png";
 
 const { Header, Sider, Content, Footer } = Layout;
 
-const items = [
-    {
-        key: 'settings',
-        label: (
-            <Link href='/settings'>
-                Settings
-            </Link>
-        ),
-        icon: <SettingOutlined />,
-    },
-    {
-        type: 'divider',
-    },
-    {
-        key: 'logout',
-        label: (
-            <Link href='/logout' method='post' as='div'>
-                Logout
-            </Link>
-        ),
-        icon: <LogoutOutlined />,
-    },
-];
-
 const AffiliateLayout = ({ children }) => {
-
-    const { auth } = usePage().props;
+    const { auth, lang } = usePage().props;
+    const affiliateNavItems = AffiliateNavComponent();
 
     const initial = JSON.parse(localStorage.getItem('sidebarCollapsed')) || false;
     const [collapsed, setCollapsed] = useState(initial);
@@ -54,6 +29,30 @@ const AffiliateLayout = ({ children }) => {
         setCollapsed(updated)
         localStorage.setItem('sidebarCollapsed', JSON.stringify(updated))
     };
+
+    const items = [
+        {
+            key: 'settings',
+            label: (
+                <Link href='/settings'>
+                    {lang.com.settings}
+                </Link>
+            ),
+            icon: <SettingOutlined />,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            key: 'logout',
+            label: (
+                <Link href='/logout' method='post' as='div'>
+                    {lang.com.logout}
+                </Link>
+            ),
+            icon: <LogoutOutlined />,
+        },
+    ];
 
     return (
         <Layout className="app-layout">

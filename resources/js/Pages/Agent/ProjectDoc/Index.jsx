@@ -8,7 +8,7 @@ const Index = () => {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState();
 
-    const { project, results } = usePage().props;
+    const { project, results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -34,7 +34,7 @@ const Index = () => {
         };
         router.post('/project/doc/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get(`/project/doc?pid=${project.id}`)
@@ -43,18 +43,18 @@ const Index = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const columns = [
         {
-            title: 'Document Type',
+            title: lang.com.document_type,
             dataIndex: "doc_type",
             key: 'doc_type',
             width: '20%'
         },
         {
-            title: 'Link',
+            title: lang.com.link,
             key: 'link',
             width: 'auto',
             render: (_, record) => (
@@ -67,18 +67,18 @@ const Index = () => {
             width: '8%',
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="Edit Row" color="orange">
+                    <Tooltip title={lang.com.edit_row} color="orange">
                         <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
                     </Tooltip>
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
-                        <Tooltip title="Delete Row" color="red">
+                        <Tooltip title={lang.com.delete_row} color="red">
                             <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
                         </Tooltip>
                     </Popconfirm>
@@ -89,7 +89,7 @@ const Index = () => {
 
     return (
         <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-            <Head title="Project Documents" />
+            <Head title={lang.com.project_documents} />
             <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                 <Col>
                     <span className='page-title'>{project.name}</span>

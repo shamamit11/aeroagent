@@ -5,12 +5,11 @@ import { Button, Form, Input, Select, Row, Col, message, Space, Card } from "ant
 
 const AddEdit = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const rowData = props.row;
     const pid = props.pid;
     const properties = props.properties;
     const propertyTypes = props.propertyTypes;
-
-    const [title, setTitle] = useState('');
 
     const [form] = Form.useForm();
 
@@ -32,10 +31,6 @@ const AddEdit = () => {
     });
 
     useEffect(() => {
-        setTitle(props.title);
-    }, []);
-
-    useEffect(() => {
         const filteredPropertyTypes = propertyTypes.filter(c => c.property_id === selectedProperty);
         setFilteredPropertyTypes(filteredPropertyTypes);
     }, [selectedProperty]);
@@ -44,14 +39,14 @@ const AddEdit = () => {
         post('/project/detail/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
-                    message.success('Data Added Successfully !')
+                    message.success(lang.com.data_added)
                 }
                 else {
-                    message.success('Data Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get(`/project/detail?pid=${pid}`)
@@ -65,10 +60,10 @@ const AddEdit = () => {
 
     return (
         <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-            <Head title={title} />
-            <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
+            <Head title={rowData?.id ? lang.com.edit_project_detail : lang.com.add_project_detail} />
+            <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                 <Col>
-                    <span className='page-title'>{title}</span>
+                    <span className='page-title'>{rowData?.id ? lang.com.edit_project_detail : lang.com.add_project_detail}</span>
                 </Col>
             </Row>
 
@@ -87,19 +82,19 @@ const AddEdit = () => {
                     autoComplete="off"
                 >
                     <Form.Item
-                        label="Property"
+                        label={lang.com.property}
                         name="property_id"
                         validateStatus={errors.property_id && 'error'}
                         help={errors.property_id}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
                         <Select
-                            placeholder="Select"
+                            placeholder={lang.com.select}
                             onChange={(val) => {
                                 setSelectedProperty(val);
                                 form.setFieldValue('property_type_id', undefined);
@@ -112,19 +107,19 @@ const AddEdit = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Property Type"
+                        label={lang.com.property_type}
                         name="property_type_id"
                         validateStatus={errors.property_type_id && 'error'}
                         help={errors.property_type_id}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
                         <Select
-                            placeholder="Select"
+                            placeholder={lang.com.select}
                             value={selectedPropertyType}
                             onChange={(val) => {
                                 setSelectedPropertyType(val)
@@ -137,14 +132,14 @@ const AddEdit = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Total Units"
+                        label={lang.com.total_units}
                         name="total_units"
                         validateStatus={errors.total_units && 'error'}
                         help={errors.total_units}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -157,14 +152,14 @@ const AddEdit = () => {
                     <Row justify={'space-between'} align={'middle'}>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Size From"
+                                label={lang.com.size_from}
                                 name="size_from"
                                 validateStatus={errors.size_from && 'error'}
                                 help={errors.size_from}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
@@ -176,14 +171,14 @@ const AddEdit = () => {
                         </Col>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Size To"
+                                label={lang.com.size_to}
                                 name="size_to"
                                 validateStatus={errors.size_to && 'error'}
                                 help={errors.size_to}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
@@ -198,14 +193,14 @@ const AddEdit = () => {
                     <Row justify={'space-between'} align={'middle'}>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Price From"
+                                label={lang.com.price_from}
                                 name="price_from"
                                 validateStatus={errors.price_from && 'error'}
                                 help={errors.price_from}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
@@ -217,14 +212,14 @@ const AddEdit = () => {
                         </Col>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Price To"
+                                label={lang.com.price_to}
                                 name="price_to"
                                 validateStatus={errors.price_to && 'error'}
                                 help={errors.price_to}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
@@ -239,11 +234,11 @@ const AddEdit = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Submit"}
+                                {processing ? lang.com.please_wait : lang.com.submit}
                             </Button>
 
                             <Button danger size="large" onClick={handleCancel}>
-                                Cancel
+                                {lang.com.cancel}
                             </Button>
                         </Space>
                     </Form.Item>

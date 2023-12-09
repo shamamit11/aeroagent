@@ -139,11 +139,11 @@ const Index = () => {
 
     return (
         <>
-            <Head title={lang.menuItems.sellers} />
+            <Head title={lang.com.sellers} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>{lang.menuItems.sellers}</span>
+                        <span className='page-title'>{lang.com.sellers}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>

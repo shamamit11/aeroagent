@@ -1,8 +1,9 @@
 import React from 'react';
-import { useForm, router } from "@inertiajs/react";
+import { useForm, router, usePage } from "@inertiajs/react";
 import { Button, Input, Space, Form, message } from 'antd';
 
 const SettingPassword = () => {
+    const { lang } = usePage().props;
     const { data, setData, post, processing, errors } = useForm({
         old_password: '',
         new_password: '',
@@ -14,11 +15,11 @@ const SettingPassword = () => {
             forceFormData: true,
             onSuccess: (e) => {
                 console.log(e.props.error);
-                if(e.props.error) {
+                if (e.props.error) {
                     message.error(e.props.error)
-                } 
+                }
                 else {
-                    message.success('Password Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: (errors) => {
@@ -50,14 +51,14 @@ const SettingPassword = () => {
                     encType="multipart/form-data"
                 >
                     <Form.Item
-                        label="Current Password"
+                        label={lang.com.current_password}
                         name="old_password"
                         validateStatus={errors.old_password && 'error'}
                         help={errors.old_password}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -68,14 +69,14 @@ const SettingPassword = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="New Password"
+                        label={lang.com.new_password}
                         name="new_password"
                         validateStatus={errors.new_password && 'error'}
                         help={errors.new_password}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -86,14 +87,14 @@ const SettingPassword = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Confirm Password"
+                        label={lang.com.confirm_password}
                         name="confirm_password"
                         validateStatus={errors.confirm_password && 'error'}
                         help={errors.confirm_password}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -106,7 +107,7 @@ const SettingPassword = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Update"}
+                                {processing ? lang.com.please_wait : lang.com.update}
                             </Button>
                         </Space>
                     </Form.Item>

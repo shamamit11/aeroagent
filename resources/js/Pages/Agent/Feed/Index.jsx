@@ -55,7 +55,7 @@ const Index = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -204,11 +204,11 @@ const Index = () => {
 
     return (
         <>
-            <Head title={lang.feed.my_feed} />
+            <Head title={lang.com.my_feed} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>{lang.feed.my_feed}</span>
+                        <span className='page-title'>{lang.com.my_feed}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>

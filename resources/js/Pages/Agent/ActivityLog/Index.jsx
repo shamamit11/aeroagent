@@ -15,7 +15,7 @@ const Index = () => {
     const [detail, setDetail] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -53,7 +53,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -71,7 +71,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -80,7 +80,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -115,21 +115,21 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Date',
+            title: lang.com.date,
             dataIndex: 'updated_at',
             key: 'updated_at',
             width: '18%',
             ...getColumnSearchProps('updated_at'),
         },
         {
-            title: 'Event',
+            title: lang.com.event,
             dataIndex: 'event',
             key: 'event',
             width: '15%',
             ...getColumnSearchProps('event'),
         },
         {
-            title: 'Properties',
+            title: lang.com.properties,
             dataIndex: 'properties',
             key: 'properties',
             width: 'auto',
@@ -141,7 +141,7 @@ const Index = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record)} />
                     </Tooltip>
                 </Space>
@@ -151,11 +151,11 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Activity Logs" />
+            <Head title={lang.com.activity_log} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>Activity Logs</span>
+                        <span className='page-title'>{lang.com.activity_log}</span>
                     </Col>
                 </Row>
 
@@ -164,19 +164,19 @@ const Index = () => {
                 </div>
             </Card>
 
-            <Modal title="View Detail" open={isModalOpen} onCancel={handleModalCancel} footer={null} width={900}>
+            <Modal title={lang.com.view_detail} open={isModalOpen} onCancel={handleModalCancel} footer={null} width={900}>
                 <Space size={"small"}>
-                    <span style={{ fontWeight: 600 }}>Created At:</span>
+                    <span style={{ fontWeight: 600 }}>{lang.com.created_at} :</span>
                     <span>{detail.created_at}</span>
                 </Space>
                 <Divider />
                 <Space size={"small"}>
-                    <span style={{ fontWeight: 600 }}>Updated At:</span>
+                    <span style={{ fontWeight: 600 }}>{lang.com.updated_at} :</span>
                     <span>{detail.updated_at}</span>
                 </Space>
                 <Divider />
                 <Space size={"small"}>
-                    <span style={{ fontWeight: 600 }}>Event:</span>
+                    <span style={{ fontWeight: 600 }}>{lang.com.event} :</span>
                     <span>{detail.event}</span>
                 </Space>
                 <Divider />

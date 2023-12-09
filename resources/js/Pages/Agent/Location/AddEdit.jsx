@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Card } from "antd";
 
 const AddEdit = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const rowData = props.row;
-    const [title, setTitle] = useState('');
 
     const { data, setData, post, processing, errors } = useForm({
         id: (rowData?.id) ? rowData?.id : 0,
@@ -15,22 +15,18 @@ const AddEdit = () => {
         country: rowData?.country,
     });
 
-    useEffect(() => {
-        setTitle(props.title);
-    }, []);
-
     const submit = () => {
         post('/location/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
-                    message.success('Data Added Successfully !')
+                    message.success(lang.com.data_added)
                 }
                 else {
-                    message.success('Data Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/location')
@@ -45,10 +41,10 @@ const AddEdit = () => {
     return (
         <>
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Head title={title} />
-                <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
+                <Head title={rowData?.id ? lang.com.edit_location : lang.com.add_location} />
+                <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>{title}</span>
+                        <span className='page-title'>{rowData?.id ? lang.com.edit_location : lang.com.add_location}</span>
                     </Col>
                 </Row>
 
@@ -66,14 +62,14 @@ const AddEdit = () => {
                         autoComplete="off"
                     >
                         <Form.Item
-                            label="Location Name"
+                            label={lang.com.name}
                             name="name"
                             validateStatus={errors.name && 'error'}
                             help={errors.name}
                             rules={[
                                 {
                                     required: true,
-                                    message: "This field is required",
+                                    message: lang.com.field_required,
                                 }
                             ]}
                         >
@@ -83,14 +79,14 @@ const AddEdit = () => {
                         </Form.Item>
 
                         <Form.Item
-                            label="City"
+                            label={lang.com.city}
                             name="city"
                             validateStatus={errors.city && 'error'}
                             help={errors.city}
                             rules={[
                                 {
                                     required: true,
-                                    message: "This field is required",
+                                    message: lang.com.field_required,
                                 }
                             ]}
                         >
@@ -100,14 +96,14 @@ const AddEdit = () => {
                         </Form.Item>
 
                         <Form.Item
-                            label="Country"
+                            label={lang.com.country}
                             name="country"
                             validateStatus={errors.country && 'error'}
                             help={errors.country}
                             rules={[
                                 {
                                     required: true,
-                                    message: "This field is required",
+                                    message: lang.com.field_required,
                                 }
                             ]}
                         >
@@ -119,11 +115,11 @@ const AddEdit = () => {
                         <Form.Item className="form-actions">
                             <Space size="middle">
                                 <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                    {processing ? "Please Wait" : "Submit"}
+                                    {processing ? lang.com.please_wait : lang.com.submit}
                                 </Button>
 
                                 <Button danger size="large" onClick={handleCancel}>
-                                    Cancel
+                                    {lang.com.cancel}
                                 </Button>
                             </Space>
                         </Form.Item>

@@ -5,8 +5,8 @@ import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "ant
 
 const AddEdit = () => {
     const props = usePage().props;
-    const rowData = props.row;
     const { lang } = usePage().props;
+    const rowData = props.row;
 
     const { data, setData, post, processing, errors } = useForm({
         id: (rowData?.id) ? rowData?.id : 0,

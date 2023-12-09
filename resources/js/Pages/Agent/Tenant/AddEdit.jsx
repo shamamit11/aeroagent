@@ -7,8 +7,21 @@ const { TextArea } = Input;
 
 const AddEdit = () => {
     const props = usePage().props;
+    const { locale, lang, source_id, status } = usePage().props;
+
     const rowData = props.row;
-    const [title, setTitle] = useState('');
+
+    let page_title = '';
+    if (source_id == 0) {
+        if (status) {
+            page_title = lang.com.update_tenant_data;
+        } else {
+            page_title = rowData?.id ? lang.com.edit_tenant_data : lang.com.add_tenant_data;
+        }
+    }
+    else {
+        page_title = lang.com.add_tenant_request;
+    }
 
     const properties = props.properties;
     const propertyTypes = props.propertyTypes;
@@ -41,10 +54,6 @@ const AddEdit = () => {
     });
 
     useEffect(() => {
-        setTitle(props.title);
-    }, []);
-
-    useEffect(() => {
         const filteredPropertyTypes = propertyTypes.filter(c => c.property_id === selectedProperty);
         setFilteredPropertyTypes(filteredPropertyTypes);
     }, [selectedProperty]);
@@ -53,14 +62,14 @@ const AddEdit = () => {
         post('/tenant/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
-                    message.success('Data Added Successfully !')
+                    message.success(lang.com.data_added)
                 }
                 else {
-                    message.success('Data Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get(`/tenant`)
@@ -75,10 +84,10 @@ const AddEdit = () => {
     return (
         <>
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Head title={title} />
+                <Head title={page_title} />
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>{title}</span>
+                        <span className='page-title'>{page_title}</span>
                     </Col>
                 </Row>
 
@@ -99,19 +108,19 @@ const AddEdit = () => {
                         <Row justify={'space-between'} align={'middle'}>
                             <Col style={{ width: '100%' }}>
                                 <Form.Item
-                                    label="Customer"
+                                    label={lang.com.customer}
                                     name="customer_id"
                                     validateStatus={errors.customer_id && 'error'}
                                     help={errors.customer_id}
                                     rules={[
                                         {
                                             required: true,
-                                            message: "This field is required",
+                                            message: lang.com.field_required,
                                         }
                                     ]}
                                 >
                                     <Select
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         options={customers.map((item) => ({
                                             value: item.id,
                                             label: item.name
@@ -124,25 +133,25 @@ const AddEdit = () => {
                         <Row justify={'space-between'} align={'middle'}>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Property"
+                                    label={lang.com.property}
                                     name="property_id"
                                     validateStatus={errors.property_id && 'error'}
                                     help={errors.property_id}
                                     rules={[
                                         {
                                             required: true,
-                                            message: "This field is required",
+                                            message: lang.com.field_required,
                                         }
                                     ]}
                                 >
                                     <Select
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         onChange={(val) => {
                                             setSelectedProperty(val);
                                             form.setFieldValue('property_type_id', undefined);
                                         }}
                                         options={properties.map((item) => ({
-                                            label: item.name,
+                                            label: locale == 'ar' ? item.ar_name : item.name,
                                             value: item.id,
                                         }))}
                                     />
@@ -150,19 +159,19 @@ const AddEdit = () => {
                             </Col>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Property Type"
+                                    label={lang.com.property_type}
                                     name="property_type_id"
                                     validateStatus={errors.property_type_id && 'error'}
                                     help={errors.property_type_id}
                                 >
                                     <Select
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         value={selectedPropertyType}
                                         onChange={(val) => {
                                             setSelectedPropertyType(val)
                                         }}
                                         options={filteredPropertyTypes.map((item) => ({
-                                            label: item.name,
+                                            label: locale == 'ar' ? item.ar_name : item.name,
                                             value: item.id,
                                         }))}
                                     />
@@ -170,7 +179,7 @@ const AddEdit = () => {
                             </Col>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Property Size"
+                                    label={lang.com.property_size}
                                     name="property_size"
                                     validateStatus={errors.property_size && 'error'}
                                     help={errors.property_size}
@@ -186,17 +195,17 @@ const AddEdit = () => {
                         </Row>
 
                         <Form.Item
-                            label="Amenities"
+                            label={lang.com.amenities}
                             name="property_amenities"
                             validateStatus={errors.property_amenities && 'error'}
                             help={errors.property_amenities}
                         >
                             <Select
-                                placeholder="Select"
+                                placeholder={lang.com.select}
                                 mode="multiple"
                                 allowClear
                                 options={amenities.map((item) => ({
-                                    label: item.name,
+                                    label: locale == 'ar' ? item.ar_name : item.name,
                                     value: item.id,
                                 }))}
                             />
@@ -205,7 +214,7 @@ const AddEdit = () => {
                         <Row justify={'space-between'} align={'middle'}>
                             <Col style={{ width: '49%' }}>
                                 <Form.Item
-                                    label="Budget"
+                                    label={lang.com.budget}
                                     name="budget"
                                     validateStatus={errors.budget && 'error'}
                                     help={errors.budget}
@@ -220,7 +229,7 @@ const AddEdit = () => {
 
                             <Col style={{ width: '49%' }}>
                                 <Form.Item
-                                    label="Time to Close (Days)"
+                                    label={lang.com.time_to_close + " (" + lang.com.days + ")"}
                                     name="time_to_close"
                                     validateStatus={errors.time_to_close && 'error'}
                                     help={errors.time_to_close}
@@ -235,7 +244,7 @@ const AddEdit = () => {
                         </Row>
 
                         <Form.Item
-                            label="Note"
+                            label={lang.com.note}
                             name="note"
                             validateStatus={errors.note && 'error'}
                             help={errors.note}
@@ -246,11 +255,11 @@ const AddEdit = () => {
                         <Form.Item className="form-actions">
                             <Space size="middle">
                                 <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                    {processing ? "Please Wait" : "Submit"}
+                                    {processing ? lang.com.please_wait : lang.com.submit}
                                 </Button>
 
                                 <Button danger size="large" onClick={handleCancel}>
-                                    Cancel
+                                    {lang.com.cancel}
                                 </Button>
                             </Space>
                         </Form.Item>

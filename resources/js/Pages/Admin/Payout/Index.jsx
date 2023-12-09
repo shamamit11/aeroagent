@@ -13,7 +13,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results, paydate } = usePage().props;
+    const { results, paydate, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -43,7 +43,7 @@ const Index = () => {
                 message.success('Payout Created Successfully !')
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(data.lang.error_request)
             },
             onFinish: () => {
                 router.get('/admin/payout')
@@ -61,7 +61,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -79,7 +79,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -88,7 +88,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -123,7 +123,7 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Name',
+            title: lang.com.name,
             dataIndex: 'name',
             key: 'name',
             width: '',
@@ -150,7 +150,7 @@ const Index = () => {
             width: '20%',
         },
         {
-            title: 'Status',
+            title: lang.com.status,
             dataIndex: 'status',
             key: 'status',
             width: '10%',
@@ -178,7 +178,7 @@ const Index = () => {
                     {record.status == 'Paid' && (
                         <Space size="middle">
                             <Tooltip title="Mark as Paid" color="red">
-                                <Button size="small" shape="circle" icon={<CheckOutlined />} disabled/>
+                                <Button size="small" shape="circle" icon={<CheckOutlined />} disabled />
                             </Tooltip>
                         </Space>
                     )}

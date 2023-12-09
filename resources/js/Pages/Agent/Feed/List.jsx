@@ -193,16 +193,16 @@ const List = () => {
 
     return (
         <>
-            <Head title={lang.menuItems.feed} />
+            <Head title={lang.com.feed} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>{lang.menuItems.feed}</span>
+                        <span className='page-title'>{lang.com.feed}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>
                             <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<ReloadOutlined />} size={"middle"} onClick={handleReload} />
-                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleMyList}> { lang.feed.my_feed }</Button>
+                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleMyList}> { lang.com.my_feed }</Button>
                         </Space>
                     </Col>
                 </Row>
@@ -212,7 +212,7 @@ const List = () => {
                 </div>
             </Card>
 
-            <Modal title={lang.feed.feed_detail} open={modalVisible} onCancel={handleModalCancel} footer={null} width={600}>
+            <Modal title={lang.com.feed_detail} open={modalVisible} onCancel={handleModalCancel} footer={null} width={600}>
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
                         <span style={{ fontWeight: 600 }}>{lang.com.posted_by} :</span>

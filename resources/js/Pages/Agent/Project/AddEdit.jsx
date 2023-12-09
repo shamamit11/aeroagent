@@ -6,11 +6,11 @@ import dayjs from 'dayjs';
 
 const AddEdit = () => {
     const props = usePage().props;
+    const { locale, lang } = usePage().props;
     const rowData = props.row;
     const developers = props.developers;
     const locations = props.locations;
     const amenities = props.amenities;
-    const [title, setTitle] = useState('');
 
     const dateFormat = "YYYY-MM-DD";
 
@@ -29,22 +29,18 @@ const AddEdit = () => {
         project_status: rowData?.project_status,
     });
 
-    useEffect(() => {
-        setTitle(props.title);
-    }, []);
-
     const submit = () => {
         post('/project/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
-                    message.success('Data Added Successfully !')
+                    message.success(lang.com.data_added)
                 }
                 else {
-                    message.success('Data Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/project')
@@ -58,10 +54,10 @@ const AddEdit = () => {
 
     return (
         <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-            <Head title={title} />
-            <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
+            <Head title={rowData?.id ? lang.com.edit_project : lang.com.add_project} />
+            <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                 <Col>
-                    <span className='page-title'>{title}</span>
+                    <span className='page-title'>{rowData?.id ? lang.com.edit_project : lang.com.add_project}</span>
                 </Col>
             </Row>
 
@@ -79,14 +75,14 @@ const AddEdit = () => {
                     autoComplete="off"
                 >
                     <Form.Item
-                        label="Name"
+                        label={lang.com.name}
                         name="name"
                         validateStatus={errors.name && 'error'}
                         help={errors.name}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -98,19 +94,19 @@ const AddEdit = () => {
                     <Row justify={'space-between'} align={'middle'}>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Developer"
+                                label={lang.com.developer}
                                 name="developer_id"
                                 validateStatus={errors.developer_id && 'error'}
                                 help={errors.developer_id}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
                                 <Select
-                                    placeholder="Select"
+                                    placeholder={lang.com.select}
                                     options={developers.map((item) => ({
                                         label: item.name,
                                         value: item.id,
@@ -120,19 +116,19 @@ const AddEdit = () => {
                         </Col>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Location"
+                                label={lang.com.location}
                                 name="location_id"
                                 validateStatus={errors.location_id && 'error'}
                                 help={errors.location_id}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
                                 <Select
-                                    placeholder="Select"
+                                    placeholder={lang.com.select}
                                     options={locations.map((item) => ({
                                         label: item.name,
                                         value: item.id,
@@ -145,14 +141,14 @@ const AddEdit = () => {
                     <Row justify={'space-between'} align={'middle'}>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Handover Date"
+                                label={lang.com.handover_date}
                                 name="handover_date"
                                 validateStatus={errors.handover_date && 'error'}
                                 help={errors.handover_date}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
@@ -161,14 +157,14 @@ const AddEdit = () => {
                         </Col>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Commission (%)"
+                                label={lang.com.commission + " (%)"}
                                 name="commission"
                                 validateStatus={errors.commission && 'error'}
                                 help={errors.commission}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
@@ -182,43 +178,43 @@ const AddEdit = () => {
                     <Row justify={'space-between'} align={'middle'}>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="View Style"
+                                label={lang.com.view_style}
                                 name="view_style"
                                 validateStatus={errors.view_style && 'error'}
                                 help={errors.view_style}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
                                 <Select
-                                    placeholder="Select"
+                                    placeholder={lang.com.select}
                                     options={[
                                         {
                                             value: 'normal_view',
-                                            label: 'Normal View',
+                                            label: lang.com.normal_view
                                         },
                                         {
                                             value: 'sea_view',
-                                            label: 'Sea View',
+                                            label: lang.com.sea_view
                                         },
                                         {
                                             value: 'mountain_view',
-                                            label: 'Mountain View',
+                                            label: lang.com.mountain_view
                                         },
                                         {
                                             value: 'open_view',
-                                            label: 'Open View',
+                                            label: lang.com.open_view
                                         },
                                         {
                                             value: 'street_view',
-                                            label: 'Street View',
+                                            label: lang.com.street_view
                                         },
                                         {
                                             value: 'pool_view',
-                                            label: 'Pool View',
+                                            label: lang.com.pool_view
                                         }
                                     ]}
                                 />
@@ -226,27 +222,27 @@ const AddEdit = () => {
                         </Col>
                         <Col style={{ width: '48%' }}>
                             <Form.Item
-                                label="Project Status"
+                                label={lang.com.project_status}
                                 name="project_status"
                                 validateStatus={errors.project_status && 'error'}
                                 help={errors.project_status}
                                 rules={[
                                     {
                                         required: true,
-                                        message: "This field is required",
+                                        message: lang.com.field_required,
                                     }
                                 ]}
                             >
                                 <Select
-                                    placeholder="Select"
+                                    placeholder={lang.com.select}
                                     options={[
                                         {
                                             value: 'completed',
-                                            label: 'Completed',
+                                            label: lang.com.completed
                                         },
                                         {
                                             value: 'under_construction',
-                                            label: 'Under Construction',
+                                            label: lang.com.under_construction
                                         }
                                     ]}
                                 />
@@ -255,23 +251,23 @@ const AddEdit = () => {
                     </Row>
 
                     <Form.Item
-                        label="Amenities"
+                        label={lang.com.amenities}
                         name="amenities_id"
                         validateStatus={errors.amenities_id && 'error'}
                         help={errors.amenities_id}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
                         <Select
-                            placeholder="Select"
+                            placeholder={lang.com.select}
                             mode="multiple"
                             allowClear
                             options={amenities.map((item) => ({
-                                label: item.name,
+                                label: locale == 'ar' ? item.ar_name : item.name,
                                 value: item.id,
                             }))}
                         />
@@ -280,11 +276,11 @@ const AddEdit = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Submit"}
+                                {processing ? lang.com.please_wait : lang.com.submit}
                             </Button>
 
                             <Button danger size="large" onClick={handleCancel}>
-                                Cancel
+                               {lang.com.cancel}
                             </Button>
                         </Space>
                     </Form.Item>

@@ -9,6 +9,7 @@ import TabDoc from './Partials/TabDoc';
 
 const View = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const rowData = props.row;
 
     const handleBack = () => {
@@ -18,25 +19,26 @@ const View = () => {
     const items = [
         {
             key: '1',
-            label: 'Info',
-            children: <TabInfo/>,
+            label: lang.com.info,
+            children: <TabInfo />,
         },
         {
             key: '2',
-            label: 'Details',
-            children: <TabDetail/>,
+            label: lang.com.details,
+            children: <TabDetail />,
         },
         {
             key: '3',
-            label: 'Documents',
-            children: <TabDoc/>,
+            label: lang.com.documents,
+            children: <TabDoc />,
         },
     ];
 
     return (
-        <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20}}>
+        <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
             <Head title={rowData.name} />
-            <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
+            
+            <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                 <Col>
                     <span className='page-title'>{rowData.name}</span>
                 </Col>

@@ -12,7 +12,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -48,7 +48,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -66,7 +66,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -75,7 +75,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -110,7 +110,7 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Name',
+            title: lang.com.name,
             dataIndex: 'name',
             key: 'name',
             width: '15%',
@@ -138,7 +138,7 @@ const Index = () => {
             ...getColumnSearchProps('email'),
         },
         {
-            title: 'Mobile',
+            title: lang.com.mobile,
             dataIndex: 'mobile',
             key: 'mobile',
             width: '15%',
@@ -152,7 +152,7 @@ const Index = () => {
             ...getColumnSearchProps('created_at'),
         },
         {
-            title: 'Status',
+            title: lang.com.status,
             dataIndex: 'status',
             key: 'status',
             width: '8%',
@@ -167,7 +167,7 @@ const Index = () => {
             width: '5%',
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="orange">
+                    <Tooltip title={lang.com.view_detail} color="orange">
                         <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleView(record.id)} />
                     </Tooltip>
                 </Space>

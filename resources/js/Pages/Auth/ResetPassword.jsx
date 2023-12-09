@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
-import { Head, useForm, Link, router } from "@inertiajs/react";
+import { Head, useForm, Link, router, usePage } from "@inertiajs/react";
 import { Button, Divider, Form, Input, message } from "antd";
 import { MailOutlined } from "@ant-design/icons";
 
 import Logo from "../../../../public/light-logo.png";
 
-// import "./style.scss";
-
 const ResetPassword = ({ token, email }) => {
+    const { lang } = usePage().props;
 
     const { data, setData, post, processing, errors, reset } = useForm({
         token: token,
@@ -27,10 +26,10 @@ const ResetPassword = ({ token, email }) => {
     const submit = () => {
         post('/reset-password', {
             onSuccess: () => {
-                message.success('Password has been reset successfully !')
+                message.success(lang.com.password_reset_text)
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get(`/login`)
@@ -40,7 +39,7 @@ const ResetPassword = ({ token, email }) => {
 
     return (
         <div className="login-page" id="loginPage">
-            <Head title="Reset Password" />
+            <Head title={lang.com.reset_password} />
 
             <div className="login-form">
                 <div className="login-form-header">
@@ -62,25 +61,25 @@ const ResetPassword = ({ token, email }) => {
                 >
 
                     <div className='login-text-holder'>
-                        <h1>Reset Password</h1>
-                        <p>Choose a New Password</p>
+                        <h1>{lang.com.reset_password}</h1>
+                        <p>{lang.com.choose_password}</p>
                     </div>
 
                     <Form.Item
-                        label="Email"
+                        label={lang.com.email}
                         name="email"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your E-mail!",
+                                message: lang.loginPage.email_error_message_1,
                             },
                             {
                                 type: "email",
-                                message: "Invalid E-mail",
+                                message: lang.loginPage.email_error_message_2,
                             },
                             {
                                 max: 50,
-                                message: "E-mail should not exceed 50 characters",
+                                message: lang.loginPage.email_error_message_3,
                             },
                         ]}
                         validateStatus={errors.email && 'error'}
@@ -90,18 +89,18 @@ const ResetPassword = ({ token, email }) => {
                             size="large"
                             prefix={<MailOutlined className="site-form-item-icon" />}
                             disabled={processing}
-                            placeholder={"Email Address"}
+                            placeholder={lang.com.email_address}
                             autoComplete="email"
                         />
                     </Form.Item>
 
                     <Form.Item
-                        label="Password"
+                        label={lang.com.password}
                         name="password"
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                         validateStatus={errors.password && 'error'}
@@ -111,12 +110,12 @@ const ResetPassword = ({ token, email }) => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Confirm Password"
+                        label={lang.com.confirm_password}
                         name="password_confirmation"
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                         validateStatus={errors.password_confirmation && 'error'}
@@ -127,13 +126,13 @@ const ResetPassword = ({ token, email }) => {
 
                     <Form.Item className="form-actions">
                         <Button type="primary" htmlType="submit" className="login-form-button" loading={processing} block>
-                            {processing ? "Please Wait" : "Reset Password"}
+                            {processing ? lang.com.please_wait : lang.com.reset_password}
                         </Button>
                     </Form.Item>
 
                     <div className="form-register">
-                        <Divider>{"or"}</Divider>
-                        <Link href='/login'>Back to Login</Link>
+                        <Divider>{lang.com.or_text}</Divider>
+                        <Link href='/login'>{lang.com.back_to_login}</Link>
                     </div>
                 </Form>
             </div>

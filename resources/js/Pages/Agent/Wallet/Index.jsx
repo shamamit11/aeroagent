@@ -138,10 +138,10 @@ const Index = () => {
 
     return (
         <>
-            <Head title={lang.wallet.my_wallet} />
+            <Head title={lang.com.my_wallet} />
             <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>{lang.wallet.my_wallet}</span>
+                    <span className='page-title'>{lang.com.my_wallet}</span>
                 </Col>
             </Row>
 
@@ -149,7 +149,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.wallet.available_balance + ' (AED)'}
+                            title={lang.com.available_balance + ' (AED)'}
                             value={balance}
                             precision={2}
                             valueStyle={{
@@ -161,7 +161,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.wallet.total_referrals + ' (AED)'}
+                            title={lang.com.total_referrals + ' (AED)'}
                             value={totalReferral}
                             precision={2}
                             valueStyle={{
@@ -173,7 +173,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.wallet.total_payout + ' (AED)'}
+                            title={lang.com.total_payout + ' (AED)'}
                             value={totalPayout}
                             precision={2}
                             valueStyle={{
@@ -185,7 +185,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.wallet.total_renewal + ' (AED)'}
+                            title={lang.com.total_renewal + ' (AED)'}
                             value={totalRenewal}
                             precision={2}
                             valueStyle={{

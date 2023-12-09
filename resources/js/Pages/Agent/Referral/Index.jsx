@@ -119,10 +119,10 @@ const Index = () => {
 
     return (
         <>
-            <Head title={lang.referral.my_referrals} />
+            <Head title={lang.com.my_referrals} />
             <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>{lang.referral.my_referrals}</span>
+                    <span className='page-title'>{lang.com.my_referrals}</span>
                 </Col>
             </Row>
 
@@ -130,7 +130,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.referral.total_earnings + " (AED)"}
+                            title={lang.com.total_earnings + " (AED)"}
                             value={totalEarnings}
                             precision={2}
                             valueStyle={{
@@ -142,7 +142,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.referral.earning_last_30_days + " (AED)"}
+                            title={lang.com.earning_last_30_days + " (AED)"}
                             value={lastThirtyDaysEarning}
                             precision={2}
                             valueStyle={{
@@ -154,7 +154,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.wallet.total_referrals}
+                            title={lang.com.total_referrals}
                             value={totalReferral}
                             valueStyle={{
                                 color: 'orange',
@@ -165,7 +165,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title={lang.referral.referrals_last_30_days}
+                            title={lang.com.referrals_last_30_days}
                             value={lastThirtyDaysReferrals}
                             valueStyle={{
                                 color: '#cf1322',

@@ -4,9 +4,9 @@ import { Button, Input, Space, Form, message } from 'antd';
 
 const SettingBank = () => {
     const props = usePage().props;
-    const rowData = props.bank;
+    const { lang } = usePage().props;
 
-    console.log(rowData);
+    const rowData = props.bank;
 
     const { data, setData, post, processing, errors } = useForm({
         bank_name: rowData?.bank_name,
@@ -19,10 +19,10 @@ const SettingBank = () => {
         post('/settings/updateBank', {
             forceFormData: true,
             onSuccess: () => {
-                message.success('Bank Updated Successfully !')
+                message.success(lang.com.data_updated)
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/settings')
@@ -47,14 +47,14 @@ const SettingBank = () => {
                     encType="multipart/form-data"
                 >
                     <Form.Item
-                        label="Bank Name"
+                        label={lang.com.bank_name}
                         name="bank_name"
                         validateStatus={errors.bank_name && 'error'}
                         help={errors.bank_name}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -64,14 +64,14 @@ const SettingBank = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Account Name"
+                        label={lang.com.account_name}
                         name="account_name"
                         validateStatus={errors.account_name && 'error'}
                         help={errors.account_name}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -81,14 +81,14 @@ const SettingBank = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Account Number"
+                        label={lang.com.account_number}
                         name="account_no"
                         validateStatus={errors.account_no && 'error'}
                         help={errors.account_no}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -98,14 +98,14 @@ const SettingBank = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="IBAN"
+                        label={lang.com.iban}
                         name="iban"
                         validateStatus={errors.iban && 'error'}
                         help={errors.iban}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -117,7 +117,7 @@ const SettingBank = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Update"}
+                                {processing ? lang.com.please_wait : lang.com.update}
                             </Button>
                         </Space>
                     </Form.Item>

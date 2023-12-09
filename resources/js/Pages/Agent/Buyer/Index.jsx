@@ -4,6 +4,7 @@ import { Head, usePage, router } from "@inertiajs/react";
 import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm } from 'antd';
 import { PlusOutlined, SearchOutlined, EyeOutlined, EditOutlined, DeleteOutlined  } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { getObjectValue } from '@/utils';
 
 const Index = () => {
     const [loading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -52,7 +53,7 @@ const Index = () => {
         };
         router.post('/buyer/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get(`/buyer`)
@@ -61,7 +62,7 @@ const Index = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -74,7 +75,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -92,7 +93,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -101,7 +102,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -136,48 +137,48 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Customer Name',
+            title: lang.com.customer_name,
             dataIndex: 'customer_name',
             key: 'customer_name',
             width: 'auto',
             ...getColumnSearchProps('customer_name'),
         },
         {
-            title: 'Mobile',
+            title: lang.com.mobile,
             dataIndex: 'customer_mobile',
             key: 'customer_mobile',
             width: '15%',
             ...getColumnSearchProps('customer_mobile'),
         },
         {
-            title: 'Property',
+            title: lang.com.property,
             dataIndex: 'property',
             key: 'property',
             width: '13%',
             ...getColumnSearchProps('property'),
         },
         {
-            title: 'Property Type',
+            title: lang.com.property_type,
             dataIndex: 'property_type',
             key: 'property_type',
             width: '13%',
             ...getColumnSearchProps('property_type'),
         },
         {
-            title: 'Project',
+            title: lang.com.project,
             dataIndex: 'project_name',
             key: 'project_name',
             width: '15%',
             ...getColumnSearchProps('project_name'),
         },
         {
-            title: 'Status',
+            title: lang.com.status,
             key: 'status',
             width: '10%',
             align: 'center',
             ...getColumnSearchProps('status'),
             render: (_, record) => (
-                <Badge color={record.status_color} count={record.status} />
+                <Badge color={record.status_color} count={getObjectValue(lang, "com", record.status)} />
             )
         },
         {
@@ -187,21 +188,21 @@ const Index = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.id)} />
                     </Tooltip>
-                    <Tooltip title="Edit Row" color="orange">
+                    <Tooltip title={lang.com.edit_row} color="orange">
                         <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
                     </Tooltip>
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
-                        <Tooltip title="Delete Row" color="red">
+                        <Tooltip title={lang.com.delete_row} color="red">
                             <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
                         </Tooltip>
                     </Popconfirm>
@@ -212,16 +213,16 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Buyers" />
+            <Head title={lang.com.buyers} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>Buyers</span>
+                        <span className='page-title'>{lang.com.buyers}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>
                             <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<PlusOutlined />} size={"middle"} onClick={handleAdd} />
-                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleImport}> Import Data</Button>
+                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleImport}> {lang.com.import_data}</Button>
                         </Space>
                     </Col>
                 </Row>

@@ -8,10 +8,7 @@ const { TextArea } = Input;
 const AddEdit = () => {
     const props = usePage().props;
     const {locale, lang} = usePage().props;
-    
     const rowData = props.row;
-
-    const [title, setTitle] = useState('');
 
     const [marketDisabled, setMarketDisabled] = useState(false);
     const [projectDisabled, setProjectDisabled] = useState(false);
@@ -45,8 +42,6 @@ const AddEdit = () => {
     });
 
     useEffect(() => {
-        setTitle(props.title);
-
         if (rowData?.property_id == 1 || rowData?.property_id == 2 || rowData?.property_id == 3 || rowData?.property_id == 4) {
             setMarketDisabled(false);
         }
@@ -111,10 +106,10 @@ const AddEdit = () => {
     return (
         <>
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Head title={lang.feed.add_feed} />
+                <Head title={rowData?.id ? lang.com.edit_feed : lang.com.add_feed} />
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>{lang.feed.add_feed}</span>
+                        <span className='page-title'>{rowData?.id ? lang.com.edit_feed : lang.com.add_feed}</span>
                     </Col>
                 </Row>
 

@@ -35,7 +35,7 @@ const AgentLayout = ({ children }) => {
             key: 'settings',
             label: (
                 <Link href='/settings'>
-                    {lang.menuItems.settings}
+                    {lang.com.settings}
                 </Link>
             ),
             icon: <SettingOutlined />,
@@ -44,7 +44,7 @@ const AgentLayout = ({ children }) => {
             key: 'logs',
             label: (
                 <Link href='/activity-log'>
-                    {lang.menuItems.acitvity_log}
+                    {lang.com.acitvity_log}
                 </Link>
             ),
             icon: <LineChartOutlined />,
@@ -56,7 +56,7 @@ const AgentLayout = ({ children }) => {
             key: 'logout',
             label: (
                 <Link href='/logout' method='post' as='div'>
-                    {lang.menuItems.logout}
+                    {lang.com.logout}
                 </Link>
             ),
             icon: <LogoutOutlined />,

@@ -131,10 +131,10 @@ const Payout = () => {
 
     return (
         <>
-            <Head title={lang.payout.my_payouts} />
+            <Head title={lang.com.my_payouts} />
             <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>{lang.payout.my_payouts}</span>
+                    <span className='page-title'>{lang.com.my_payouts}</span>
                 </Col>
             </Row>
 
