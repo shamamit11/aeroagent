@@ -12,7 +12,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('followup:reminders')->dailyAt('6:00');
+        $schedule->command('meeting:reminders')->dailyAt('6:00');
+        $schedule->command('viewing:reminders')->dailyAt('6:00');
     }
 
     /**
@@ -21,7 +23,6 @@ class Kernel extends ConsoleKernel
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }
