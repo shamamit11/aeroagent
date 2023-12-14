@@ -10,6 +10,7 @@ class PropertyTypeService
                 ->transform(fn ($item) => [
                     'id'=> $item->id,
                     'name'=> $item->name,
+                    'ar_name'=> $item->ar_name,
                     'property_id' => $item->property_id,
                     'property_name' => $item->property->name,
                 ]);
@@ -35,6 +36,7 @@ class PropertyTypeService
             }
             $propertyType->property_id = $request['property_id'];
             $propertyType->name = $request['name'];
+            $propertyType->ar_name = $request['ar_name'];
             $propertyType->save();
         } 
         catch (\Exception$e) {

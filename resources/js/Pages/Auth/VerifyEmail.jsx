@@ -1,19 +1,17 @@
 import React from 'react';
-import { Head, useForm, Link, router } from "@inertiajs/react";
+import { Head, useForm, Link, router, usePage } from "@inertiajs/react";
 import { Button, Divider, Form, message, Alert } from "antd";
 
 import Logo from "../../../../public/light-logo.png";
 
-// import "./style.scss";
-
-const VerifyEmail = ({status}) => {
-
+const VerifyEmail = ({ status }) => {
+    const { lang } = usePage().props;
     const { post, processing } = useForm();
 
     const submit = () => {
         post('/email/verification-notification', {
             onSuccess: () => {
-                message.success('A new verification link has been sent to the email address you provided during registration.')
+                message.success(lang.com.verification_link_sent)
             },
             onFinish: () => {
                 router.get(`/login`)
@@ -23,7 +21,7 @@ const VerifyEmail = ({status}) => {
 
     return (
         <div className="login-page" id="loginPage">
-            <Head title="Email Verification" />
+            <Head title={lang.com.email_verification} />
 
             <div className="login-form">
                 <div className="login-form-header">
@@ -31,35 +29,34 @@ const VerifyEmail = ({status}) => {
                 </div>
 
                 <Form
-                    name="emailverification" 
-                    layout="vertical" 
+                    name="emailverification"
+                    layout="vertical"
                     onFinish={submit}
                     autoComplete="off"
                 >
 
                     <div className='login-text-holder'>
-                        <h1>Email Verification</h1>
-                        <p>Thanks for signing up! Before getting started, could you verify your email address by clicking on the
-                    link we just emailed to you? If you didn't receive the email, we will gladly send you another.</p>
+                        <h1>{lang.com.email_verification}</h1>
+                        <p>{lang.com.email_verify_text}</p>
                     </div>
 
                     {status === 'verification-link-sent' && (
                         <Alert
                             style={{ marginTop: 10, marginBottom: 10 }}
-                            message="A new verification link has been sent to the email address you provided during registration."
+                            message={lang.com.verification_link_sent}
                             type='success'
                         />
                     )}
 
                     <Form.Item className="form-actions">
                         <Button type="primary" htmlType="submit" className="login-form-button" loading={processing} block>
-                            {processing ? "Please Wait" : "Resend Verification Link"}
+                            {processing ? lang.com.please_wait : lang.com.resend_link}
                         </Button>
                     </Form.Item>
 
                     <div className="form-register">
-                        <Divider>{"or"}</Divider>
-                        <Link href='/logout' method="post">Logout</Link>
+                        <Divider>{lang.com.or_text}</Divider>
+                        <Link href='/logout' method="post">{lang.com.logout}</Link>
                     </div>
                 </Form>
             </div>

@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Head, useForm, Link } from "@inertiajs/react";
+import { Head, useForm, Link, usePage} from "@inertiajs/react";
 import { Button, Divider, Form, Input, Select, Radio, Modal } from "antd";
 import { LockOutlined, MailOutlined, PhoneOutlined, UserOutlined, CodeOutlined } from "@ant-design/icons";
 
 import Logo from "../../../../public/light-logo.png";
 
-// import "./style.scss";
-
 const Register = () => {
-
+    const { lang } = usePage().props;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -28,22 +26,18 @@ const Register = () => {
     const passwordRules = [
         {
             required: true,
-            message: "Please input your password!",
+            message: lang.loginPage.password_error_message_1,
         },
         {
             max: 50,
-            message: "Password should not exceed 50 characters",
+            message: lang.loginPage.password_error_message_2,
         },
     ];
 
     const submit = () => {
-        post('/register/stripeSession', {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-            },
-            onSuccess: (page) => {
-                //console.log(page.props.stripe_url);
-                location.href = page.props.stripe_url;
+        post('/register', {
+            onSuccess: () => {
+                router.get(`/login`)
             }
         });
     };
@@ -59,7 +53,7 @@ const Register = () => {
     return (
         <>
             <div className="login-page" id="loginPage">
-                <Head title="Register" />
+                <Head title={lang.com.register} />
 
                 <div className="login-form">
                     <div className="login-form-header">
@@ -80,8 +74,8 @@ const Register = () => {
                         }}
                     >
                         <div className='login-text-holder'>
-                            <h1>Create a New Account</h1>
-                            <p>Register with AERO CRM</p>
+                            <h1>{lang.com.create_new_account}</h1>
+                            <p>{lang.com.register_with_aero}</p>
                         </div>
 
                         <Form.Item
@@ -91,21 +85,21 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please select your Profession!",
+                                    message: lang.com.select_profession,
                                 }
                             ]}
                         >
                             <Select
                                 disabled={processing}
-                                placeholder={"Select Your Profession"}
+                                placeholder={lang.com.select_profession}
                                 options={[
                                     {
                                         value: 'Real Estate Specialist',
-                                        label: 'Real Estate Specialist',
+                                        label: lang.com.real_estate_specialist,
                                     },
                                     {
                                         value: 'Affiliate',
-                                        label: 'Affiliate Marketing',
+                                        label: lang.com.affiliate_marketing,
                                     }
                                 ]}
                             />
@@ -118,7 +112,7 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your First Name!",
+                                    message: lang.com.input_first_name,
                                 }
                             ]}
                         >
@@ -126,7 +120,7 @@ const Register = () => {
                                 size="large"
                                 prefix={<UserOutlined className="site-form-item-icon" />}
                                 disabled={processing}
-                                placeholder={"First Name"}
+                                placeholder={lang.com.first_name}
                             />
                         </Form.Item>
 
@@ -137,7 +131,7 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your Last Name!",
+                                    message: lang.com.input_last_name,
                                 }
                             ]}
                         >
@@ -145,7 +139,7 @@ const Register = () => {
                                 size="large"
                                 prefix={<UserOutlined className="site-form-item-icon" />}
                                 disabled={processing}
-                                placeholder={"Last Name"}
+                                placeholder={lang.com.last_name}
                             />
                         </Form.Item>
 
@@ -156,7 +150,7 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your Mobile No!",
+                                    message: lang.com.input_mobile,
                                 }
                             ]}
                         >
@@ -164,7 +158,7 @@ const Register = () => {
                                 size="large"
                                 prefix={<PhoneOutlined className="site-form-item-icon" />}
                                 disabled={processing}
-                                placeholder={"Mobile No. Ex: +97150XXXXXXX"}
+                                placeholder={lang.com.mobile + " Ex: +97150XXXXXXX"}
                             />
                         </Form.Item>
 
@@ -173,15 +167,15 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please input your E-mail!",
+                                    message: lang.loginPage.email_error_message_1,
                                 },
                                 {
                                     type: "email",
-                                    message: "Invalid E-mail",
+                                    message: lang.loginPage.email_error_message_2,
                                 },
                                 {
                                     max: 50,
-                                    message: "E-mail should not exceed 50 characters",
+                                    message: lang.loginPage.email_error_message_3,
                                 },
                             ]}
                             validateStatus={errors.email && 'error'}
@@ -191,7 +185,7 @@ const Register = () => {
                                 size="large"
                                 prefix={<MailOutlined className="site-form-item-icon" />}
                                 disabled={processing}
-                                placeholder={"Email Address"}
+                                placeholder={lang.com.email_address}
                                 autoComplete="email"
                             />
                         </Form.Item>
@@ -206,7 +200,7 @@ const Register = () => {
                                 size="large"
                                 prefix={<LockOutlined className="site-form-item-icon" />}
                                 disabled={processing}
-                                placeholder={"Password"}
+                                placeholder={lang.com.password}
                                 autoComplete="current-password"
                             />
                         </Form.Item>
@@ -218,14 +212,14 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please confirm your Password!",
+                                    message: lang.com.input_confirm_password,
                                 }
                             ]}
                         >
                             <Input.Password
                                 size="large"
                                 prefix={<LockOutlined className="site-form-item-icon" />}
-                                placeholder={"Confirm Password"}
+                                placeholder={lang.com.confirm_password}
                                 disabled={processing}
                                 autoComplete="current-password"
                             />
@@ -238,7 +232,7 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "Please Enter the Referral Code!",
+                                    message: lang.com.input_referral_code,
                                 }
                             ]}
                         >
@@ -246,7 +240,7 @@ const Register = () => {
                                 size="large"
                                 prefix={<CodeOutlined className="site-form-item-icon" />}
                                 disabled={processing}
-                                placeholder={"Referral Code"}
+                                placeholder={lang.com.referral_code}
                             />
                         </Form.Item>
 
@@ -258,22 +252,22 @@ const Register = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "You need to agree the Terms and Conditions",
+                                    message: lang.com.agree_terms,
                                 }
                             ]}
                         >
-                            <Radio> I agree the <a onClick={handleModal}>Terms and Conditions</a> </Radio>
+                            <Radio> {lang.com.i_agree} <a onClick={handleModal}>{lang.com.terms_conditions}</a> </Radio>
                         </Form.Item>
 
                         <Form.Item className="form-actions">
                             <Button type="primary" htmlType="submit" className="login-form-button" loading={processing} block>
-                                {processing ? "Please Wait" : "Proceed to Payment - AED 200"}
+                                {processing ? lang.com.please_wait : lang.com.start_free_trail}
                             </Button>
                         </Form.Item>
 
                         <div className="form-register">
-                            <Divider>{"or"}</Divider>
-                            <Link href='/login'>Back to Login</Link>
+                            <Divider>{lang.com.or_text}</Divider>
+                            <Link href='/login'>{lang.com.back_to_login}</Link>
                         </div>
                     </Form>
                 </div>

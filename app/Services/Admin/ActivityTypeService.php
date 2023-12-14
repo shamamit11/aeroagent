@@ -27,6 +27,7 @@ class ActivityTypeService
                 $activityType = new ActivityType;
             }
             $activityType->name = $request['name'];
+            $activityType->ar_name = $request['ar_name'];
             $activityType->save();
         } 
         catch (\Exception$e) {

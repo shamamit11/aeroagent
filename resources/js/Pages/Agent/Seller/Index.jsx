@@ -12,7 +12,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -52,7 +52,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    // placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -70,7 +70,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -79,7 +79,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -114,20 +114,20 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Location',
+            title: lang.com.location,
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
             ...getColumnSearchProps('name'),
         },
         {
-            title: 'Total Sellers',
+            title: lang.com.total_sellers,
             key: 'action',
             width: '13%',
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="Total Sellers" color="orange">
+                    <Tooltip title={lang.com.total_sellers} color="orange">
                         <Button type='primary' size="middle" shape="circle" onClick={() => handleView(record.id)}>
                             {record.count}
                         </Button>
@@ -139,16 +139,16 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Sellers" />
+            <Head title={lang.com.sellers} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>Sellers</span>
+                        <span className='page-title'>{lang.com.sellers}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>
                             <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<PlusOutlined />} size={"middle"} onClick={handleAdd} />
-                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleImport}> Import Data</Button>
+                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleImport}> {lang.com.import_data} </Button>
                         </Space>
                     </Col>
                 </Row>

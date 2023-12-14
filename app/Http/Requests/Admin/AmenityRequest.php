@@ -15,7 +15,8 @@ class AmenityRequest extends FormRequest
     {
         return [
             'id' => ['nullable', 'integer'],
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'ar_name' => ['required', 'string', 'max:255']
         ];
     }
 }

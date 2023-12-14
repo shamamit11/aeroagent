@@ -28,7 +28,7 @@ if (!function_exists('makeInitialsFromSingleWord')) {
 }
 
 if (!function_exists('initials')) {
-    function initials($str) : string
+    function initials($str): string
     {
         $ret = '';
         foreach (explode(' ', $str) as $word)
@@ -38,14 +38,14 @@ if (!function_exists('initials')) {
 }
 
 if (!function_exists('generateUserCode')) {
-    function generateUserCode(string $initial) {
+    function generateUserCode(string $initial)
+    {
         $six_digit_random_number = random_int(100000, 999999);
         $concatCode = $initial . $six_digit_random_number;
         $exists = DB::table('users')->where('user_code', $concatCode)->exists();
-        if($exists) {
+        if ($exists) {
             generateUserCode($initial);
-        } 
-        else {
+        } else {
             return $concatCode;
         }
     }
@@ -54,6 +54,8 @@ if (!function_exists('generateUserCode')) {
 if (!function_exists('get_active_statuses')) {
     function get_active_statuses($customer_id, $customer_type, $source_id, $customer_status)
     {
+        $locale = app()->getLocale();
+
         $list_statuses = DB::table('statuses')->where('type', 'listing_lead')->whereNull('deleted_at')->orderBy('id', "ASC")->get();
         $return_result = [];
         $checkInitialExists = checkIfEntityHasActivity($source_id, $customer_type, 'Initial Call');
@@ -61,7 +63,7 @@ if (!function_exists('get_active_statuses')) {
             foreach ($list_statuses as $index => $temp) {
                 $return_result[$index] = (object) [
                     'key' => $temp->id,
-                    'label' => $temp->name,
+                    'label' => $locale == 'ar' ? $temp->ar_name : $temp->name,
                     'id' => $temp->id,
                     'name' => $temp->name,
                     'disabled' => true
@@ -71,7 +73,7 @@ if (!function_exists('get_active_statuses')) {
             foreach ($list_statuses as $index => $temp) {
                 $return_result[$index] = (object) [
                     'key' => $temp->id,
-                    'label' => $temp->name,
+                    'label' => $locale == 'ar' ? $temp->ar_name : $temp->name,
                     'id' => $temp->id,
                     'name' => $temp->name,
                     'disabled' => false
@@ -85,22 +87,18 @@ if (!function_exists('get_active_statuses')) {
                 unset($return_result[1]);
             }
             unset($return_result[4]);
-        } 
-        else if ($customer_status == 'Potential') {
+        } else if ($customer_status == 'Potential') {
             unset($return_result[0]);
             unset($return_result[1]);
-        } 
-        else if ($customer_status == 'Interested') {
+        } else if ($customer_status == 'Interested') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[2]);
-        } 
-        else if ($customer_status == 'Not Interested') {
+        } else if ($customer_status == 'Not Interested') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[3]);
-        }
-        else if ($customer_status == 'Deal') {
+        } else if ($customer_status == 'Deal') {
             unset($return_result[0]);
             unset($return_result[1]);
             unset($return_result[2]);
@@ -117,6 +115,7 @@ if (!function_exists('get_active_statuses')) {
 if (!function_exists('get_active_activities')) {
     function get_active_activities($customer_id, $customer_type, $source_id)
     {
+        $locale = app()->getLocale();
         $list_activities = DB::table('activity_types')->orderBy('id', "ASC")->get();
         $return_result = [];
         $checkInitialExists = checkIfEntityHasActivity($source_id, $customer_type, 'Initial Call');
@@ -126,13 +125,13 @@ if (!function_exists('get_active_activities')) {
                 if ($temp->id == 1) {
                     $return_result[$index] = (object) [
                         'id' => $temp->id,
-                        'name' => $temp->name,
+                        'name' => $locale == 'ar' ? $temp->ar_name : $temp->name,
                         'disabled' => false
                     ];
                 } else {
                     $return_result[$index] = (object) [
                         'id' => $temp->id,
-                        'name' => $temp->name,
+                        'name' => $locale == 'ar' ? $temp->ar_name : $temp->name,
                         'disabled' => true
                     ];
                 }
@@ -142,13 +141,13 @@ if (!function_exists('get_active_activities')) {
                 if ($temp->id == 1) {
                     $return_result[$index] = (object) [
                         'id' => $temp->id,
-                        'name' => $temp->name,
+                        'name' => $locale == 'ar' ? $temp->ar_name : $temp->name,
                         'disabled' => true
                     ];
                 } else {
                     $return_result[$index] = (object) [
                         'id' => $temp->id,
-                        'name' => $temp->name,
+                        'name' => $locale == 'ar' ? $temp->ar_name : $temp->name,
                         'disabled' => false
                     ];
                 }
@@ -182,23 +181,42 @@ if (!function_exists('checkIfEntityHasActivity')) {
 if (!function_exists('time_elapsed_string')) {
     function time_elapsed_string($datetime, $full = false)
     {
+        $locale = app()->getLocale();
+
         $now = new DateTime;
         $ago = new DateTime($datetime);
         $diff = $now->diff($ago);
         $diff->w = floor($diff->d / 7);
         $diff->d -= $diff->w * 7;
-        $string = array(
-            'y' => 'year',
-            'm' => 'month',
-            'w' => 'week',
-            'd' => 'day',
-            'h' => 'hour',
-            'i' => 'minute',
-            's' => 'second',
-        );
+        if ($locale == 'ar') {
+            $string = array(
+                'y' => 'سنة',
+                'm' => 'شهر',
+                'w' => 'أسبوع',
+                'd' => 'يوم',
+                'h' => 'ساعة',
+                'i' => 'دقيقة',
+                's' => 'ثانية',
+            );
+        } else {
+            $string = array(
+                'y' => 'year',
+                'm' => 'month',
+                'w' => 'week',
+                'd' => 'day',
+                'h' => 'hour',
+                'i' => 'minute',
+                's' => 'second',
+            );
+        }
+
         foreach ($string as $k => &$v) {
             if ($diff->$k) {
-                $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                if ($locale == 'ar') {
+                    $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '' : '');
+                } else {
+                    $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+                }
             } else {
                 unset($string[$k]);
             }
@@ -206,7 +224,12 @@ if (!function_exists('time_elapsed_string')) {
         if (!$full) {
             $string = array_slice($string, 0, 1);
         }
-        return $string ? implode(', ', $string) . ' ago' : 'just now';
+        if ($locale == 'ar') {
+            return $string ? implode(', ', $string) . ' منذ' : 'الآن';
+        } else {
+            return $string ? implode(', ', $string) . ' ago' : 'just now';
+        }
+
     }
 }
 
@@ -214,24 +237,21 @@ if (!function_exists('time_remaining_string')) {
     function time_remaining_string($datetime, $full = false)
     {
         $locale = app()->getLocale();
-        
+
         $now = new DateTime;
         $next = new DateTime($datetime);
         $diff = $now->diff($next);
 
         if ($diff->days > 1) {
-            if($locale == 'ar') {
+            if ($locale == 'ar') {
                 return $diff->days . ' أيام';
-            }
-            else {
+            } else {
                 return $diff->days . ' days';
-            }  
-        } 
-        else {
-            if($locale == 'ar') {
-                return $diff->days . ' يوم';
             }
-            else {
+        } else {
+            if ($locale == 'ar') {
+                return $diff->days . ' يوم';
+            } else {
                 return $diff->days . ' day';
             }
         }
@@ -241,8 +261,8 @@ if (!function_exists('time_remaining_string')) {
 if (!function_exists('translations')) {
     function translations($json)
     {
-        if(!file_exists($json)) {
-        return [];
+        if (!file_exists($json)) {
+            return [];
         }
         return json_decode(file_get_contents($json), true);
     }

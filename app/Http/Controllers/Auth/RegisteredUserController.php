@@ -26,6 +26,64 @@ class RegisteredUserController extends Controller
         return Inertia::render('Auth/Register');
     }
 
+    public function store(Request $request) {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'profession' => 'required',
+            'mobile' => 'required',
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'referral_code' =>'nullable|exists:users,user_code',
+            'terms' => 'required'
+        ]);
+
+        $full_name = $request->first_name . ' ' . $request->last_name;
+        $initial = generateInitial($full_name);
+        $usercode = generateUserCode($initial);
+        $profession = $request->profession;
+
+        if($profession == 'Affiliate') {
+            $role = 'affiliate';
+        } else {
+            $role = 'agent';
+        }
+
+        $user = User::create([
+            'user_code' => $usercode,
+            'role' => $role,
+            'profession' => $request->profession,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'cc_transaction_id'  => '',
+            'status' => 1
+        ]);
+
+        $referral_code = $request->referral_code;
+
+        if($referral_code) {
+            $referral = new UserReferral;
+            $referral->user_id = $user->id;
+            $referral->referral_code = $referral_code;
+            $referral->save();
+        }
+
+        $subscription = new UserSubscription;
+        $subscription->user_id = $user->id;
+        $subscription->subscription_date = Carbon::now()->toDate();
+        $subscription->next_renewal_date = Carbon::now()->addDays(30)->toDate();
+        $subscription->next_payout_date = Carbon::now()->addDays(31)->toDate();
+        $subscription->renewal_status = null;
+        $subscription->save();
+
+        event(new Registered($user));
+
+        return Inertia::render('Auth/Login');
+    }
+
     public function stripeSession(Request $request) {
 
         $request->validate([
@@ -142,7 +200,7 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store11(Request $request)
     {
         $full_name = $request->first_name . ' ' . $request->last_name;
         $initial = generateInitial($full_name);

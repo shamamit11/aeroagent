@@ -50,7 +50,10 @@ class AgentDashboardController extends Controller
         $data['stock_land'] = $service->getTotalProperty(6);
         $data['stock_retail'] = $service->getTotalProperty(7);
         $data['stock_factory'] = $service->getTotalProperty(8);
-        $data['stock_hotel'] = $service->getTotalProperty(9);
+        $data['stock_hotelapt'] = $service->getTotalProperty(9);
+        $data['stock_hotel'] = $service->getTotalProperty(10);
+        $data['stock_mall'] = $service->getTotalProperty(11);
+        $data['stock_building'] = $service->getTotalProperty(12);
         
         return Inertia::render('Agent/Dashboard/Index', $data);
     }

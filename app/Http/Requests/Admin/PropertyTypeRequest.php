@@ -16,7 +16,8 @@ class PropertyTypeRequest extends FormRequest
         return [
             'id' => ['nullable', 'integer'],
             'property_id' => ['nullable', 'integer'],
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'ar_name' => ['required', 'string', 'max:255']
         ];
     }
 }

@@ -4,6 +4,7 @@ import { Head, usePage, router } from "@inertiajs/react";
 import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm } from 'antd';
 import { SearchOutlined, EyeOutlined, DeleteOutlined, EditOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { getObjectValue } from '@/utils';
 
 const ListPage = () => {
     const [loading, setLoading] = useState(true);
@@ -12,9 +13,7 @@ const ListPage = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { location_name, results } = usePage().props;
-
-    console.log(usePage().props);
+    const { location_name, results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -46,7 +45,7 @@ const ListPage = () => {
         };
         router.post('/leaser/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get(`/leaser/list?lid=${lid}`)
@@ -55,7 +54,7 @@ const ListPage = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const handleBack = () => {
@@ -72,7 +71,7 @@ const ListPage = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -90,7 +89,7 @@ const ListPage = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -99,7 +98,7 @@ const ListPage = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -134,41 +133,41 @@ const ListPage = () => {
 
     const columns = [
         {
-            title: 'Customer Name',
+            title: lang.com.customer_name,
             dataIndex: 'customer_name',
             key: 'customer_name',
             width: 'auto',
             ...getColumnSearchProps('customer_name'),
         },
         {
-            title: 'Mobile',
+            title: lang.com.mobile,
             dataIndex: 'customer_mobile',
             key: 'customer_mobile',
             width: '18%',
             ...getColumnSearchProps('customer_mobile'),
         },
         {
-            title: 'Property',
+            title: lang.com.property,
             dataIndex: 'property',
             key: 'property',
             width: '15%',
             ...getColumnSearchProps('property'),
         },
         {
-            title: 'Property Type',
+            title: lang.com.property_type,
             dataIndex: 'property_type',
             key: 'property_type',
             width: '13%',
             ...getColumnSearchProps('property_type'),
         },
         {
-            title: 'Status',
+            title: lang.com.status,
             key: 'status',
             width: '10%',
             align: 'center',
             ...getColumnSearchProps('status'),
             render: (_, record) => (
-                <Badge color={record.status_color} count={record.status} />
+                <Badge color={record.status_color} count={getObjectValue(lang, "com", record.status)} />
             )
         },
         {
@@ -178,21 +177,21 @@ const ListPage = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.id)} />
                     </Tooltip>
-                    <Tooltip title="Edit Row" color="orange">
+                    <Tooltip title={lang.com.edit_row} color="orange">
                         <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleEdit(record.id)} />
                     </Tooltip>
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id, record.location_id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
-                        <Tooltip title="Delete Row" color="red">
+                        <Tooltip title={lang.com.delete_row} color="red">
                             <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
                         </Tooltip>
                     </Popconfirm>
@@ -203,11 +202,11 @@ const ListPage = () => {
 
     return (
         <>
-            <Head title="Leasers" />
+            <Head title={lang.com.leasers} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>Leasers - {location_name}</span>
+                        <span className='page-title'>{lang.com.leasers} - {location_name}</span>
                     </Col>
                     <Col>
                         <Button shape="circle" icon={<ArrowLeftOutlined />} size={"middle"} onClick={handleBack} />

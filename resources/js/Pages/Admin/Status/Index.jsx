@@ -12,7 +12,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -44,7 +44,7 @@ const Index = () => {
         };
         router.post('/admin/status/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get('/admin/status')
@@ -53,7 +53,7 @@ const Index = () => {
       };
 
       const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
       };
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -84,7 +84,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -93,7 +93,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -128,11 +128,19 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Name',
+            title: lang.com.name,
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
             ...getColumnSearchProps('name'),
+        },
+        {
+            title: "Name (Arabic)",
+            dataIndex: 'ar_name',
+            key: 'ar_name',
+            width: '20%',
+            align: 'right',
+            ...getColumnSearchProps('ar_name'),
         },
         {
             title: 'Color',
@@ -159,12 +167,12 @@ const Index = () => {
                 <Space size="middle">
                     <Button size="middle" onClick={() => handleEdit(record.id)}>Edit</Button>
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
                         <Button danger size="middle">Delete</Button>
                     </Popconfirm>

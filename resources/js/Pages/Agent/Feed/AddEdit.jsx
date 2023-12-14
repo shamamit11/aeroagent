@@ -7,10 +7,8 @@ const { TextArea } = Input;
 
 const AddEdit = () => {
     const props = usePage().props;
-
+    const {locale, lang} = usePage().props;
     const rowData = props.row;
-
-    const [title, setTitle] = useState('');
 
     const [marketDisabled, setMarketDisabled] = useState(false);
     const [projectDisabled, setProjectDisabled] = useState(false);
@@ -44,8 +42,6 @@ const AddEdit = () => {
     });
 
     useEffect(() => {
-        setTitle(props.title);
-
         if (rowData?.property_id == 1 || rowData?.property_id == 2 || rowData?.property_id == 3 || rowData?.property_id == 4) {
             setMarketDisabled(false);
         }
@@ -70,14 +66,14 @@ const AddEdit = () => {
         post('/feed/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
-                    message.success('Data Added Successfully !')
+                    message.success(lang.com.data_added)
                 }
                 else {
-                    message.success('Data Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get(`/feed`)
@@ -110,10 +106,10 @@ const AddEdit = () => {
     return (
         <>
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-                <Head title={title} />
+                <Head title={rowData?.id ? lang.com.edit_feed : lang.com.add_feed} />
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>{title}</span>
+                        <span className='page-title'>{rowData?.id ? lang.com.edit_feed : lang.com.add_feed}</span>
                     </Col>
                 </Row>
 
@@ -135,29 +131,29 @@ const AddEdit = () => {
 
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Looking For"
+                                    label={lang.com.looking_for}
                                     name="looking_for"
                                     validateStatus={errors.looking_for && 'error'}
                                     help={errors.looking_for}
                                 >
                                     <Select
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         options={[
                                             {
                                                 value: 'seller',
-                                                label: 'Seller',
+                                                label: lang.com.seller,
                                             },
                                             {
                                                 value: 'buyer',
-                                                label: 'Buyer',
+                                                label: lang.com.buyer,
                                             },
                                             {
                                                 value: 'leaser',
-                                                label: 'Leaser',
+                                                label: lang.com.leaser,
                                             },
                                             {
                                                 value: 'tenant',
-                                                label: 'Tenant',
+                                                label: lang.com.tenant,
                                             }
                                         ]}
                                     />
@@ -166,19 +162,19 @@ const AddEdit = () => {
 
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Property"
+                                    label={lang.com.property}
                                     name="property_id"
                                     validateStatus={errors.property_id && 'error'}
                                     help={errors.property_id}
                                     rules={[
                                         {
                                             required: true,
-                                            message: "This field is required",
+                                            message: lang.com.field_required,
                                         }
                                     ]}
                                 >
                                     <Select
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         onChange={(val) => {
                                             setSelectedProperty(val);
                                             updateMarketSelect(val);
@@ -187,7 +183,7 @@ const AddEdit = () => {
                                             form.setFieldValue('project_id', undefined);
                                         }}
                                         options={properties.map((item) => ({
-                                            label: item.name,
+                                            label: (locale == 'ar' ? item.ar_name : item.name),
                                             value: item.id,
                                         }))}
                                     />
@@ -195,13 +191,13 @@ const AddEdit = () => {
                             </Col>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Property Type"
+                                    label={lang.com.property_type}
                                     name="property_type_id"
                                     validateStatus={errors.property_type_id && 'error'}
                                     help={errors.property_type_id}
                                 >
                                     <Select
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         value={selectedPropertyType}
                                         onChange={(val) => {
                                             setSelectedPropertyType(val)
@@ -209,7 +205,7 @@ const AddEdit = () => {
                                             form.setFieldValue('project_id', undefined);
                                         }}
                                         options={filteredPropertyTypes.map((item) => ({
-                                            label: item.name,
+                                            label: (locale == 'ar' ? item.ar_name : item.name),
                                             value: item.id,
                                         }))}
                                     />
@@ -220,14 +216,14 @@ const AddEdit = () => {
                         <Row justify={'space-between'} align={'middle'}>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Market"
+                                    label={lang.com.market}
                                     name="market"
                                     validateStatus={errors.market && 'error'}
                                     help={errors.market}
                                 >
                                     <Select
                                         disabled={marketDisabled}
-                                        placeholder="Select"
+                                        placeholder={lang.com.select}
                                         onChange={(val) => {
                                             updateProjectSelect(val);
                                             form.setFieldValue('project_id', undefined);
@@ -235,15 +231,15 @@ const AddEdit = () => {
                                         options={[
                                             {
                                                 value: 'n/a',
-                                                label: 'N/A',
+                                                label: lang.com.na,
                                             },
                                             {
                                                 value: 'offplan',
-                                                label: 'Off-Plan',
+                                                label: lang.com.offplan,
                                             },
                                             {
                                                 value: 'secondary',
-                                                label: 'Secondary',
+                                                label: lang.com.secondary,
                                             }
                                         ]}
                                     />
@@ -251,14 +247,14 @@ const AddEdit = () => {
                             </Col>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Project"
+                                    label={lang.com.project}
                                     name="project_id"
                                     validateStatus={errors.project_id && 'error'}
                                     help={errors.project_id}
                                 >
                                     <Select
                                         disabled={projectDisabled}
-                                        placeholder="Select Project"
+                                        placeholder={lang.com.select}
                                         options={projects.map((item) => ({
                                             label: item.name,
                                             value: item.id,
@@ -268,7 +264,7 @@ const AddEdit = () => {
                             </Col>
                             <Col style={{ width: '32%' }}>
                                 <Form.Item
-                                    label="Property Size"
+                                    label={lang.com.property_size}
                                     name="property_size"
                                     validateStatus={errors.property_size && 'error'}
                                     help={errors.property_size}
@@ -284,13 +280,13 @@ const AddEdit = () => {
                         </Row>
 
                         <Form.Item
-                            label="Locations"
+                            label={lang.com.locations}
                             name="location"
                             validateStatus={errors.location && 'error'}
                             help={errors.location}
                         >
                             <Select
-                                placeholder="Select"
+                                placeholder={lang.com.select}
                                 mode="multiple"
                                 allowClear
                                 options={locations.map((item) => ({
@@ -303,7 +299,7 @@ const AddEdit = () => {
                         <Row justify={'space-between'} align={'middle'}>
                             <Col style={{ width: '49%' }}>
                                 <Form.Item
-                                    label="Budget"
+                                    label={lang.com.budget}
                                     name="budget"
                                     validateStatus={errors.budget && 'error'}
                                     help={errors.budget}
@@ -318,7 +314,7 @@ const AddEdit = () => {
 
                             <Col style={{ width: '49%' }}>
                                 <Form.Item
-                                    label="Time to Close (Days)"
+                                    label={lang.com.time_to_close + " (" + lang.com.days + ")"}
                                     name="time_to_close"
                                     validateStatus={errors.time_to_close && 'error'}
                                     help={errors.time_to_close}
@@ -333,7 +329,7 @@ const AddEdit = () => {
                         </Row>
 
                         <Form.Item
-                            label="Note"
+                            label={lang.com.note}
                             name="note"
                             validateStatus={errors.note && 'error'}
                             help={errors.note}
@@ -344,11 +340,11 @@ const AddEdit = () => {
                         <Form.Item className="form-actions">
                             <Space size="middle">
                                 <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                    {processing ? "Please Wait" : "Submit"}
+                                    {processing ? lang.com.please_wait : lang.com.submit}
                                 </Button>
 
                                 <Button danger size="large" onClick={handleCancel}>
-                                    Cancel
+                                    {lang.com.cancel}
                                 </Button>
                             </Space>
                         </Form.Item>

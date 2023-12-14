@@ -26,7 +26,7 @@ class ActivityTypeController extends Controller
     public function addEdit(Request $request): Response
     {
         $id = ($request->id) ? $request->id : 0;
-        $data['title'] = ($id == 0) ? "Add Acitvity Type" : "Edit Acitvity Type";
+        $data['title'] = ($id == 0) ? "Add Activity Type" : "Edit Activity Type";
         $data['row'] = ActivityType::where('id', $id)->first();
         return Inertia::render('Admin/ActivityType/AddEdit', $data);
     }

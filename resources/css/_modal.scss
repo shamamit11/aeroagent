@@ -17,3 +17,9 @@
 .ant-modal-body {
     margin-top: 30px;
 }
+
+.ant-modal-wrap-rtl {
+    .ant-modal-header {
+        padding-right: 15px
+    }
+}

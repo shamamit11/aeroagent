@@ -31,119 +31,119 @@ const AgentNavComponent = () => {
         {
             key: 'dashboard',
             icon: <DashboardOutlined />,
-            label: <Link href='/dashboard'>{lang.menuItems.dashboard}</Link>,
+            label: <Link href='/dashboard'>{lang.com.dashboard}</Link>,
         },
     
         {
             key: 'wallet',
             icon: <WalletOutlined />,
-            label: <Link href='/wallet-dashboard'>{lang.menuItems.wallet}</Link>,
+            label: <Link href='/wallet-dashboard'>{lang.com.wallet}</Link>,
         },
     
         {
             key: 'feed',
             icon: <DeploymentUnitOutlined />,
-            label: <Link href='/feed/list'>{lang.menuItems.feed}</Link>,
+            label: <Link href='/feed/list'>{lang.com.feed}</Link>,
         },
     
-        getItem(lang.menuItems.data_management, 'customermanagement', null, [], 'group'),
+        getItem(lang.com.data_management, 'customermanagement', null, [], 'group'),
     
         {
             key: 'customer',
             icon: <UserOutlined />,
-            label: <Link href='/customer'>{lang.menuItems.list_customers}</Link>,
+            label: <Link href='/customer'>{lang.com.list_customers}</Link>,
         },
     
         {
             key: 'seller',
             icon: <UserOutlined />,
-            label: <Link href='/seller'>{lang.menuItems.sellers}</Link>,
+            label: <Link href='/seller'>{lang.com.sellers}</Link>,
         },
     
         {
             key: 'buyers',
             icon: <UserOutlined />,
-            label: <Link href='/buyer'>{lang.menuItems.buyers}</Link>,
+            label: <Link href='/buyer'>{lang.com.buyers}</Link>,
         },
     
         {
             key: 'leaser',
             icon: <UserOutlined />,
-            label: <Link href='/leaser'>{lang.menuItems.leasers}</Link>,
+            label: <Link href='/leaser'>{lang.com.leasers}</Link>,
         },
     
         {
             key: 'tenant',
             icon: <UserOutlined />,
-            label: <Link href='/tenant'>{lang.menuItems.tenants}</Link>,
+            label: <Link href='/tenant'>{lang.com.tenants}</Link>,
         },
     
-        getItem(lang.menuItems.requests_management, 'requestmanagement', null, [], 'group'),
+        getItem(lang.com.requests_management, 'requestmanagement', null, [], 'group'),
     
         {
             key: 'sellerrequest',
             icon: <PullRequestOutlined />,
-            label: <Link href='/request-seller'>{lang.menuItems.seller_requests}</Link>,
+            label: <Link href='/request-seller'>{lang.com.seller_requests}</Link>,
         },
         
         {
             key: 'buyerrequest',
             icon: <PullRequestOutlined />,
-            label: <Link href='/request-buyer'>{lang.menuItems.buyer_requests}</Link>,
+            label: <Link href='/request-buyer'>{lang.com.buyer_requests}</Link>,
         },
     
         {
             key: 'leaserrequest',
             icon: <PullRequestOutlined />,
-            label: <Link href='/request-leaser'>{lang.menuItems.leaser_requests}</Link>,
+            label: <Link href='/request-leaser'>{lang.com.leaser_requests}</Link>,
         },
     
         {
             key: 'tenantrequest',
             icon: <PullRequestOutlined />,
-            label: <Link href='/request-tenant'>{lang.menuItems.tenant_requests}</Link>,
+            label: <Link href='/request-tenant'>{lang.com.tenant_requests}</Link>,
         },
     
-        getItem(lang.menuItems.customer_activities, 'customeractivity', null, [], 'group'),
+        getItem(lang.com.customer_activities, 'customeractivity', null, [], 'group'),
     
         {
             key: 'followup',
             icon: <PhoneOutlined />,
-            label: <Link href='/followup'>{lang.menuItems.follow_ups}</Link>,
+            label: <Link href='/followup'>{lang.com.follow_ups}</Link>,
         },
     
         {
             key: 'meeting',
             icon: <UsergroupAddOutlined />,
-            label: <Link href='/meeting'>{lang.menuItems.meetings}</Link>,
+            label: <Link href='/meeting'>{lang.com.meetings}</Link>,
         },
     
         {
             key: 'viewing',
             icon: <EyeOutlined />,
-            label: <Link href='/viewing'>{lang.menuItems.viewings}</Link>,
+            label: <Link href='/viewing'>{lang.com.viewings}</Link>,
         },
     
-        getItem(lang.menuItems.project_management, 'projectmanagement', null, [], 'group'),
+        getItem(lang.com.project_management, 'projectmanagement', null, [], 'group'),
     
         {
             key: 'developer',
             icon: <ShopOutlined />,
-            label: <Link href='/developer'>{lang.menuItems.developers}</Link>,
+            label: <Link href='/developer'>{lang.com.developers}</Link>,
         },
     
         {
             key: 'project',
             icon: <AppstoreOutlined />,
-            label: <Link href='/project'>{lang.menuItems.projects}</Link>,
+            label: <Link href='/project'>{lang.com.projects}</Link>,
         },
     
-        getItem(lang.menuItems.other_configurations, 'systemconfig', null, [], 'group'),
+        getItem(lang.com.other_configurations, 'systemconfig', null, [], 'group'),
         
         {
             key: 'location',
             icon: <GlobalOutlined />,
-            label: <Link href='/location'>{lang.menuItems.locations}</Link>,
+            label: <Link href='/location'>{lang.com.locations}</Link>,
         }
     ];
 

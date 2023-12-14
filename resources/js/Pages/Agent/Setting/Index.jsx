@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AgentLayout from '@/Layouts/AgentLayout';
-import { Head } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import { Col, Row, Card, Tabs, Divider } from 'antd';
 import { UserOutlined, LockOutlined, BankOutlined } from '@ant-design/icons';
 
@@ -8,41 +8,8 @@ import SettingProfile from './Profile';
 import SettingPassword from './Password';
 import SettingBank from './Bank';
 
-const tabItems = [
-    {
-        key: 'profile',
-        label: (
-            <span>
-                <UserOutlined />
-                Profile
-            </span>
-        ),
-        children: <SettingProfile />,
-    },
-    {
-        key: 'password',
-        label: (
-            <span>
-                <LockOutlined />
-                Change Password
-            </span>
-        ),
-        children: <SettingPassword />,
-    },
-    {
-        key: 'bank',
-        label: (
-            <span>
-                <BankOutlined />
-                Bank Information
-            </span>
-        ),
-        children: <SettingBank />,
-    }
-];
-
 const Index = () => {
-
+    const { lang } = usePage().props;
     const initialTab = JSON.parse(localStorage.getItem('settingTab')) || "profile";
     const [defaultTab, setDefaultTab] = useState(initialTab);
 
@@ -52,13 +19,46 @@ const Index = () => {
         localStorage.setItem('settingTab', JSON.stringify(updated))
     };
 
+    const tabItems = [
+        {
+            key: 'profile',
+            label: (
+                <span>
+                    <UserOutlined />
+                    {lang.com.profile}
+                </span>
+            ),
+            children: <SettingProfile />,
+        },
+        {
+            key: 'password',
+            label: (
+                <span>
+                    <LockOutlined />
+                    {lang.com.change_password}
+                </span>
+            ),
+            children: <SettingPassword />,
+        },
+        {
+            key: 'bank',
+            label: (
+                <span>
+                    <BankOutlined />
+                    {lang.com.bank_information}
+                </span>
+            ),
+            children: <SettingBank />,
+        }
+    ];
+
     return (
         <>
-            <Head title="Settings" />
+            <Head title={lang.com.settings} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>Settings</span>
+                        <span className='page-title'>{lang.com.settings}</span>
                     </Col>
                 </Row>
                 <Divider />

@@ -16,6 +16,7 @@ class StatusRequest extends FormRequest
         return [
             'id' => ['nullable', 'integer'],
             'name' => ['required', 'string', 'max:255'],
+            'ar_name' => ['required', 'string', 'max:255'],
             'color' => ['required', 'string', 'max:255'],
             'type' => ''
         ];

@@ -5,6 +5,8 @@ import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "ant
 
 const AddEdit = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
+    
     const rowData = props.row;
     const [title, setTitle] = useState('');
 
@@ -29,7 +31,7 @@ const AddEdit = () => {
                 message.success('User Added Successfully !')
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/admin/user')
@@ -226,11 +228,11 @@ const AddEdit = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Submit"}
+                                {processing ? lang.com.please_wait : lang.com.submit}
                             </Button>
 
                             <Button danger size="large" onClick={handleCancel}>
-                                Cancel
+                                {lang.com.cancel}
                             </Button>
                         </Space>
                     </Form.Item>

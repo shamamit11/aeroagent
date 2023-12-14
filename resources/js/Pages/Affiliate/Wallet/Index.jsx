@@ -12,7 +12,7 @@ const Index = () => {
     const [data, setData] = useState();
     const searchInput = useRef(null);
 
-    const { results, balance, totalReferral, totalPayout, totalRenewal } = usePage().props;
+    const { results, balance, totalReferral, totalPayout, totalRenewal, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -40,7 +40,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -58,7 +58,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -67,7 +67,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -102,34 +102,34 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Date',
+            title: lang.com.date,
             dataIndex: 'date',
             key: 'date',
             width: '12%',
             ...getColumnSearchProps('date'),
         },
         {
-            title: 'Transaction#',
+            title: lang.com.transaction + ' #',
             dataIndex: 'transaction_id',
             key: 'transaction_id',
-            width: '15%',
+            width: '25%',
             ...getColumnSearchProps('transaction_id')
         },
         {
-            title: 'Type',
+            title: lang.com.type,
             dataIndex: 'type',
             key: 'type',
             width: '15%',
             ...getColumnSearchProps('type')
         },
         {
-            title: 'Amount (AED)',
+            title: lang.com.amount + ' (AED)',
             dataIndex: 'amount',
             key: 'amount',
             width: '15%'
         },
         {
-            title: 'Note',
+            title: lang.com.note,
             dataIndex: 'note',
             key: 'note',
             width: 'auto',
@@ -138,10 +138,10 @@ const Index = () => {
 
     return (
         <>
-            <Head title="My Wallet" />
+            <Head title={lang.com.my_wallet} />
             <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>My Wallet</span>
+                    <span className='page-title'>{lang.com.my_wallet}</span>
                 </Col>
             </Row>
 
@@ -149,7 +149,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Available Balance (AED)"
+                            title={lang.com.available_balance + ' (AED)'}
                             value={balance}
                             precision={2}
                             valueStyle={{
@@ -161,7 +161,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Total Referral (AED)"
+                            title={lang.com.total_referrals + ' (AED)'}
                             value={totalReferral}
                             precision={2}
                             valueStyle={{
@@ -173,7 +173,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Total Payout (AED)"
+                            title={lang.com.total_payout + ' (AED)'}
                             value={totalPayout}
                             precision={2}
                             valueStyle={{
@@ -185,7 +185,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Total Renewal (AED)"
+                            title={lang.com.total_renewal + ' (AED)'}
                             value={totalRenewal}
                             precision={2}
                             valueStyle={{

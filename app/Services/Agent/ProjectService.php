@@ -20,11 +20,13 @@ class ProjectService
                     'developer' => $item->developer->name,
                     'name'=> $item->name,
                     'location' => $item->location->name,
-                    'view_style' => ucwords(str_replace('_', ' / ', strtolower($item->view_style))),
+                    //'view_style' => ucwords(str_replace('_', ' / ', strtolower($item->view_style))),
+                    'view_style' => $item->view_style,
                     'handover_date' => $item->handover_date,
                     'commission' => $item->commission,
                     'amenities_id' => $item->amenities_id,
-                    'project_status' => ucwords(str_replace('_', ' / ', strtolower($item->project_status)))
+                    //'project_status' => ucwords(str_replace('_', ' / ', strtolower($item->project_status)))
+                    'project_status' => $item->project_status
                 ]);
 
             return [
@@ -43,8 +45,10 @@ class ProjectService
             if ($exists) {
                 $project = Project::where('id', $id)->with('developer', 'location')->first();
 
-                $project->views = ucwords(str_replace('_', '  ', strtolower($project->view_style)));
-                $project->status = ucwords(str_replace('_', '  ', strtolower($project->project_status)));
+                //$project->views = ucwords(str_replace('_', '  ', strtolower($project->view_style)));
+                //$project->status = ucwords(str_replace('_', '  ', strtolower($project->project_status)));
+                $project->views = $project->view_style;
+                $project->status = $project->project_status;
 
                 $current_arr_value = isset($project->amenities_id) ? $project->amenities_id : [];
                 if (!empty($current_arr_value)) {
@@ -53,7 +57,13 @@ class ProjectService
                 $amenities = [];
                 foreach ($current_arr_value as $key) {
                     $res = Amenity::where('id', $key)->first();
-                    array_push($amenities, $res->name);
+                    $locale = app()->getLocale();
+                    if($locale == 'ar') {
+                        array_push($amenities, $res->ar_name);
+                    }
+                    else {
+                        array_push($amenities, $res->name);
+                    } 
                 }
                 $amenities_array = implode(", ", $amenities);
                 $project->amenities = $amenities_array;

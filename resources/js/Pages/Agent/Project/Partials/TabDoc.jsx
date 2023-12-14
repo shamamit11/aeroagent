@@ -2,21 +2,22 @@ import React from 'react';
 import { usePage } from "@inertiajs/react";
 import { Table } from 'antd';
 
-import "./style.scss";
+import "./tabstyle.scss";
 
 const TabDetail = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const docs = props.documents;
 
     const columns = [
         {
-            title: 'Document Type',
+            title: lang.com.document_type,
             dataIndex: "doc_type",
             key: 'doc_type',
             width: '20%',
         },
         {
-            title: 'Link',
+            title: lang.com.link,
             key: 'link',
             width: 'auto',
             render: (_, record) => (

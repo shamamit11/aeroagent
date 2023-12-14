@@ -4,6 +4,7 @@ import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Badge, Popconfirm, Modal, message, Form, Select } from 'antd';
 import { EditOutlined, SearchOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { getObjectValue } from '@/utils';
 
 const Index = () => {
     const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ const Index = () => {
     const [rowdata, setRowData] = useState();
 
     const props = usePage().props;
+    const { lang } = usePage().props;
     const results = props.results;
     const statuses = props.statuses;
 
@@ -48,16 +50,16 @@ const Index = () => {
     }
 
     const handleDetail = (customer_type, source_id) => {
-        if (customer_type == "Seller") {
+        if (customer_type == "seller") {
             router.get(`/seller/detail?id=${source_id}`)
         }
-        if (customer_type == "Buyer") {
+        if (customer_type == "buyer") {
             router.get(`/buyer/detail?id=${source_id}`)
         }
-        if (customer_type == "Leaser") {
+        if (customer_type == "leaser") {
             router.get(`/leaser/detail?id=${source_id}`)
         }
-        if (customer_type == "Tenant") {
+        if (customer_type == "tenant") {
             router.get(`/tenant/detail?id=${source_id}`)
         }
     }
@@ -68,7 +70,7 @@ const Index = () => {
         };
         router.post('/meeting/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get(`/meeting`)
@@ -77,16 +79,16 @@ const Index = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const submit = () => {
         post('/meeting/updateStatus', {
             onSuccess: () => {
-                message.success('Status Updated Successfully !')
+                message.success(lang.com.status_updated)
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
                 router.get(`/meeting`)
             },
             onFinish: () => {
@@ -105,7 +107,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -123,7 +125,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -132,7 +134,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -167,35 +169,38 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Customer Name',
+            title: lang.com.customer_name,
             dataIndex: 'customer_name',
             key: 'customer_name',
             width: '18%',
             ...getColumnSearchProps('customer_name'),
         },
         {
-            title: 'Meeting Date',
+            title: lang.com.meeting_date,
             dataIndex: 'date',
             key: 'date',
             width: '15%',
             ...getColumnSearchProps('date'),
         },
         {
-            title: 'Meeting Time',
+            title: lang.com.meeting_time,
             dataIndex: 'time',
             key: 'time',
             width: '15%',
             ...getColumnSearchProps('time'),
         },
         {
-            title: 'List Type',
-            dataIndex: 'customer_type',
+            title: lang.com.list_type,
+            //dataIndex: 'customer_type',
             key: 'customer_type',
             width: '13%',
             ...getColumnSearchProps('customer_type'),
+            render: (_, record) => (
+                <span>{getObjectValue(lang, "com", record.customer_type)}</span>
+            )
         },
         {
-            title: 'Status',
+            title: lang.com.status,
             key: 'status',
             width: '12%',
             align: 'center',
@@ -203,7 +208,7 @@ const Index = () => {
             render: (_, record) => (
                 <>
                     {record.status_color && (
-                        <Badge color={record.status_color} count={record.status} />
+                        <Badge color={record.status_color} count={getObjectValue(lang, "com", record.status)} />
                     )}
                     {!record.status_color && (
                         <span>{record.status}</span>
@@ -212,7 +217,7 @@ const Index = () => {
             ),
         },
         {
-            title: 'Note',
+            title: lang.com.note,
             dataIndex: 'note',
             key: 'note',
             width: 'auto',
@@ -224,25 +229,25 @@ const Index = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.customer_type, record.source_id)} />
                     </Tooltip>
 
                     {!record.status_id && (
-                        <Tooltip title="Update Status" color="orange">
+                        <Tooltip title={lang.com.update_status} color="orange">
                             <Button style={{ color: "orange", borderColor: "orange" }} size="middle" shape="circle" icon={<EditOutlined />} onClick={() => handleModalOpen(record.id)} />
                         </Tooltip>
                     )}
 
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
-                        <Tooltip title="Delete Row" color="red">
+                        <Tooltip title={lang.com.delete_row} color="red">
                             <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
                         </Tooltip>
                     </Popconfirm>
@@ -253,11 +258,11 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Meetings" />
+            <Head title={lang.com.meetings} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>Meetings</span>
+                        <span className='page-title'>{lang.com.meetings}</span>
                     </Col>
                 </Row>
 
@@ -266,7 +271,7 @@ const Index = () => {
                 </div>
             </Card>
 
-            <Modal title="Update Status" open={isModalOpen} onCancel={handleModalCancel} footer={null}>
+            <Modal title={lang.com.update_status} open={isModalOpen} onCancel={handleModalCancel} footer={null}>
                 <div className="form-holder" style={{ width: "100%" }}>
                     <Form
                         name="basic"
@@ -290,12 +295,12 @@ const Index = () => {
                             rules={[
                                 {
                                     required: true,
-                                    message: "This field is required",
+                                    message: lang.com.field_required,
                                 }
                             ]}
                         >
                             <Select
-                                placeholder="Select"
+                                placeholder={lang.com.select}
                                 options={statuses.map((item) => ({
                                     label: item.name,
                                     value: item.id,
@@ -305,7 +310,7 @@ const Index = () => {
                         <Form.Item className="form-actions">
                             <Space size="middle">
                                 <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                    {processing ? "Please Wait" : "Submit"}
+                                    {processing ? lang.com.please_wait : lang.com.submit}
                                 </Button>
                             </Space>
                         </Form.Item>

@@ -15,7 +15,8 @@ class PropertyRequest extends FormRequest
     {
         return [
             'id' => '',
-            'name' => ['required', 'string', 'max:255']
+            'name' => ['required', 'string', 'max:255'],
+            'ar_name' => ['required', 'string', 'max:255']
         ];
     }
 }

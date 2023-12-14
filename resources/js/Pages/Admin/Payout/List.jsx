@@ -12,7 +12,7 @@ const List = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -58,7 +58,7 @@ const List = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -67,7 +67,7 @@ const List = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -102,7 +102,7 @@ const List = () => {
 
     const columns = [
         {
-            title: 'Name',
+            title: lang.com.name,
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
@@ -129,7 +129,7 @@ const List = () => {
             width: '18%',
         },
         {
-            title: 'Status',
+            title: lang.com.status,
             dataIndex: 'status',
             key: 'status',
             width: '10%',

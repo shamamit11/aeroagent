@@ -23,14 +23,13 @@ const WalletDashboard = (props) => {
     
     return (
         <>
-            <Head title={lang.menuItems.wallet} />
-            <Card title={`${lang.wallet.your_referral_code_is}: ${props.auth.user.user_code}`}>
-
+            <Head title={lang.com.wallet} />
+            <Card title={`${lang.com.your_referral_code_is}: ${props.auth.user.user_code}`}>
                 <Row gutter={24}>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title={lang.wallet.wallet_balance + " AED"}
+                                title={lang.com.wallet_balance + " (AED)"}
                                 value={props.balance}
                                 precision={2}
                                 valueStyle={{
@@ -45,14 +44,14 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewWallet}
                             >
-                                {lang.wallet.view_wallet}
+                                {lang.com.view_wallet}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title={lang.wallet.total_referrals}
+                                title={lang.com.total_referrals}
                                 value={props.totalReferral}
                                 valueStyle={{
                                     color: 'skyblue',
@@ -66,14 +65,14 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewReferral}
                             >
-                                {lang.wallet.view_referrals}
+                                {lang.com.view_referrals}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title={lang.wallet.total_payout + " AED"}
+                                title={lang.com.total_payout + " (AED)"}
                                 value={props.totalPayout}
                                 precision={2}
                                 valueStyle={{
@@ -88,14 +87,14 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewPayout}
                             >
-                                {lang.wallet.view_payouts}
+                                {lang.com.view_payouts}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title={lang.wallet.next_renewal_after}
+                                title={lang.com.next_renewal_after}
                                 value={props.nextRenewalDate}
                                 valueStyle={{
                                     color: '#cf1322',
@@ -109,7 +108,7 @@ const WalletDashboard = (props) => {
                                 }}
                                 onClick={viewRenewal}
                             >
-                                {lang.wallet.view_renewals}
+                                {lang.com.view_renewals}
                             </Button>
                         </Card>
                     </Col>

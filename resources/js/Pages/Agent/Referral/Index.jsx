@@ -12,7 +12,7 @@ const Index = () => {
     const [data, setData] = useState();
     const searchInput = useRef(null);
 
-    const { results, totalReferral, totalEarnings, lastThirtyDaysEarning, lastThirtyDaysReferrals } = usePage().props;
+    const { results, totalReferral, totalEarnings, lastThirtyDaysEarning, lastThirtyDaysReferrals, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -40,7 +40,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    // placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -58,7 +58,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -67,7 +67,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -102,14 +102,14 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Date',
+            title: lang.com.date,
             dataIndex: 'date',
             key: 'date',
             width: '20%',
             ...getColumnSearchProps('date'),
         },
         {
-            title: 'Name',
+            title: lang.com.name,
             dataIndex: 'name',
             key: 'name',
             width: 'auto',
@@ -119,10 +119,10 @@ const Index = () => {
 
     return (
         <>
-            <Head title="My Referrals" />
+            <Head title={lang.com.my_referrals} />
             <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20}}>
                 <Col>
-                    <span className='page-title'>My Referrals</span>
+                    <span className='page-title'>{lang.com.my_referrals}</span>
                 </Col>
             </Row>
 
@@ -130,7 +130,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Total Earnings (AED)"
+                            title={lang.com.total_earnings + " (AED)"}
                             value={totalEarnings}
                             precision={2}
                             valueStyle={{
@@ -142,7 +142,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Earnings Last 30 Days"
+                            title={lang.com.earning_last_30_days + " (AED)"}
                             value={lastThirtyDaysEarning}
                             precision={2}
                             valueStyle={{
@@ -154,7 +154,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Total Referrals"
+                            title={lang.com.total_referrals}
                             value={totalReferral}
                             valueStyle={{
                                 color: 'orange',
@@ -165,7 +165,7 @@ const Index = () => {
                 <Col span={6}>
                     <Card bordered={false}>
                         <Statistic
-                            title="Referrals - Last 30 Days"
+                            title={lang.com.referrals_last_30_days}
                             value={lastThirtyDaysReferrals}
                             valueStyle={{
                                 color: '#cf1322',

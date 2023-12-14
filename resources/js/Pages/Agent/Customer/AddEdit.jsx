@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AgentLayout from '@/Layouts/AgentLayout';
 import { Head, usePage, useForm, router } from "@inertiajs/react";
 import { Button, Form, Input, Row, Col, message, Space, Card, Select } from "antd";
 
 const AddEdit = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const rowData = props.row;
-    const [title, setTitle] = useState('');
 
     const { data, setData, post, processing, errors } = useForm({
         id: (rowData?.id) ? rowData?.id : 0,
@@ -17,22 +17,18 @@ const AddEdit = () => {
         customer_type: 'default'
     });
 
-    useEffect(() => {
-        setTitle(props.title);
-    }, []);
-
     const submit = () => {
         post('/customer/addAction', {
             onSuccess: () => {
                 if (data.id == 0) {
-                    message.success('Data Added Successfully !')
+                    message.success(lang.com.data_added)
                 }
                 else {
-                    message.success('Data Updated Successfully !')
+                    message.success(lang.com.data_updated)
                 }
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 if(data.customer_type == 'default') {
@@ -51,10 +47,10 @@ const AddEdit = () => {
 
     return (
         <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
-            <Head title={title} />
+            <Head title={rowData?.id ? lang.com.edit_customer : lang.com.add_customer} />
             <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                 <Col>
-                    <span className='page-title'>{title}</span>
+                    <span className='page-title'>{rowData?.id ? lang.com.edit_customer : lang.com.add_customer}</span>
                 </Col>
             </Row>
 
@@ -72,14 +68,14 @@ const AddEdit = () => {
                     autoComplete="off"
                 >
                     <Form.Item
-                        label="Customer Name"
+                        label={lang.com.name}
                         name="name"
                         validateStatus={errors.name && 'error'}
                         help={errors.name}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -87,14 +83,14 @@ const AddEdit = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Email"
+                        label={lang.com.email}
                         name="email"
                         validateStatus={errors.email && 'error'}
                         help={errors.email}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -102,14 +98,14 @@ const AddEdit = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Mobile Ex: (+971 ...)"
+                        label={lang.com.mobile + " (+971 ...)"}
                         name="mobile"
                         validateStatus={errors.mobile && 'error'}
                         help={errors.mobile}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -117,14 +113,14 @@ const AddEdit = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Nationality"
+                        label={lang.com.nationality}
                         name="nationality"
                         validateStatus={errors.nationality && 'error'}
                         help={errors.nationality}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -133,14 +129,14 @@ const AddEdit = () => {
 
                     {!rowData?.id && (
                         <Form.Item
-                            label="Adding Customer As"
+                            label={lang.com.adding_customer_as}
                             name="customer_type"
                             validateStatus={errors.customer_type && 'error'}
                             help={errors.customer_type}
                             rules={[
                                 {
                                     required: true,
-                                    message: "This field is required",
+                                    message: lang.com.field_required,
                                 }
                             ]}
                         >
@@ -149,23 +145,23 @@ const AddEdit = () => {
                                 options={[
                                     {
                                         value: 'default',
-                                        label: 'Default',
+                                        label: lang.com.default,
                                     },
                                     {
                                         value: 'seller',
-                                        label: 'Seller',
+                                        label: lang.com.seller,
                                     },
                                     {
                                         value: 'buyer',
-                                        label: 'Buyer',
+                                        label: lang.com.buyer,
                                     },
                                     {
                                         value: 'leaser',
-                                        label: 'Leaser',
+                                        label: lang.com.leaser,
                                     },
                                     {
                                         value: 'tenant',
-                                        label: 'Tenant',
+                                        label: lang.com.tenant,
                                     }
                                 ]}
                             />
@@ -176,11 +172,11 @@ const AddEdit = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Submit"}
+                                {processing ? lang.com.please_wait : lang.com.submit}
                             </Button>
 
                             <Button danger size="large" onClick={handleCancel}>
-                                Cancel
+                                {lang.com.cancel}
                             </Button>
                         </Space>
                     </Form.Item>

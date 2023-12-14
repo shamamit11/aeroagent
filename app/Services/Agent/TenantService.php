@@ -16,6 +16,8 @@ use Maatwebsite\Excel\Facades\Excel;
 class TenantService
 {
     function index() {
+        $locale = app()->getLocale();
+
         try {
             $user_id = Auth::user()->id;
             $tenants = Tenant::where([['user_id', $user_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
@@ -36,11 +38,11 @@ class TenantService
                 'customer_id' => $res->customer_id,
                 'customer_name'=> $res->customer->name,
                 'customer_mobile'=> $res->customer->mobile,
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'status' => $res->status,
                 'status_color' => $res->status_color,
-                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'request_type'=> $res->request_type ? $res->request_type : "",
                 'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
@@ -55,6 +57,7 @@ class TenantService
 
     function requestList() {
         try {
+            $locale = app()->getLocale();
             $user_id = Auth::user()->id;
             $tenants = Tenant::where([['user_id', $user_id]])->whereNotNull('request_type')->whereNull('deleted_at')->get();
 
@@ -74,11 +77,11 @@ class TenantService
                 'customer_id' => $res->customer_id,
                 'customer_name'=> $res->customer->name,
                 'customer_mobile'=> $res->customer->mobile,
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'status' => $res->status,
                 'status_color' => $res->status_color,
-                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'request_type'=> $res->request_type ? $res->request_type : "",
                 'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
@@ -93,6 +96,7 @@ class TenantService
 
     function show($id) {
         try {
+            $locale = app()->getLocale();
             $user_id = Auth::user()->id;
             $exists = Tenant::where([["id", $id], ["user_id", $user_id]])->exists();
             if ($exists) {
@@ -106,7 +110,12 @@ class TenantService
                     $amenities = [];
                     foreach ($current_arr_value as $key) {
                         $res = Amenity::where('id', $key)->first();
-                        array_push($amenities, $res->name);
+                        if($locale == 'ar') {
+                            array_push($amenities, $res->ar_name);
+                        }
+                        else {
+                            array_push($amenities, $res->name);
+                        }
                     }
                     $amenities_array = implode(", ", $amenities);
                     $tenant->amenities = $amenities_array;
@@ -136,6 +145,8 @@ class TenantService
 
     public function store($request)
     {
+        $locale = app()->getLocale();
+
         try {
             if ($request['id']) {
                 $id = $request['id'];
@@ -178,7 +189,14 @@ class TenantService
                 $customerActivity->customer_id = $request['customer_id'];
                 $customerActivity->customer_type = "tenant";
                 $customerActivity->source_id = $tenant->id;
-                $customerActivity->note = "New Tenant Data has been Added.";
+
+                if($locale == 'ar') {
+                    $customerActivity->note = "تمت إضافة بيانات المستأجر الجديد.";
+                }
+                else {
+                    $customerActivity->note = "New Tenant Data has been Added.";
+                }
+
                 $customerActivity->save();
             }
 
@@ -197,7 +215,29 @@ class TenantService
                 $customerActivity->customer_id = $request['customer_id'];
                 $customerActivity->customer_type = "tenant";
                 $customerActivity->source_id = $tenant->id;
-                $customerActivity->note = "Tenant status is updated to - " . $request['status'];
+
+                if($locale == 'ar') {
+                    if($request['status'] == 'Prospect') {
+                        $status = 'احتمال';
+                    } 
+                    else if($request['status'] == 'Potential') {
+                        $status = 'محتمل';
+                    }
+                    else if($request['status'] == 'Interested') {
+                        $status = 'مهتم';
+                    }
+                    else if($request['status'] == 'Not Interested') {
+                        $status = 'غير مهتم';
+                    }
+                    else if($request['status'] == 'Deal') {
+                        $status = 'اتفاق';
+                    }
+                    $customerActivity->note = "يتم تحديث حالة المستأجر إلى - " . $status;
+                }
+                else {
+                    $customerActivity->note = "Tenant status is updated to - " . $request['status'];
+                }
+
                 $customerActivity->save();
             }
         } 
@@ -220,6 +260,8 @@ class TenantService
 
     public function import($request) {
         try { 
+            $locale = app()->getLocale();
+
             $extension = $request->file('upload_file')->extension();
             if (in_array($extension, ['csv', 'xls', 'xlsx'])) { 
                 $temp_path = $request->file('upload_file')->store('temp');
@@ -273,7 +315,13 @@ class TenantService
                     $customerActivity->customer_id = $customerObj->id;
                     $customerActivity->customer_type = "tenant";
                     $customerActivity->source_id = $tenant->id;
-                    $customerActivity->note = "New Tenant Data has been Added.";
+
+                    if($locale == 'ar') {
+                        $customerActivity->note = "تمت إضافة بيانات المستأجر الجديد.";
+                    }
+                    else {
+                        $customerActivity->note = "New Tenant Data has been Added.";
+                    }
                     $customerActivity->save();
                 }
             }
@@ -286,6 +334,7 @@ class TenantService
 
     public function storeActivity($request) {
         try {
+            $locale = app()->getLocale();
 
             if($request->activity_type == 1) {
                 $activity = new CustomerActivity;
@@ -294,7 +343,14 @@ class TenantService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Initial Call was made with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'تم إجراء المكالمة الأولية مع ملاحظة:' . $request->note;
+                }
+                else {
+                    $activity->note = 'Initial Call was made with a note : ' . $request->note;
+                }
+
                 $activity->save();
             }
 
@@ -305,7 +361,14 @@ class TenantService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Follow up call was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                
+                if($locale == 'ar') {
+                    $activity->note = 'تمت جدولة مكالمة المتابعة : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else {
+                    $activity->note = 'Follow up call was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+
                 $activity->save();
 
                 $followup = new CustomerFollowup;
@@ -326,7 +389,14 @@ class TenantService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Meeting was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                
+                if($locale == 'ar') {
+                    $activity->note = 'كان من المقرر الاجتماع يوم : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else {
+                    $activity->note = 'Meeting was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+
                 $activity->save();
 
                 $meeting = new CustomerMeeting;
@@ -347,7 +417,14 @@ class TenantService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Viewing was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                
+                if($locale == 'ar') {
+                    $activity->note = 'تمت جدولة المشاهدة في : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else{
+                    $activity->note = 'Viewing was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+
                 $activity->save();
 
                 $viewing = new CustomerViewing;
@@ -368,6 +445,8 @@ class TenantService
 
     public function updateStatus($request) {
         try {
+            $locale = app()->getLocale();
+
             $customerStatus = CustomerStatus::where([
                 ['user_id', Auth::user()->id],
                 ['customer_id', $request['customer_id']],
@@ -383,7 +462,29 @@ class TenantService
             $customerActivity->customer_id = $request['customer_id'];
             $customerActivity->customer_type = "tenant";
             $customerActivity->source_id = $request['source_id'];
-            $customerActivity->note = "Tenant status is updated to - " . $request['status'];
+
+            if($locale == 'ar') {
+                if($request['status'] == 'Prospect') {
+                    $status = 'احتمال';
+                } 
+                else if($request['status'] == 'Potential') {
+                    $status = 'محتمل';
+                }
+                else if($request['status'] == 'Interested') {
+                    $status = 'مهتم';
+                }
+                else if($request['status'] == 'Not Interested') {
+                    $status = 'غير مهتم';
+                }
+                else if($request['status'] == 'Deal') {
+                    $status = 'اتفاق';
+                }
+                $customerActivity->note = "يتم تحديث حالة المستأجر إلى - " . $status;
+            }
+            else {
+                $customerActivity->note = "Tenant status is updated to - " . $request['status'];
+            }
+            
             $customerActivity->save();
         }
         catch (\Exception $e) {
@@ -393,6 +494,8 @@ class TenantService
 
     public function deals() {
         try {
+            $locale = app()->getLocale();
+
             $user_id = Auth::user()->id;
 
             $dealsArray = [];
@@ -410,8 +513,8 @@ class TenantService
                     
                     $tenant->customer_name = $tenant->customer->name;
                     $tenant->mobile = $tenant->customer->mobile;
-                    $tenant->property_name = $tenant->property->name;
-                    $tenant->property_type_name = ($tenant->property_type_id) ? $tenant->propertyType->name : "-";
+                    $tenant->property_name = $locale == 'ar' ? $tenant->property->ar_name : $tenant->property->name;
+                    $tenant->property_type_name = ($tenant->property_type_id) ? ($locale == 'ar' ? $tenant->propertyType->ar_name : $tenant->propertyType->name) : "-";
                     $tenant->status = $status_obj->name;
                     $tenant->status_color = $status_obj->color;
 

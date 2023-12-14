@@ -17,6 +17,8 @@ class BuyerService
 {
     function index() {
         try {
+            $locale = app()->getLocale();
+
             $user_id = Auth::user()->id;
             $buyers = Buyer::where([['user_id', $user_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
 
@@ -36,14 +38,14 @@ class BuyerService
                 'customer_id' => $res->customer_id,
                 'customer_name'=> $res->customer->name,
                 'customer_mobile'=> $res->customer->mobile,
-                'interest'=> ucwords($res->interest),
-                'market'=> ucwords($res->market),
+                'interest'=> $res->interest,
+                'market'=> $res->market,
                 'project_name' => ($res->project_id) ? $res->project->name : "-",
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'status' => $res->status,
                 'status_color' => $res->status_color,
-                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'request_type'=> $res->request_type ? $res->request_type : "",
                 'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
@@ -58,6 +60,7 @@ class BuyerService
 
     function requestList() {
         try {
+            $locale = app()->getLocale();
             $user_id = Auth::user()->id;
             $buyers = Buyer::where([['user_id', $user_id]])->whereNotNull('request_type')->whereNull('deleted_at')->get();
 
@@ -77,15 +80,15 @@ class BuyerService
                 'customer_id' => $res->customer_id,
                 'customer_name'=> $res->customer->name,
                 'customer_mobile'=> $res->customer->mobile,
-                'interest'=> ucwords($res->interest),
-                'market'=> ucwords($res->market),
+                'interest'=> $res->interest,
+                'market'=> $res->market,
                 'project_name' => ($res->project_id) ? $res->project->name : "-",
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'status' => $res->status,
                 'status_color' => $res->status_color,
-                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
-                'source_id'=> $res->source_id ? $res->source_id : "",
+                'request_type'=> $res->request_type ? $res->request_type : "-",
+                'source_id'=> $res->source_id ? $res->source_id : "-",
             ]);
 
             return [
@@ -99,14 +102,16 @@ class BuyerService
 
     function show($id) {
         try {
+            $locale = app()->getLocale();
+
             $user_id = Auth::user()->id;
             $exists = Buyer::where([["id", $id], ["user_id", $user_id]])->exists();
             if ($exists) {
                 $buyer = Buyer::where([["id", $id], ["user_id", $user_id]])->with('property', 'customer', 'propertyType', 'project')->first();
 
-                $buyer->market_label = ucwords($buyer->market);
-                $buyer->project_name = $buyer->project_id ? $buyer->project->name : "N/A";
-                $buyer->interest_label = ucwords($buyer->interest);
+                $buyer->market_label = $buyer->market;
+                $buyer->project_name = $buyer->project_id ? $buyer->project->name : ($locale == 'ar' ? "لا يوجد" : "N/A");
+                $buyer->interest_label = $buyer->interest;
 
                 if($buyer->property_amenities) {
                     $current_arr_value = isset($buyer->property_amenities) ? $buyer->property_amenities : [];
@@ -116,7 +121,12 @@ class BuyerService
                     $amenities = [];
                     foreach ($current_arr_value as $key) {
                         $res = Amenity::where('id', $key)->first();
-                        array_push($amenities, $res->name);
+                        if($locale == 'ar') {
+                            array_push($amenities, $res->ar_name);
+                        }
+                        else {
+                            array_push($amenities, $res->name);
+                        }
                     }
                     $amenities_array = implode(", ", $amenities);
                     $buyer->amenities = $amenities_array;
@@ -146,6 +156,7 @@ class BuyerService
 
     public function store($request)
     {
+        $locale = app()->getLocale();
         try {
             if ($request['id']) {
                 $id = $request['id'];
@@ -197,7 +208,13 @@ class BuyerService
                 $customerActivity->customer_id = $request['customer_id'];
                 $customerActivity->customer_type = "buyer";
                 $customerActivity->source_id = $buyer->id;
-                $customerActivity->note = "New Buyer Data has been Added.";
+
+                if($locale == 'ar') {
+                    $customerActivity->note = "تمت إضافة بيانات المشتري الجديدة.";
+                }
+                else {
+                    $customerActivity->note = "New Buyer Data has been Added.";
+                }
                 $customerActivity->save();
             }
 
@@ -216,7 +233,29 @@ class BuyerService
                 $customerActivity->customer_id = $request['customer_id'];
                 $customerActivity->customer_type = "buyer";
                 $customerActivity->source_id = $buyer->id;
-                $customerActivity->note = "Buyer status is updated to - " . $request['status'];
+
+                if($locale == 'ar') {
+                    if($request['status'] == 'Prospect') {
+                        $status = 'احتمال';
+                    } 
+                    else if($request['status'] == 'Potential') {
+                        $status = 'محتمل';
+                    }
+                    else if($request['status'] == 'Interested') {
+                        $status = 'مهتم';
+                    }
+                    else if($request['status'] == 'Not Interested') {
+                        $status = 'غير مهتم';
+                    }
+                    else if($request['status'] == 'Deal') {
+                        $status = 'اتفاق';
+                    }
+                    $customerActivity->note = "يتم تحديث حالة المشتري إلى - " . $status;
+                }
+                else {
+                    $customerActivity->note = "Buyer status is updated to - " . $request['status'];
+                }
+               
                 $customerActivity->save();
             }
         } 
@@ -293,7 +332,14 @@ class BuyerService
                     $customerActivity->customer_id = $customerObj->id;
                     $customerActivity->customer_type = "buyer";
                     $customerActivity->source_id = $buyer->id;
-                    $customerActivity->note = "New Buyer Data has been Added.";
+
+                    if($locale == 'ar') {
+                        $customerActivity->note = "تمت إضافة بيانات المشتري الجديدة.";
+                    }
+                    else {
+                        $customerActivity->note = "New Buyer Data has been Added.";
+                    }
+
                     $customerActivity->save();
                 }
             }
@@ -306,6 +352,7 @@ class BuyerService
 
     public function storeActivity($request) {
         try {
+            $locale = app()->getLocale();
 
             if($request->activity_type == 1) {
                 $activity = new CustomerActivity;
@@ -314,7 +361,14 @@ class BuyerService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Initial Call was made with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'تم إجراء المكالمة الأولية مع ملاحظة:' . $request->note;
+                }
+                else {
+                    $activity->note = 'Initial Call was made with a note : ' . $request->note;
+                }
+
                 $activity->save();
             }
 
@@ -325,7 +379,14 @@ class BuyerService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Follow up call was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'تمت جدولة مكالمة المتابعة : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else {
+                    $activity->note = 'Follow up call was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+
                 $activity->save();
 
                 $followup = new CustomerFollowup;
@@ -346,7 +407,14 @@ class BuyerService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Meeting was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'كان من المقرر الاجتماع يوم : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else {
+                    $activity->note = 'Meeting was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+                
                 $activity->save();
 
                 $meeting = new CustomerMeeting;
@@ -367,7 +435,14 @@ class BuyerService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Viewing was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'تمت جدولة المشاهدة في : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else{
+                    $activity->note = 'Viewing was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+                
                 $activity->save();
 
                 $viewing = new CustomerViewing;
@@ -388,6 +463,8 @@ class BuyerService
 
     public function updateStatus($request) {
         try {
+            $locale = app()->getLocale();
+
             $customerStatus = CustomerStatus::where([
                 ['user_id', Auth::user()->id],
                 ['customer_id', $request['customer_id']],
@@ -403,7 +480,29 @@ class BuyerService
             $customerActivity->customer_id = $request['customer_id'];
             $customerActivity->customer_type = "buyer";
             $customerActivity->source_id = $request['source_id'];
-            $customerActivity->note = "Buyer status is updated to - " . $request['status'];
+
+            if($locale == 'ar') {
+                if($request['status'] == 'Prospect') {
+                    $status = 'احتمال';
+                } 
+                else if($request['status'] == 'Potential') {
+                    $status = 'محتمل';
+                }
+                else if($request['status'] == 'Interested') {
+                    $status = 'مهتم';
+                }
+                else if($request['status'] == 'Not Interested') {
+                    $status = 'غير مهتم';
+                }
+                else if($request['status'] == 'Deal') {
+                    $status = 'اتفاق';
+                }
+                $customerActivity->note = "يتم تحديث حالة المشتري إلى - " . $status;
+            }
+            else {
+                $customerActivity->note = "Buyer status is updated to - " . $request['status'];
+            }
+
             $customerActivity->save();
         }
         catch (\Exception $e) {
@@ -413,6 +512,8 @@ class BuyerService
 
     public function deals() {
         try {
+            $locale = app()->getLocale();
+
             $user_id = Auth::user()->id;
 
             $dealsArray = [];
@@ -430,8 +531,8 @@ class BuyerService
                     
                     $buyer->customer_name = $buyer->customer->name;
                     $buyer->mobile = $buyer->customer->mobile;
-                    $buyer->property_name = $buyer->property->name;
-                    $buyer->property_type_name = ($buyer->property_type_id) ? $buyer->propertyType->name : "-";
+                    $buyer->property_name = $locale == 'ar' ? $buyer->property->ar_name : $buyer->property->name;
+                    $buyer->property_type_name = ($buyer->property_type_id) ? ($locale == 'ar' ? $buyer->propertyType->ar_name : $buyer->propertyType->name) : "-";
                     $buyer->status = $status_obj->name;
                     $buyer->status_color = $status_obj->color;
 

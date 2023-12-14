@@ -2,15 +2,16 @@ import React from 'react';
 import { usePage } from "@inertiajs/react";
 import { Table } from 'antd';
 
-import "./style.scss";
+import "./tabstyle.scss";
 
 const TabDetail = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const units = props.units;
 
     const columns = [
         {
-            title: 'Property',
+            title: lang.com.property,
             key: 'property',
             width: 'auto',
             render: (_, record) => (
@@ -18,14 +19,14 @@ const TabDetail = () => {
             )
         },
         {
-            title: 'Total Units',
+            title: lang.com.total_units,
             dataIndex: "total_units",
             key: 'total_units',
             width: '15%',
             align: "center"
         },
         {
-            title: 'Sizes (sq.ft)',
+            title: lang.com.size,
             key: 'sizes',
             width: '18%',
             align: "center",
@@ -34,7 +35,7 @@ const TabDetail = () => {
             )
         },
         {
-            title: 'Price Range',
+            title: lang.com.price_range,
             key: 'price_range',
             width: '18%',
             render: (_, record) => (

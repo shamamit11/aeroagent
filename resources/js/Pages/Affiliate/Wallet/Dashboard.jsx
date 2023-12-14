@@ -1,8 +1,9 @@
 import AffiliateLayout from '@/Layouts/AffiliateLayout';
-import { Head, router } from "@inertiajs/react";
+import { Head, router, usePage } from "@inertiajs/react";
 import { Card, Col, Row, Statistic, Button } from 'antd';
 
 const Dashboard = (props) => {
+    const { lang } = usePage().props;
 
     const viewWallet = () => {
         router.get('/wallet')
@@ -20,17 +21,15 @@ const Dashboard = (props) => {
         router.get('/wallet/renewal')
     }
     
-
     return (
         <>
-            <Head title="Dashboard" />
-            <Card title={`Your Referral Code is: ${props.auth.user.user_code}`}>
-
+           <Head title={lang.com.wallet} />
+           <Card title={`${lang.com.your_referral_code_is}: ${props.auth.user.user_code}`}>
                 <Row gutter={24}>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Wallet Balance (AED)"
+                                title={lang.com.wallet_balance + " (AED)"}
                                 value={props.balance}
                                 precision={2}
                                 valueStyle={{
@@ -45,14 +44,14 @@ const Dashboard = (props) => {
                                 }}
                                 onClick={viewWallet}
                             >
-                                View Wallet
+                                {lang.com.view_wallet}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Total Referrals"
+                                title={lang.com.total_referrals}
                                 value={props.totalReferral}
                                 valueStyle={{
                                     color: 'skyblue',
@@ -66,14 +65,14 @@ const Dashboard = (props) => {
                                 }}
                                 onClick={viewReferral}
                             >
-                                View Referrals
+                                {lang.com.view_referrals}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Total Payout (AED)"
+                                title={lang.com.total_payout + " (AED)"}
                                 value={props.totalPayout}
                                 precision={2}
                                 valueStyle={{
@@ -88,14 +87,14 @@ const Dashboard = (props) => {
                                 }}
                                 onClick={viewPayout}
                             >
-                                View Payouts
+                                {lang.com.view_payouts}
                             </Button>
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Next Renewal After"
+                                title={lang.com.next_renewal_after}
                                 value={props.nextRenewalDate}
                                 valueStyle={{
                                     color: '#cf1322',
@@ -109,7 +108,7 @@ const Dashboard = (props) => {
                                 }}
                                 onClick={viewRenewal}
                             >
-                                View Renewals
+                                {lang.com.view_renewals}
                             </Button>
                         </Card>
                     </Col>

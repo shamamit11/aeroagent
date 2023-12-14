@@ -34,6 +34,7 @@ class LeaserService
     }
     function list($location_id) {
         try {
+            $locale = app()->getLocale();
             $user_id = Auth::user()->id;
             $leasers = Leaser::where([['user_id', $user_id], ['location_id', $location_id]])->whereNull('request_type')->whereNull('deleted_at')->get();
 
@@ -43,6 +44,7 @@ class LeaserService
                     ['customer_type', 'leaser'],
                     ['source_id', $leaser->id]
                 ])->first();
+
                 $status_obj = DB::table('statuses')->where('name', $customer_status->status)->first();
                 $leaser->status = $status_obj->name;
                 $leaser->status_color = $status_obj->color;
@@ -55,12 +57,12 @@ class LeaserService
                 'customer_mobile'=> $res->customer->mobile,
                 'location_id' => $res->location_id,
                 'location' => $res->location->name,
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'building_name' => $res->building_name,
                 'status' => $res->status,
                 'status_color' => $res->status_color,
-                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'request_type'=> $res->request_type ? $res->request_type : "",
                 'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
@@ -96,12 +98,12 @@ class LeaserService
                 'customer_mobile'=> $res->customer->mobile,
                 'location_id' => $res->location_id,
                 'location' => $res->location->name,
-                'property' => $res->property->name,
-                'property_type' => ($res->property_type_id) ? $res->propertyType->name : "-",
+                'property' => $locale == 'ar' ? $res->property->ar_name : $res->property->name,
+                'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'building_name' => $res->building_name,
                 'status' => $res->status,
                 'status_color' => $res->status_color,
-                'request_type'=> $res->request_type ? ucwords($res->request_type) : "",
+                'request_type'=> $res->request_type ? $res->request_type : "",
                 'source_id'=> $res->source_id ? $res->source_id : "",
             ]);
 
@@ -116,13 +118,15 @@ class LeaserService
 
     function show($id) {
         try {
+            $locale = app()->getLocale();
+            
             $user_id = Auth::user()->id;
             $exists = Leaser::where([["id", $id], ["user_id", $user_id]])->exists();
             if ($exists) {
                 $leaser = Leaser::where([["id", $id], ["user_id", $user_id]])->with('property', 'customer', 'location', 'propertyType')->first();
 
-                $leaser->view_label = ucwords(str_replace('_', '  ', strtolower($leaser->view_style)));
-                $leaser->commission_label = ucwords($leaser->commission_type);
+                $leaser->view_label = $leaser->view_style;
+                $leaser->commission_label = $leaser->commission_type;
                 $leaser->noc_label = $leaser->noc_status ? "Yes" : "No";
                 $leaser->furnished_label = $leaser->is_furnished ? "Yes" : "No";
 
@@ -134,7 +138,12 @@ class LeaserService
                     $amenities = [];
                     foreach ($current_arr_value as $key) {
                         $res = Amenity::where('id', $key)->first();
-                        array_push($amenities, $res->name);
+                        if($locale == 'ar') {
+                            array_push($amenities, $res->ar_name);
+                        }
+                        else {
+                            array_push($amenities, $res->name);
+                        }
                     }
                     $amenities_array = implode(", ", $amenities);
                     $leaser->amenities = $amenities_array;
@@ -164,6 +173,7 @@ class LeaserService
 
     public function store($request)
     {
+        $locale = app()->getLocale();
         try {
             if ($request['id']) {
                 $id = $request['id'];
@@ -214,7 +224,14 @@ class LeaserService
                 $customerActivity->customer_id = $request['customer_id'];
                 $customerActivity->customer_type = "leaser";
                 $customerActivity->source_id = $leaser->id;
-                $customerActivity->note = "New Leaser Data has been Added.";
+
+                if($locale == 'ar') {
+                    $customerActivity->note = "تمت إضافة بيانات المستأجر الجديدة.";
+                }
+                else {
+                    $customerActivity->note = "New Leaser Data has been Added.";
+                }
+
                 $customerActivity->save();
             }
 
@@ -233,7 +250,29 @@ class LeaserService
                 $customerActivity->customer_id = $request['customer_id'];
                 $customerActivity->customer_type = "leaser";
                 $customerActivity->source_id = $leaser->id;
-                $customerActivity->note = "Leaser status is updated to - " . $request['status'];
+
+                if($locale == 'ar') {
+                    if($request['status'] == 'Prospect') {
+                        $status = 'احتمال';
+                    } 
+                    else if($request['status'] == 'Potential') {
+                        $status = 'محتمل';
+                    }
+                    else if($request['status'] == 'Interested') {
+                        $status = 'مهتم';
+                    }
+                    else if($request['status'] == 'Not Interested') {
+                        $status = 'غير مهتم';
+                    }
+                    else if($request['status'] == 'Deal') {
+                        $status = 'اتفاق';
+                    }
+                    $customerActivity->note = "يتم تحديث حالة المؤجر إلى - " . $status;
+                }
+                else {
+                    $customerActivity->note = "Leaser status is updated to - " . $request['status'];
+                }
+
                 $customerActivity->save();
             }
         } 
@@ -255,6 +294,7 @@ class LeaserService
     }
 
     public function import($request) {
+        $locale = app()->getLocale();
         try { 
             $extension = $request->file('upload_file')->extension();
             if (in_array($extension, ['csv', 'xls', 'xlsx'])) { 
@@ -311,7 +351,14 @@ class LeaserService
                     $customerActivity->customer_id = $customerObj->id;
                     $customerActivity->customer_type = "leaser";
                     $customerActivity->source_id = $leaser->id;
-                    $customerActivity->note = "New Leaser Data has been Added.";
+
+                    if($locale == 'ar') {
+                        $customerActivity->note = "تمت إضافة بيانات المستأجر الجديدة.";
+                    }
+                    else {
+                        $customerActivity->note = "New Leaser Data has been Added.";
+                    }
+
                     $customerActivity->save();
                 }
             }
@@ -324,6 +371,7 @@ class LeaserService
 
     public function storeActivity($request) {
         try {
+            $locale = app()->getLocale();
 
             if($request->activity_type == 1) {
                 $activity = new CustomerActivity;
@@ -332,7 +380,14 @@ class LeaserService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Initial Call was made with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'تم إجراء المكالمة الأولية مع ملاحظة:' . $request->note;
+                }
+                else {
+                    $activity->note = 'Initial Call was made with a note : ' . $request->note;
+                }
+
                 $activity->save();
             }
 
@@ -343,7 +398,14 @@ class LeaserService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Follow up call was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+
+                if($locale == 'ar') {
+                    $activity->note = 'تمت جدولة مكالمة المتابعة : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else {
+                    $activity->note = 'Follow up call was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+                
                 $activity->save();
 
                 $followup = new CustomerFollowup;
@@ -364,7 +426,14 @@ class LeaserService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Meeting was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                
+                if($locale == 'ar') {
+                    $activity->note = 'كان من المقرر الاجتماع يوم : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else {
+                    $activity->note = 'Meeting was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+
                 $activity->save();
 
                 $meeting = new CustomerMeeting;
@@ -385,7 +454,14 @@ class LeaserService
                 $activity->customer_type = $request->customer_type;
                 $activity->source_id = $request->source_id;
                 $activity->activity_id = $request->activity_type;
-                $activity->note = 'Viewing was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                
+                if($locale == 'ar') {
+                    $activity->note = 'تمت جدولة المشاهدة في : ' . date('Y-m-d', strtotime($request->date)) . ' في ' . $request->time . '. مع ملاحظة : ' . $request->note;
+                }
+                else{
+                    $activity->note = 'Viewing was scheduled on : ' . date('Y-m-d', strtotime($request->date)) . ' at ' . $request->time . '. with a note: ' . $request->note;
+                }
+                
                 $activity->save();
 
                 $viewing = new CustomerViewing;
@@ -406,6 +482,8 @@ class LeaserService
 
     public function updateStatus($request) {
         try {
+            $locale = app()->getLocale();
+
             $customerStatus = CustomerStatus::where([
                 ['user_id', Auth::user()->id],
                 ['customer_id', $request['customer_id']],
@@ -421,7 +499,29 @@ class LeaserService
             $customerActivity->customer_id = $request['customer_id'];
             $customerActivity->customer_type = "leaser";
             $customerActivity->source_id = $request['source_id'];
-            $customerActivity->note = "Leaser status is updated to - " . $request['status'];
+
+            if($locale == 'ar') {
+                if($request['status'] == 'Prospect') {
+                    $status = 'احتمال';
+                } 
+                else if($request['status'] == 'Potential') {
+                    $status = 'محتمل';
+                }
+                else if($request['status'] == 'Interested') {
+                    $status = 'مهتم';
+                }
+                else if($request['status'] == 'Not Interested') {
+                    $status = 'غير مهتم';
+                }
+                else if($request['status'] == 'Deal') {
+                    $status = 'اتفاق';
+                }
+                $customerActivity->note = "يتم تحديث حالة المؤجر إلى - " . $status;
+            }
+            else {
+                $customerActivity->note = "Leaser status is updated to - " . $request['status'];
+            }
+            
             $customerActivity->save();
         }
         catch (\Exception $e) {
@@ -431,6 +531,8 @@ class LeaserService
 
     public function deals() {
         try {
+            $locale = app()->getLocale();
+
             $user_id = Auth::user()->id;
 
             $dealsArray = [];
@@ -448,8 +550,8 @@ class LeaserService
                     
                     $leaser->customer_name = $leaser->customer->name;
                     $leaser->mobile = $leaser->customer->mobile;
-                    $leaser->property_name = $leaser->property->name;
-                    $leaser->property_type_name = ($leaser->property_type_id) ? $leaser->propertyType->name : "-";
+                    $leaser->property_name = $locale == 'ar' ? $leaser->property->ar_name : $leaser->property->name;
+                    $leaser->property_type_name = ($leaser->property_type_id) ? ($locale == 'ar' ? $leaser->propertyType->ar_name : $leaser->propertyType->name) : "-";
                     $leaser->status = $status_obj->name;
                     $leaser->status_color = $status_obj->color;
 

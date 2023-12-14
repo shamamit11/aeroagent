@@ -4,6 +4,7 @@ import { Head, usePage, router } from "@inertiajs/react";
 import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Popconfirm } from 'antd';
 import { SearchOutlined, EyeOutlined, DeleteOutlined  } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
+import { getObjectValue } from '@/utils';
 
 const Index = () => {
     const [loading, setLoading] = useState(true);
@@ -12,7 +13,7 @@ const Index = () => {
     const searchInput = useRef(null);
     const [data, setData] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -32,16 +33,16 @@ const Index = () => {
 
     const handleDetail = (customer_type, source_id) => {
         console.log(customer_type, source_id);
-        if(customer_type == "Seller") {
+        if(customer_type == "seller") {
             router.get(`/seller/detail?id=${source_id}`)
         }
-        if(customer_type == "Buyer") {
+        if(customer_type == "buyer") {
             router.get(`/buyer/detail?id=${source_id}`)
         }
-        if(customer_type == "Leaser") {
+        if(customer_type == "leaser") {
             router.get(`/leaser/detail?id=${source_id}`)
         }
-        if(customer_type == "Tenant") {
+        if(customer_type == "tenant") {
             router.get(`/tenant/detail?id=${source_id}`)
         }
     }
@@ -52,7 +53,7 @@ const Index = () => {
         };
         router.post('/followup/delete', formData, {
             onSuccess: () => {
-                message.success('Data Deleted Successfully !');
+                message.success(lang.com.data_deleted);
             },
             onFinish: () => {
                 router.get(`/followup`)
@@ -61,7 +62,7 @@ const Index = () => {
     };
 
     const handleCancel = () => {
-        message.error('Operation Cancelled !');
+        message.error(lang.com.operation_cancelled);
     };
 
     const getColumnSearchProps = (dataIndex) => ({
@@ -74,7 +75,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -92,7 +93,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -101,7 +102,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -136,35 +137,38 @@ const Index = () => {
 
     const columns = [
         {
-            title: 'Customer Name',
+            title: lang.com.customer_name,
             dataIndex: 'customer_name',
             key: 'customer_name',
             width: '18%',
             ...getColumnSearchProps('customer_name'),
         },
         {
-            title: 'Viewing Date',
+            title: lang.com.viewing_date,
             dataIndex: 'date',
             key: 'date',
             width: '15%',
             ...getColumnSearchProps('date'),
         },
         {
-            title: 'Viewing Time',
+            title: lang.com.viewing_time,
             dataIndex: 'time',
             key: 'time',
             width: '15%',
             ...getColumnSearchProps('time'),
         },
         {
-            title: 'List Type',
-            dataIndex: 'customer_type',
+            title: lang.com.list_type,
+            //dataIndex: 'customer_type',
             key: 'customer_type',
             width: '13%',
             ...getColumnSearchProps('customer_type'),
+            render: (_, record) => (
+                <span>{getObjectValue(lang, "com", record.customer_type)}</span>
+            )
         },
         {
-            title: 'Note',
+            title: lang.com.note,
             dataIndex: 'note',
             key: 'note',
             width: 'auto',
@@ -176,18 +180,18 @@ const Index = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record.customer_type, record.source_id)} />
                     </Tooltip>
                     <Popconfirm
-                        title="Delete"
-                        description="Are you sure to delete?"
+                        title={lang.com.delete}
+                        description={lang.com.are_you_sure_to_delete}
                         onConfirm={() => handleDelete(record.id)}
                         onCancel={handleCancel}
-                        okText="Yes"
-                        cancelText="No"
+                        okText={lang.com.yes}
+                        cancelText={lang.com.no}
                     >
-                        <Tooltip title="Delete Row" color="red">
+                        <Tooltip title={lang.com.delete_row} color="red">
                             <Button danger size="middle" shape="circle" icon={<DeleteOutlined />} />
                         </Tooltip>
                     </Popconfirm>
@@ -198,11 +202,11 @@ const Index = () => {
 
     return (
         <>
-            <Head title="Viewings" />
+            <Head title={lang.com.viewings} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{marginBottom: 20, marginTop: 5}}>
                     <Col>
-                        <span className='page-title'>Viewings</span>
+                        <span className='page-title'>{lang.com.viewings}</span>
                     </Col>
                 </Row>
 

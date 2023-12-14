@@ -10,6 +10,7 @@ class StatusService
                 ->transform(fn ($status) => [
                     'id'=> $status->id,
                     'name'=> $status->name,
+                    'ar_name'=> $status->ar_name,
                     'color' => $status->color,
                     'type' => ucwords(str_replace('_', ' / ', strtolower($status->type)))
                 ]);
@@ -33,6 +34,7 @@ class StatusService
                 $status = new Status;
             }
             $status->name = $request['name'];
+            $status->ar_name = $request['ar_name'];
             $status->color = $request['color'];
             $status->type = $request['type'];
             $status->save();

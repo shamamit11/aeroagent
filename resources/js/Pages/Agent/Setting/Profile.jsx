@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { usePage, useForm, router } from "@inertiajs/react";
 import { Button, Input, Space, Divider, Form, Avatar, message } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 const SettingProfile = () => {
     const props = usePage().props;
+    const { lang } = usePage().props;
     const rowData = props.profile;
 
     const [profileImage, setProfileImage] = useState('');
@@ -14,9 +15,6 @@ const SettingProfile = () => {
         last_name: rowData?.last_name,
         upload_image: ''
     });
-
-    useEffect(() => {
-    }, []);
 
     const updateImage = (img) => {
         const imgUrl = URL.createObjectURL(img)
@@ -28,10 +26,10 @@ const SettingProfile = () => {
         post('/settings/updateProfile', {
             forceFormData: true,
             onSuccess: () => {
-                message.success('Profile Updated Successfully !')
+                message.success(lang.com.data_updated)
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/settings')
@@ -56,14 +54,14 @@ const SettingProfile = () => {
                     encType="multipart/form-data"
                 >
                     <Form.Item
-                        label="First Name"
+                        label={lang.com.first_name}
                         name="first_name"
                         validateStatus={errors.first_name && 'error'}
                         help={errors.first_name}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -73,14 +71,14 @@ const SettingProfile = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Last Name"
+                        label={lang.com.last_name}
                         name="last_name"
                         validateStatus={errors.last_name && 'error'}
                         help={errors.last_name}
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -90,7 +88,7 @@ const SettingProfile = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Select Profile Image | Dimension: (150px X 150px) | Max Size: 200Kb"
+                        label={lang.com.select_profile_image + " | Dimension: (150px X 150px) | Max Size: 200Kb"}
                         name="upload_image"
                         validateStatus={errors.upload_image && 'error'}
                         help={errors.upload_image}
@@ -121,7 +119,7 @@ const SettingProfile = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Update"}
+                                {processing ? lang.com.please_wait : lang.com.update}
                             </Button>
                         </Space>
                     </Form.Item>

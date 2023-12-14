@@ -57,7 +57,7 @@ const SettingPassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -75,7 +75,7 @@ const SettingPassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -93,7 +93,7 @@ const SettingPassword = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -106,7 +106,7 @@ const SettingPassword = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Update"}
+                                {processing ? lang.com.please_wait : lang.com.update}
                             </Button>
                         </Space>
                     </Form.Item>

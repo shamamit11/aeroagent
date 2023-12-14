@@ -5,6 +5,8 @@ import { Button, Col, Input, Row, Space, Table, Tooltip, Card, Modal, Divider } 
 import { ReloadOutlined, SearchOutlined, EyeOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 
+import { getObjectValue } from '@/utils';
+
 const List = () => {
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
@@ -14,7 +16,7 @@ const List = () => {
     const [data, setData] = useState();
     const [selectedRecord, setSelectedRecord] = useState();
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -24,9 +26,9 @@ const List = () => {
             router.get('/feed/list')
         };
 
-        const intervalId = setInterval(fetchData, 15000);
-
+        const intervalId = setInterval(fetchData, 30000);
         return () => clearInterval(intervalId);
+
     }, []);
 
     const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -67,7 +69,7 @@ const List = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    // placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -85,7 +87,7 @@ const List = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -94,7 +96,7 @@ const List = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -129,42 +131,46 @@ const List = () => {
 
     const columns = [
         {
-            title: 'Looking For',
-            dataIndex: 'looking_for',
+            title: lang.com.looking_for,
             key: 'looking_for',
             width: '15%',
             ...getColumnSearchProps('looking_for'),
+            render: (_, record) => (
+                <span>
+                    {getObjectValue(lang, 'com', record.looking_for)}
+                </span>
+            )
         },
         {
-            title: 'Property',
+            title: lang.com.property,
             dataIndex: 'property',
             key: 'property',
             width: '12%',
             ...getColumnSearchProps('property'),
         },
         {
-            title: 'Property Type',
+            title: lang.com.property_type,
             dataIndex: 'property_type',
             key: 'property_type',
             width: '12%',
             ...getColumnSearchProps('property_type'),
         },
         {
-            title: 'Budget',
+            title: lang.com.budget,
             dataIndex: 'budget',
             key: 'budget',
             width: '12%',
             ...getColumnSearchProps('budget'),
         },
         {
-            title: 'Time to Close',
+            title: lang.com.time_to_close,
             dataIndex: 'time_to_close',
             key: 'time_to_close',
             width: '15%',
             ...getColumnSearchProps('time_to_close'),
         },
         {
-            title: 'Location',
+            title: lang.com.locations,
             dataIndex: 'location',
             key: 'location',
             width: 'auto',
@@ -177,7 +183,7 @@ const List = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record)} />
                     </Tooltip>
                 </Space>
@@ -187,16 +193,16 @@ const List = () => {
 
     return (
         <>
-            <Head title="Feed" />
+            <Head title={lang.com.feed} />
             <Card bordered={false} style={{ width: "100%", borderRadius: 0, paddingBottom: 20 }}>
                 <Row justify={'space-between'} align={'middle'} style={{ marginBottom: 20, marginTop: 5 }}>
                     <Col>
-                        <span className='page-title'>Feed</span>
+                        <span className='page-title'>{lang.com.feed}</span>
                     </Col>
                     <Col>
                         <Space size={"middle"}>
                             <Button style={{ color: "blue", borderColor: "blue" }} shape="circle" icon={<ReloadOutlined />} size={"middle"} onClick={handleReload} />
-                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleMyList}> My Feed</Button>
+                            <Button style={{ color: "green", borderColor: "green" }} size={"middle"} onClick={handleMyList}> { lang.com.my_feed }</Button>
                         </Space>
                     </Col>
                 </Row>
@@ -206,10 +212,10 @@ const List = () => {
                 </div>
             </Card>
 
-            <Modal title="Feed Detail" open={modalVisible} onCancel={handleModalCancel} footer={null} width={600}>
+            <Modal title={lang.com.feed_detail} open={modalVisible} onCancel={handleModalCancel} footer={null} width={600}>
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Posted By:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.posted_by} :</span>
                     </Col>
                     <Col>
                         <span>{selectedRecord?.user_name}</span>
@@ -219,7 +225,7 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Contact Number:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.contact_number} :</span>
                     </Col>
                     <Col>
                         <span>{selectedRecord?.user_mobile}</span>
@@ -229,17 +235,18 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Looking For:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.looking_for} :</span>
                     </Col>
                     <Col>
-                        <span>{selectedRecord?.looking_for}</span>
+                        {/* <span>{selectedRecord?.looking_for}</span> */}
+                        <span>{getObjectValue(lang, "com", selectedRecord?.looking_for)}</span>
                     </Col>
                 </Row>
                 <Divider />
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Property:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.property} :</span>
                     </Col>
                     <Col>
                         <span>{selectedRecord?.property} / {selectedRecord?.property_type}</span>
@@ -249,10 +256,11 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Market:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.market} :</span>
                     </Col>
                     <Col>
-                        <span>{selectedRecord?.market}</span>
+                        {/* <span>{selectedRecord?.market}</span> */}
+                        <span>{getObjectValue(lang, "com", selectedRecord?.market)}</span>
                     </Col>
                 </Row>
                 <Divider />
@@ -261,7 +269,7 @@ const List = () => {
                     <>
                         <Row justify={'space-between'} align={'middle'}>
                             <Col>
-                                <span style={{ fontWeight: 600 }}>Project:</span>
+                                <span style={{ fontWeight: 600 }}>{lang.com.project} :</span>
                             </Col>
                             <Col>
                                 <span>{selectedRecord?.project_name}</span>
@@ -273,7 +281,7 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Location:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.locations} :</span>
                     </Col>
                     <Col>
                         <span>{selectedRecord?.location}</span>
@@ -283,7 +291,7 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Property Size:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.property_size} :</span>
                     </Col>
                     <Col>
                         <span>{selectedRecord?.property_size}</span>
@@ -293,7 +301,7 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Budget:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.budget} :</span>
                     </Col>
                     <Col>
                         <span>AED {selectedRecord?.budget}</span>
@@ -303,17 +311,17 @@ const List = () => {
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Time to Close:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.time_to_close} :</span>
                     </Col>
                     <Col>
-                        <span>{selectedRecord?.time_to_close} days</span>
+                        <span>{selectedRecord?.time_to_close} {lang.com.days}</span>
                     </Col>
                 </Row>
                 <Divider />
 
                 <Row justify={'space-between'} align={'middle'}>
                     <Col>
-                        <span style={{ fontWeight: 600 }}>Note:</span>
+                        <span style={{ fontWeight: 600 }}>{lang.com.note} :</span>
                     </Col>
                     <Col>
                         <span>{selectedRecord?.note}</span>

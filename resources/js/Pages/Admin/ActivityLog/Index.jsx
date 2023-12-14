@@ -15,7 +15,7 @@ const Index = () => {
     const [detail, setDetail] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { results } = usePage().props;
+    const { results, lang } = usePage().props;
 
     useEffect(() => {
         setData(results);
@@ -53,7 +53,7 @@ const Index = () => {
             >
                 <Input
                     ref={searchInput}
-                    placeholder={`Search ${dataIndex}`}
+                    //placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
                     onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -71,7 +71,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Search
+                        {lang.com.search}
                     </Button>
                     <Button
                         onClick={() => clearFilters && handleReset(clearFilters)}
@@ -80,7 +80,7 @@ const Index = () => {
                             width: 90,
                         }}
                     >
-                        Reset
+                        {lang.com.reset}
                     </Button>
                 </Space>
             </div>
@@ -141,7 +141,7 @@ const Index = () => {
             align: "center",
             render: (_, record) => (
                 <Space size="middle">
-                    <Tooltip title="View Detail" color="blue">
+                    <Tooltip title={lang.com.view_detail} color="blue">
                         <Button style={{ color: "blue", borderColor: "blue" }} size="middle" shape="circle" icon={<EyeOutlined />} onClick={() => handleDetail(record)} />
                     </Tooltip>
                 </Space>
@@ -164,7 +164,7 @@ const Index = () => {
                 </div>
             </Card>
 
-            <Modal title="View Detail" open={isModalOpen} onCancel={handleModalCancel} footer={null} width={900}>
+            <Modal title={lang.com.view_detail} open={isModalOpen} onCancel={handleModalCancel} footer={null} width={900}>
                 <Space size={"small"}>
                     <span style={{ fontWeight: 600 }}>Created At:</span>
                     <span>{detail.created_at}</span>

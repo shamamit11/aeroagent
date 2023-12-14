@@ -7,14 +7,15 @@ class ProjectDetailService
 {
 
     function list($project_id) {
+        $locale = app()->getLocale();
         try {
             $user_id = Auth::user()->id;
 
             $details = ProjectDetail::where([['user_id', $user_id], ['project_id', $project_id]])->get()
                 ->transform(fn ($item) => [
                     'id'=> $item->id,
-                    'property' => $item->property->name,
-                    'property_type' => $item->propertyType->name,
+                    'property' => $locale == 'ar' ? $item->property->ar_name : $item->property->name,
+                    'property_type' => $locale == 'ar' ? $item->propertyType->ar_name : $item->propertyType->name,
                     'total_units'=> $item->total_units,
                     'size_from' => $item->size_from,
                     'size_to' => $item->size_to,

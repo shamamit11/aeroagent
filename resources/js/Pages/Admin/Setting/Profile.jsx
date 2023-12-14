@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 
 const SettingProfile = () => {
     const props = usePage().props;
+const { lang } = usePage().props;
     const rowData = props.profile;
 
     const [profileImage, setProfileImage] = useState('');
@@ -31,7 +32,7 @@ const SettingProfile = () => {
                 message.success('Profile Updated Successfully !')
             },
             onError: () => {
-                message.error('There was an error processing your request. Please try again !')
+                message.error(lang.com.error_request)
             },
             onFinish: () => {
                 router.get('/admin/settings')
@@ -63,7 +64,7 @@ const SettingProfile = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -80,7 +81,7 @@ const SettingProfile = () => {
                         rules={[
                             {
                                 required: true,
-                                message: "This field is required",
+                                message: lang.com.field_required,
                             }
                         ]}
                     >
@@ -121,7 +122,7 @@ const SettingProfile = () => {
                     <Form.Item className="form-actions">
                         <Space size="middle">
                             <Button type="primary" htmlType="submit" loading={processing} size="large">
-                                {processing ? "Please Wait" : "Update"}
+                                {processing ? lang.com.please_wait : lang.com.update}
                             </Button>
                         </Space>
                     </Form.Item>

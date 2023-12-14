@@ -76,6 +76,12 @@
         .ant-btn-icon:hover {
             color: var(--primary-color);
         }
+
+        .ant-col-rtl {
+            .ant-dropdown-rtl {
+                padding-left: 15px;
+            }
+        }
     }
 
     .main-content-layout {
