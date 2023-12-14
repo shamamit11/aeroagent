@@ -35,9 +35,12 @@ const Register = () => {
     ];
 
     const submit = () => {
-        post('/register', {
-            onSuccess: () => {
-                router.get(`/login`)
+        post('/register/stripeSession', {
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
+            onSuccess: (page) => {
+                location.href = page.props.stripe_url;
             }
         });
     };
@@ -261,7 +264,7 @@ const Register = () => {
 
                         <Form.Item className="form-actions">
                             <Button type="primary" htmlType="submit" className="login-form-button" loading={processing} block>
-                                {processing ? lang.com.please_wait : lang.com.start_free_trail}
+                                {processing ? lang.com.please_wait : lang.com.proceed_to_payment + " - AED 200"}
                             </Button>
                         </Form.Item>
 

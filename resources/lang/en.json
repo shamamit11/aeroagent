@@ -71,6 +71,7 @@
         "hotel_apartments": "Hotel Apartments",
         "malls": "Malls",
         "hotels": "Hotels",
+        "buildings": "Buildings",
         "your_referral_code_is": "Your Referral Code is",
         "next_renewal_after": "Next Renewal After",
         "days": "days",
@@ -327,6 +328,7 @@
         "agree_terms": "You need to agree the Terms and Conditions",
         "i_agree": "I agree the",
         "terms_conditions": "Terms and Conditions",
-        "proceed_to_payment": "Proceed to Payment"
+        "proceed_to_payment": "Proceed to Payment",
+        "start_free_trail": "Start Your Free Trial"
     }
 }

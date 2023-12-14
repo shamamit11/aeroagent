@@ -308,11 +308,53 @@ const Dashboard = (props) => {
                     </Col>
 
                     <Col span={4}>
-                        <Link href={props.stock_hotel.url}>
+                        <Link href={props.stock_hotelapt.url}>
                             <Card bordered={false} style={{ backgroundColor: '#737add' }}>
                                 <Statistic
                                     title={lang.com.hotel_apartments}
+                                    value={props.stock_hotelapt.count}
+                                    valueStyle={{
+                                        color: '#fff',
+                                    }}
+                                />
+                            </Card>
+                        </Link>
+                    </Col>
+
+                    <Col span={4}>
+                        <Link href={props.stock_hotel.url}>
+                            <Card bordered={false} style={{ backgroundColor: '#83dd73' }}>
+                                <Statistic
+                                    title={lang.com.hotels}
                                     value={props.stock_hotel.count}
+                                    valueStyle={{
+                                        color: '#fff',
+                                    }}
+                                />
+                            </Card>
+                        </Link>
+                    </Col>
+
+                    <Col span={4}>
+                        <Link href={props.stock_mall.url}>
+                            <Card bordered={false} style={{ backgroundColor: '#dd8b73' }}>
+                                <Statistic
+                                    title={lang.com.malls}
+                                    value={props.stock_mall.count}
+                                    valueStyle={{
+                                        color: '#fff',
+                                    }}
+                                />
+                            </Card>
+                        </Link>
+                    </Col>
+
+                    <Col span={4}>
+                        <Link href={props.stock_building.url}>
+                            <Card bordered={false} style={{ backgroundColor: '#5ac6ea' }}>
+                                <Statistic
+                                    title={lang.com.buildings}
+                                    value={props.stock_building.count}
                                     valueStyle={{
                                         color: '#fff',
                                     }}
