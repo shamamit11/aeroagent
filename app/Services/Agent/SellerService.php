@@ -597,15 +597,17 @@ class SellerService
                     ->whereNull('sellers.deleted_at')
                     ->get();
     
+                //dd($sellers->toArray());
                 // Reset the array for each location
                 $totalPropertyArray = [];
     
                 foreach ($sellers as $seller) {
-                    $totalPropertyArray[] = $seller;
+                    //$totalPropertyArray[] = $seller;
+                    $location->count = $seller->count;
                 }
     
                 // Set the count for the current location
-                $location->count = count($totalPropertyArray);
+                //$location->count = count($totalPropertyArray);
             }
     
             return [
