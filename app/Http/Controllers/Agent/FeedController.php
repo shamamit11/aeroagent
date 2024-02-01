@@ -31,6 +31,7 @@ class FeedController extends Controller
     public function list(Request $request): Response
     {
         $result = $this->service->list();
+        //dd($result);
         return Inertia::render('Agent/Feed/List', $result);
     }
     public function addEdit(Request $request): Response

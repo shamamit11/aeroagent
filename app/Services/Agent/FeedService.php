@@ -56,19 +56,26 @@ class FeedService
         try {
             $user_id = Auth::user()->id;
             $feeds = Feed::where([['user_id', '<>' ,$user_id]])->whereNull('deleted_at')->get();
- 
+            
             foreach($feeds as $feed) {
                 $current_arr_value = isset($feed->location) ? $feed->location : [];
+
                 if (!empty($current_arr_value)) {
                     $current_arr_value = explode(', ', $current_arr_value);
+
+                    $locations = [];
+
+                    foreach ($current_arr_value as $key) {
+                        $res = Location::where('id', $key)->first();
+                        array_push($locations, $res->name);
+                    }
+
+                    $location_array = implode(", ", $locations);
+                    $feed->locations = $location_array;
                 }
-                $locations = [];
-                foreach ($current_arr_value as $key) {
-                    $res = Location::where('id', $key)->first();
-                    array_push($locations, $res->name);
+                else {
+                    $feed->locations = [];
                 }
-                $location_array = implode(", ", $locations);
-                $feed->location = $location_array;
             }
 
             $locale = app()->getLocale();
@@ -82,7 +89,7 @@ class FeedService
                 'property_type' => ($res->property_type_id) ? ($locale == 'ar' ? $res->propertyType->ar_name : $res->propertyType->name) : "-",
                 'market'=> $res->market,
                 'project_name' => ($res->project_id) ? $res->project->name : "-",
-                'location' => $res->location,
+                'location' => $res->locations,
                 'property_size' => $res->property_size,
                 'budget' => $res->budget,
                 'time_to_close'=> $res->time_to_close,
@@ -91,7 +98,7 @@ class FeedService
 
             return [
                 "results" => $feeds
-            ];
+            ]; 
         } 
         catch (\Exception$e) {
             return $e->getMessage();
