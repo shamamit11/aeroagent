@@ -67,6 +67,8 @@ class FeedService
 
                     foreach ($current_arr_value as $key) {
                         $res = Location::where('id', $key)->first();
+
+                        dd($res);
                         array_push($locations, $res->name);
                     }
 
